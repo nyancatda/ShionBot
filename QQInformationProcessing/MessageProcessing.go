@@ -3,7 +3,7 @@ package QQInformationProcessing
 import (
 	"strings"
 
-	"xyz.nyan/MediaWiki-Bot/utils"
+	"xyz.nyan/MediaWiki-Bot/Plugin"
 )
 
 type WebHook_root struct {
@@ -27,7 +27,7 @@ type GroupJson struct {
 }
 
 func sendWikiInfo(GroupID int, QueryText string) {
-	WikiInfo := utils.GetWikiInfo(QueryText)
+	WikiInfo := Plugin.GetWikiInfo(QueryText)
 	SendGroupMessage(GroupID, WikiInfo)
 }
 
