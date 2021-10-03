@@ -20,11 +20,11 @@ func main() {
 		os.Exit(1)
 	}
 	Config := utils.ReadConfig()
-	Port := Config.Run.Port
+	Port := Config.Run.WebHookPort
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	fmt.Println("机器人已运行在"+Port+"端口")
+	fmt.Println("机器人WebHook接收已开启，运行于"+Port+"端口")
 
 	r.POST("/", func(c *gin.Context) {
 		var json QQInformationProcessing.WebHook_root

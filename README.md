@@ -42,8 +42,8 @@ adapterSettings:
 ## config.yml文件模板
 ```
 Run:
-  #指定机器人运行的端口
-  Port: 8000
+  #指定机器人的WebHook接收的端口
+  WebHookPort: 8000
 QQBot:
   #HttpAPI地址
   APILink: http://127.0.0.1:8888

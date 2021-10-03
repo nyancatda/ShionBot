@@ -13,7 +13,7 @@ type Config struct {
 }
 
 type Run struct {
-	Port string `yaml:"Port"`
+	WebHookPort string `yaml:"WebHookPort"`
 }
 
 type QQBot struct {
