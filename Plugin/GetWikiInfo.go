@@ -1,7 +1,10 @@
 package Plugin
 
 import (
-    "xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
+	"fmt"
+	"strings"
+
+	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
 )
 
 func Error(title string) (string) {
@@ -21,24 +24,40 @@ func QueryWikiInfo(title string) (interface{}) {
 }
 
 //查询页面是否存在重定向
-func QueryRedirects(title string) (bool,interface{}) {
+func QueryRedirects(title string) (whether bool,to string,from string) {
 	info := MediaWikiAPI.QueryRedirects(title)
 
     if normalized, ok := info["query"].(map[string]interface{})["normalized"]; ok {
-        return true,normalized
+        return true,normalized.([]interface{})[0].(map[string]interface{})["to"].(string),normalized.([]interface{})[0].(map[string]interface{})["from"].(string)
     } else {
-        return false,info
+        RevisionsInfo := MediaWikiAPI.QueryRevisions(title)
+        pagesIdInfo, ok := RevisionsInfo["query"].(map[string]interface{})["pages"]
+        if ok {
+            var PageId string
+            for one := range pagesIdInfo.(map[string]interface{}) {
+                PageId = one
+            }
+            commentInfo, ok := RevisionsInfo["query"].(map[string]interface{})["pages"].(map[string]interface{})[PageId].(map[string]interface{})["revisions"]
+            if ok {
+                find := strings.Contains(commentInfo.([]interface{})[0].(map[string]interface{})["comment"].(string), "重定向页面至")
+                if find {
+                    trimStr := strings.Trim(commentInfo.([]interface{})[0].(map[string]interface{})["comment"].(string), "重定向页面至")
+                    trimStr = strings.Trim(trimStr,"[")
+                    ToTitle := strings.Trim(trimStr,"]")
+                    fmt.Println(ToTitle)
+                    return true,ToTitle,title
+                }
+            }
+        }
+        return false,"",""
     }
 }
 
 //获取Wiki页面信息
 func GetWikiInfo(title string) (string) {
-    RedirectsState,Redirectsinfo := QueryRedirects(title)
-    var ToTitle,FromTitle string
+    RedirectsState,ToTitle,FromTitle := QueryRedirects(title)
     var info map[string]interface{}
     if RedirectsState {
-        ToTitle = Redirectsinfo.([]interface{})[0].(map[string]interface{})["to"].(string)
-        FromTitle = Redirectsinfo.([]interface{})[0].(map[string]interface{})["from"].(string)
         info = MediaWikiAPI.QueryExtracts(100,ToTitle)
     } else {
         info = MediaWikiAPI.QueryExtracts(100,title)

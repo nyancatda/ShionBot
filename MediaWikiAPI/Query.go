@@ -44,3 +44,16 @@ func QueryExtracts(exchars int,title string) (map[string]interface{}) {
 	json.Unmarshal([]byte(body), &info)
 	return info
 }
+
+//查询页面修订信息
+//title 需要查询的页面标题
+
+func QueryRevisions(title string) (map[string]interface{}) {
+	Config := utils.ReadConfig()
+    url := Config.Wiki.WikiLink+"/api.php?action=query&prop=revisions&format=json&titles="+title
+    body := utils.HttpRequest(url)
+
+	info := make(map[string]interface{})
+	json.Unmarshal([]byte(body), &info)
+	return info
+}
