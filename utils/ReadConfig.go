@@ -7,8 +7,13 @@ import (
 )
 
 type Config struct {
+	Run *Run `yaml:"Run"`
 	QQBot *QQBot `yaml:"QQBot"`
 	Wiki *Wiki `yaml:"Wiki"`
+}
+
+type Run struct {
+	Port string `yaml:"Port"`
 }
 
 type QQBot struct {

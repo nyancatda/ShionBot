@@ -19,10 +19,12 @@ func main() {
 		os.Stdin.Read(key)
 		os.Exit(1)
 	}
+	Config := utils.ReadConfig()
+	Port := Config.Run.Port
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	fmt.Println("机器人已运行在8000端口")
+	fmt.Println("机器人已运行在"+Port+"端口")
 
 	r.POST("/", func(c *gin.Context) {
 		var json QQInformationProcessing.WebHook_root
@@ -34,5 +36,5 @@ func main() {
 		QQInformationProcessing.GroupMessageProcessing(json)
 	})
 
-	r.Run(":8000")
+	r.Run(":"+Port)
 }

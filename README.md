@@ -17,7 +17,7 @@ MediaWiki的QQ查询机器人
 ## 配置mirai-api-http
 1. 启用http和webhook
 1. 启用enableVerify，并设置VerifyKey
-1. 将webhook地址设置为http://127.0.0.1:8000/
+1. 将webhook地址设置为http://127.0.0.1:+指定的机器人运行端口
 
 setting.yml模板*仅供参考*
 ```
@@ -41,6 +41,9 @@ adapterSettings:
 
 ## config.yml文件模板
 ```
+Run:
+  #指定机器人运行的端口
+  Port: 8000
 QQBot:
   #HttpAPI地址
   APILink: http://127.0.0.1:8888
