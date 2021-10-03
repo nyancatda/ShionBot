@@ -9,8 +9,8 @@ MediaWiki的QQ查询机器人
 
 ## 启动  
 1. 从[Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)下载最新构建
-1. 在程序同级目录创建config.yml，并按照模板填写信息
-1. 配置mirai-api-http
+1. 在程序同级目录创建[config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
+1. 配置[mirai-api-http](https://github.com/nyancatda/MediaWiki-Bot#%E9%85%8D%E7%BD%AEmirai-api-http)
 1. 运行程序
 
 ## 配置mirai-api-http
