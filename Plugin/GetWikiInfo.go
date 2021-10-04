@@ -7,14 +7,14 @@ import (
 	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
 )
 
-func Error(title string) string {
-	return "找不到[" + title + "]哦，请检查输入是否正确"
+func Error(WikiLink string, title string) string {
+	return "在[" + WikiLink + "]中找不到[" + title + "]哦，请检查输入是否正确"
 }
 
 //获取Wiki页面标题，过滤后缀
-func GetUrlTitle(WikiName string,PageName string) (string) {
+func GetUrlTitle(WikiName string, PageName string) string {
 	WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-	doc, err := htmlquery.LoadURL(WikiLink+"/"+PageName)
+	doc, err := htmlquery.LoadURL(WikiLink + "/" + PageName)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -43,10 +43,11 @@ func QueryWikiInfo(WikiName string, title string) interface{} {
 func QueryRedirects(WikiName string, title string) (whether bool, to string, from string) {
 	info := MediaWikiAPI.QueryRedirects(WikiName, title)
 
-	if normalized, ok := info["query"].(map[string]interface{})["normalized"]; ok {
+	normalized, ok := info["query"].(map[string]interface{})["normalized"]
+	if ok {
 		return true, normalized.([]interface{})[0].(map[string]interface{})["to"].(string), normalized.([]interface{})[0].(map[string]interface{})["from"].(string)
 	} else {
-		PageTitleInfo := GetUrlTitle(WikiName,title)
+		PageTitleInfo := GetUrlTitle(WikiName, title)
 		if PageTitleInfo != title {
 			ToTitle := PageTitleInfo
 			return true, ToTitle, title
@@ -67,7 +68,8 @@ func GetWikiInfo(WikiName string, title string) string {
 
 	pagesIdInfo, ok := info["query"].(map[string]interface{})["pages"]
 	if !ok {
-		return Error(title)
+		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		return Error(WikiLink,title)
 	}
 
 	var PageId string
@@ -89,6 +91,7 @@ func GetWikiInfo(WikiName string, title string) string {
 		}
 		return returnText
 	} else {
-		return Error(title)
+		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		return Error(WikiLink,title)
 	}
 }
