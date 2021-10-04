@@ -43,18 +43,35 @@ func MessageProcessing(json WebHook_root) {
 
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数
 func CommandExtraction(text string) (bool, string, string) {
-	Config := utils.ReadConfig()
-	Map := Config.Wiki
-	var ConfigWikiName string
-	for one := range Map {
-		ConfigWikiName = one
-		if find := strings.Contains(text, ConfigWikiName); find {
-			countSplit := strings.SplitN(text, ":", 2)
-			Command := countSplit[0]
-			Text := countSplit[1]
-			return true, Text, Command
+	if find := strings.Contains(text, ":"); find {
+		Config := utils.ReadConfig()
+		var ConfigWikiName string
+		for one := range Config.Wiki {
+			ConfigWikiName = one
+			if find := strings.Contains(text, ConfigWikiName); find {
+				countSplit := strings.SplitN(text, ":", 2)
+				Command := countSplit[0]
+				Text := countSplit[1]
+				return true, Text, Command
+			}
+		}
+	} else if find := strings.Contains(text, "[["); find{
+		if find := strings.Contains(text, "]]"); find {
+			//获取主Wiki名字
+			Config := utils.ReadConfig()
+			Map := Config.Wiki
+			var MainWikiName string
+			for one := range Map {
+				MainWikiName = one
+				break
+			}
+
+			trimStr := strings.Trim(text, "[")
+			Text := strings.Trim(trimStr, "]")
+			return true, Text, MainWikiName
 		}
 	}
+
 	return false, "", ""
 }
 

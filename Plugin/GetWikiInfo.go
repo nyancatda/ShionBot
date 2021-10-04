@@ -43,15 +43,19 @@ func QueryWikiInfo(WikiName string, title string) interface{} {
 func QueryRedirects(WikiName string, title string) (whether bool, to string, from string) {
 	info := MediaWikiAPI.QueryRedirects(WikiName, title)
 
-	normalized, ok := info["query"].(map[string]interface{})["normalized"]
+	_, ok := info["query"]
 	if ok {
-		return true, normalized.([]interface{})[0].(map[string]interface{})["to"].(string), normalized.([]interface{})[0].(map[string]interface{})["from"].(string)
-	} else {
-		PageTitleInfo := GetUrlTitle(WikiName, title)
-		if PageTitleInfo != title {
-			ToTitle := PageTitleInfo
-			return true, ToTitle, title
+		normalized, ok := info["query"].(map[string]interface{})["normalized"]
+		if ok {
+			return true, normalized.([]interface{})[0].(map[string]interface{})["to"].(string), normalized.([]interface{})[0].(map[string]interface{})["from"].(string)
+		} else {
+			PageTitleInfo := GetUrlTitle(WikiName, title)
+			if PageTitleInfo != title {
+				ToTitle := PageTitleInfo
+				return true, ToTitle, title
+			}
 		}
+		return false, "", ""
 	}
 	return false, "", ""
 }
@@ -64,6 +68,12 @@ func GetWikiInfo(WikiName string, title string) string {
 		info = MediaWikiAPI.QueryExtracts(WikiName, 100, ToTitle)
 	} else {
 		info = MediaWikiAPI.QueryExtracts(WikiName, 100, title)
+	}
+
+	_, ok := info["query"]
+	if !ok {
+		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		return Error(WikiLink,title)
 	}
 
 	pagesIdInfo, ok := info["query"].(map[string]interface{})["pages"]
