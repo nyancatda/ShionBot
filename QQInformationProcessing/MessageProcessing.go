@@ -1,10 +1,8 @@
 package QQInformationProcessing
 
 import (
-	"fmt"
 	"math"
 	"strings"
-
 	"xyz.nyan/MediaWiki-Bot/Plugin"
 	"xyz.nyan/MediaWiki-Bot/utils"
 )
@@ -140,9 +138,7 @@ func NudgeEventMessageProcessing(json WebHook_root) {
 	HelpText := " 使用说明请前往 https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 查看"
 	switch json.Subject.Kind {
 	case "Group":
-		fmt.Println(json)
-		fmt.Println(json.FromId)
-		if (json.FromId != utils.ReadConfig().QQBot.BotQQNumber) {
+		if json.FromId != utils.ReadConfig().QQBot.BotQQNumber {
 			go SendNudge(json.FromId, json.Subject.Id, "Group")
 			go SendGroupAtMessage(json.Subject.Id, HelpText, json.FromId)
 		}
