@@ -53,11 +53,13 @@ QQBot:
   VerifyKey: 5eadce46qw58
 #Wiki链接，支持多个，第一个为主Wiki
 Wiki:
-  #Wiki名字，即使命令前缀，例如mw:首页
-  mw:
+  - 
+    #Wiki名字，即使命令前缀，例如mw:首页
+    WikiName: mw
     #Wiki的链接
     WikiLink: https://minewiki.net
-  me:
+  - 
+    WikiName: me
     WikiLink: https://zh.moegirl.org.cn
 ```
 

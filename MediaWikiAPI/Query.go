@@ -11,12 +11,11 @@ import (
 //从配置文件读取Wiki名字对应的Wiki链接
 func GetWikiLink(WikiName string) (string) {
 	Config := utils.ReadConfig()
-	Map := Config.Wiki
 	var ConfigWikiName string
-	for one := range Map {
-		ConfigWikiName = one
+	for one := range Config.Wiki.([]interface{}) {
+		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
 		if ConfigWikiName == WikiName {
-			return Config.Wiki[ConfigWikiName].(map[interface{}]interface{})["WikiLink"].(string)
+			return Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiLink"].(string)
 		}
 	}
 	return ""

@@ -46,8 +46,8 @@ func CommandExtraction(text string) (bool, string, string) {
 	if find := strings.Contains(text, ":"); find {
 		Config := utils.ReadConfig()
 		var ConfigWikiName string
-		for one := range Config.Wiki {
-			ConfigWikiName = one
+		for one := range Config.Wiki.([]interface{}) {
+			ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
 			if find := strings.Contains(text, ConfigWikiName); find {
 				countSplit := strings.SplitN(text, ":", 2)
 				Command := countSplit[0]
@@ -59,12 +59,7 @@ func CommandExtraction(text string) (bool, string, string) {
 		if find := strings.Contains(text, "]]"); find {
 			//获取主Wiki名字
 			Config := utils.ReadConfig()
-			Map := Config.Wiki
-			var MainWikiName string
-			for one := range Map {
-				MainWikiName = one
-				break
-			}
+			MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
 
 			trimStr := strings.Trim(text, "[")
 			Text := strings.Trim(trimStr, "]")

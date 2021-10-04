@@ -9,7 +9,7 @@ import (
 type Config struct {
 	Run *Run `yaml:"Run"`
 	QQBot *QQBot `yaml:"QQBot"`
-	Wiki map[string]interface{} `yaml:"Wiki"`
+	Wiki interface{} `yaml:"Wiki"`
 }
 
 type Run struct {
