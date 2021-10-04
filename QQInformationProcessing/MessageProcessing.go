@@ -2,7 +2,7 @@ package QQInformationProcessing
 
 import (
 	"strings"
-
+	"math"
 	"xyz.nyan/MediaWiki-Bot/Plugin"
 )
 
@@ -26,9 +26,9 @@ type GroupJson struct {
 	Name string `json:"name"`
 }
 
-func sendWikiInfo(GroupID int, QueryText string) {
+func sendWikiInfo(GroupID int, QueryText string,quoteID int) {
 	WikiInfo := Plugin.GetWikiInfo(QueryText)
-	SendGroupMessage(GroupID, WikiInfo)
+	SendGroupMessage(GroupID, WikiInfo,true,quoteID)
 }
 
 //群消息处理
@@ -40,7 +40,8 @@ func GroupMessageProcessing(json WebHook_root) {
 			countSplit := strings.SplitN(text.(string), ":", 2)
 			QueryText := countSplit[1]
 			GroupID := json.Sender.Group.Id
-			go sendWikiInfo(GroupID, QueryText)
+			quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
+			go sendWikiInfo(GroupID, QueryText,quoteID)
 		}
 	}
 }
