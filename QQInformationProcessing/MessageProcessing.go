@@ -26,6 +26,16 @@ type GroupJson struct {
 	Name string `json:"name"`
 }
 
+//消息处理,这里判断是哪类消息
+func MessageProcessing(json WebHook_root) {
+	switch json.Type {
+		case "GroupMessage":
+			GroupMessageProcessing(json)
+		case "FriendMessage":
+			FriendMessageProcessing(json)
+	 }
+}
+
 func sendWikiInfo(GroupID int, QueryText string,quoteID int) {
 	WikiInfo := Plugin.GetWikiInfo(QueryText)
 	SendGroupMessage(GroupID, WikiInfo,true,quoteID)
@@ -46,4 +56,9 @@ func GroupMessageProcessing(json WebHook_root) {
 			go sendWikiInfo(GroupID, QueryText,quoteID)
 		}
 	}
+}
+
+//好友消息处理
+func FriendMessageProcessing(json WebHook_root) {
+
 }

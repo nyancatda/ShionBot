@@ -8,11 +8,15 @@ import (
 	"xyz.nyan/MediaWiki-Bot/utils"
 )
 
-func log(target string, text string) {
+//日志输出
+//Type 消息类型，可选 Friend,Group,Stranger
+//target 消息来源
+//text 消息主体
+func log(Type string, target string, text string) {
 	timestamp := time.Now().Unix()
 	tm := time.Unix(timestamp, 0)
 
-	fmt.Println("[" + tm.Format("2006-01-02 03:04:05") + "] " + target + " -> " + text)
+	fmt.Println("[" + tm.Format("2006-01-02 03:04:05") + "] [" + Type + "] " + target + " -> " + text)
 }
 
 //发送群消息
@@ -52,7 +56,7 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 
 	url := Config.QQBot.APILink + "/sendGroupMessage"
 	utils.PostRequestJosn(url, requestBody)
-	log(strconv.Itoa(target), text)
+	log("Group",strconv.Itoa(target), text)
 }
 
 //发送头像戳一戳
@@ -71,5 +75,5 @@ func SendNudge(target int, subject int, kind string) {
 
 	url := Config.QQBot.APILink + "/sendNudge"
 	utils.PostRequestJosn(url, requestBody)
-	log(strconv.Itoa(subject), "戳一戳"+strconv.Itoa(target))
+	log(kind,strconv.Itoa(subject), "戳一戳"+strconv.Itoa(target))
 }

@@ -33,7 +33,7 @@ func main() {
 			fmt.Println(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		QQInformationProcessing.GroupMessageProcessing(json)
+		QQInformationProcessing.MessageProcessing(json)
 	})
 
 	r.Run(":"+Port)
