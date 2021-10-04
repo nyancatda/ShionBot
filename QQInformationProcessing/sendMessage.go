@@ -56,7 +56,7 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 
 	url := Config.QQBot.APILink + "/sendGroupMessage"
 	utils.PostRequestJosn(url, requestBody)
-	log("Group",strconv.Itoa(target), text)
+	log("Group", strconv.Itoa(target), text)
 }
 
 //发送头像戳一戳
@@ -75,7 +75,7 @@ func SendNudge(target int, subject int, kind string) {
 
 	url := Config.QQBot.APILink + "/sendNudge"
 	utils.PostRequestJosn(url, requestBody)
-	log(kind,strconv.Itoa(subject), "戳一戳"+strconv.Itoa(target))
+	log(kind, strconv.Itoa(subject), "戳一戳"+strconv.Itoa(target))
 }
 
 //发送好友消息
@@ -115,5 +115,48 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) {
 
 	url := Config.QQBot.APILink + "/sendFriendMessage"
 	utils.PostRequestJosn(url, requestBody)
-	log("Friend",strconv.Itoa(target), text)
+	log("Friend", strconv.Itoa(target), text)
+}
+
+//发送临时会话
+//target 临时会话对象QQ号
+//group 临时会话群号
+//text 消息文本
+//quote 是否需要回复
+//quoteID 回复的消息ID(不需要时为0即可)
+func SendTempMessage(target int, group int, text string, quote bool, quoteID int) {
+	Config := utils.ReadConfig()
+	sessionKey := GetSessionKey()
+	var requestBody string
+	//判断是否需要引用回复
+	if quote {
+		requestBody = fmt.Sprintf(`{
+			"sessionKey": "%s",
+			"qq": %d,
+			"group": %d
+			"quote": %d,
+			"messageChain": [
+			  {
+				"type": "Plain",
+				"text": "%s"
+			  }
+			]
+		}`, sessionKey, target, group, quoteID, text)
+	} else {
+		requestBody = fmt.Sprintf(`{
+			"sessionKey": "%s",
+			"qq": %d,
+			"group": %d
+			"messageChain": [
+			  {
+				"type": "Plain",
+				"text": "%s"
+			  }
+			]
+		}`, sessionKey, target, group, text)
+	}
+
+	url := Config.QQBot.APILink + "/sendTempMessage"
+	utils.PostRequestJosn(url, requestBody)
+	log("Temp", strconv.Itoa(target), text)
 }

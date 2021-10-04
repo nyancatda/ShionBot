@@ -35,6 +35,8 @@ func MessageProcessing(json WebHook_root) {
 		GroupMessageProcessing(json)
 	case "FriendMessage":
 		FriendMessageProcessing(json)
+	case "TempMessage":
+		TempMessageProcessing(json)
 	}
 }
 
@@ -76,13 +78,30 @@ func sendFriendWikiInfo(UserID int, QueryText string) {
 
 //好友消息处理
 func FriendMessageProcessing(json WebHook_root) {
-	//只处理文字消息
 	if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
 		text := json.MessageChain[1].(map[string]interface{})["text"]
 		find,QueryText := CommandExtraction(text.(string))
 		if find {
 			UserID := json.Sender.Id
 			go sendFriendWikiInfo(UserID, QueryText)
+		}
+	}
+}
+
+func sendTempdWikiInfo(UserID int, GroupID int,QueryText string) {
+	WikiInfo := Plugin.GetWikiInfo(QueryText)
+	SendTempMessage(UserID,GroupID,WikiInfo,false,0)
+}
+
+//临时会话消息处理
+func TempMessageProcessing(json WebHook_root) {
+	if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
+		text := json.MessageChain[1].(map[string]interface{})["text"]
+		find,QueryText := CommandExtraction(text.(string))
+		if find {
+			UserID := json.Sender.Id
+			GroupID := json.Sender.Group.Id
+			go sendTempdWikiInfo(UserID, GroupID,QueryText)
 		}
 	}
 }
