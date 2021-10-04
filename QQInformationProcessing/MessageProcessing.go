@@ -41,6 +41,8 @@ func GroupMessageProcessing(json WebHook_root) {
 			QueryText := countSplit[1]
 			GroupID := json.Sender.Group.Id
 			quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
+			UserID := json.Sender.Id
+			go SendNudge(UserID,GroupID,"Group")
 			go sendWikiInfo(GroupID, QueryText,quoteID)
 		}
 	}
