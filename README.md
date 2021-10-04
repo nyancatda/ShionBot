@@ -51,7 +51,7 @@ QQBot:
   BotQQNumber: 1000000000
   #HttpAPI的VerifyKey
   VerifyKey: 5eadce46qw58
-#Wiki链接，支持多个
+#Wiki链接，支持多个，第一个为主Wiki
 Wiki:
   #Wiki名字，即使命令前缀，例如mw:首页
   mw:
