@@ -77,3 +77,43 @@ func SendNudge(target int, subject int, kind string) {
 	utils.PostRequestJosn(url, requestBody)
 	log(kind,strconv.Itoa(subject), "戳一戳"+strconv.Itoa(target))
 }
+
+//发送好友消息
+//target 好友QQ号
+//text 消息文本
+//quote 是否需要回复
+//quoteID 回复的消息ID(不需要时为0即可)
+func SendFriendMessage(target int, text string, quote bool, quoteID int) {
+	Config := utils.ReadConfig()
+	sessionKey := GetSessionKey()
+	var requestBody string
+	//判断是否需要引用回复
+	if quote {
+		requestBody = fmt.Sprintf(`{
+			"sessionKey": "%s",
+			"target": %d,
+			"quote": %d,
+			"messageChain": [
+			  {
+				"type": "Plain",
+				"text": "%s"
+			  }
+			]
+		}`, sessionKey, target, quoteID, text)
+	} else {
+		requestBody = fmt.Sprintf(`{
+			"sessionKey": "%s",
+			"target": %d,
+			"messageChain": [
+			  {
+				"type": "Plain",
+				"text": "%s"
+			  }
+			]
+		}`, sessionKey, target, text)
+	}
+
+	url := Config.QQBot.APILink + "/sendFriendMessage"
+	utils.PostRequestJosn(url, requestBody)
+	log("Friend",strconv.Itoa(target), text)
+}
