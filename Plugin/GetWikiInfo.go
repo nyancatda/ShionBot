@@ -2,13 +2,29 @@ package Plugin
 
 import (
 	"fmt"
+	"github.com/antchfx/htmlquery"
 	"strings"
-
 	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
 )
 
 func Error(title string) string {
 	return "找不到[" + title + "]哦，请检查输入是否正确"
+}
+
+//获取Wiki页面标题，过滤后缀
+func GetUrlTitle(WikiName string,PageName string) (string) {
+	WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+	doc, err := htmlquery.LoadURL(WikiLink+"/"+PageName)
+	if err != nil {
+		fmt.Println(err)
+	}
+	for _, n := range htmlquery.Find(doc, "/html/head/title") {
+		PageTitle := htmlquery.OutputHTML(n, false)
+		countSplit := strings.SplitN(PageTitle, " - ", 2)
+		Title := countSplit[0]
+		return Title
+	}
+	return ""
 }
 
 //获取Wiki页面信息
@@ -30,27 +46,13 @@ func QueryRedirects(WikiName string, title string) (whether bool, to string, fro
 	if normalized, ok := info["query"].(map[string]interface{})["normalized"]; ok {
 		return true, normalized.([]interface{})[0].(map[string]interface{})["to"].(string), normalized.([]interface{})[0].(map[string]interface{})["from"].(string)
 	} else {
-		RevisionsInfo := MediaWikiAPI.QueryRevisions(WikiName, title)
-		pagesIdInfo, ok := RevisionsInfo["query"].(map[string]interface{})["pages"]
-		if ok {
-			var PageId string
-			for one := range pagesIdInfo.(map[string]interface{}) {
-				PageId = one
-			}
-			commentInfo, ok := RevisionsInfo["query"].(map[string]interface{})["pages"].(map[string]interface{})[PageId].(map[string]interface{})["revisions"]
-			if ok {
-				find := strings.Contains(commentInfo.([]interface{})[0].(map[string]interface{})["comment"].(string), "重定向页面至")
-				if find {
-					trimStr := strings.Trim(commentInfo.([]interface{})[0].(map[string]interface{})["comment"].(string), "重定向页面至")
-					trimStr = strings.Trim(trimStr, "[")
-					ToTitle := strings.Trim(trimStr, "]")
-					fmt.Println(ToTitle)
-					return true, ToTitle, title
-				}
-			}
+		PageTitleInfo := GetUrlTitle(WikiName,title)
+		if PageTitleInfo != title {
+			ToTitle := PageTitleInfo
+			return true, ToTitle, title
 		}
-		return false, "", ""
 	}
+	return false, "", ""
 }
 
 //获取Wiki页面信息
