@@ -9,7 +9,7 @@ import (
 type Config struct {
 	Run *Run `yaml:"Run"`
 	QQBot *QQBot `yaml:"QQBot"`
-	Wiki *Wiki `yaml:"Wiki"`
+	Wiki map[string]interface{} `yaml:"Wiki"`
 }
 
 type Run struct {
@@ -20,10 +20,6 @@ type QQBot struct {
 	APILink string `yaml:"APILink"`
 	BotQQNumber int `yaml:"BotQQNumber"`
 	VerifyKey string `yaml:"VerifyKey"`
-}
-
-type Wiki struct {
-	WikiLink string `yaml:"WikiLink"`
 }
 
 func ReadConfig() (*Config) {

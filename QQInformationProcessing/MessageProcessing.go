@@ -4,6 +4,7 @@ import (
 	"math"
 	"strings"
 	"xyz.nyan/MediaWiki-Bot/Plugin"
+	"xyz.nyan/MediaWiki-Bot/utils"
 )
 
 type WebHook_root struct {
@@ -40,18 +41,25 @@ func MessageProcessing(json WebHook_root) {
 	}
 }
 
-//命令处理，判断命令是否匹配，匹配则输出命令参数
-func CommandExtraction(text string) (bool,string) {
-	if find := strings.Contains(text, "mw:"); find {
-		countSplit := strings.SplitN(text, ":", 2)
-		QueryText := countSplit[1]
-		return true,QueryText
+//命令处理，判断命令是否匹配，匹配则输出命令和命令参数
+func CommandExtraction(text string) (bool, string, string) {
+	Config := utils.ReadConfig()
+	Map := Config.Wiki
+	var ConfigWikiName string
+	for one := range Map {
+		ConfigWikiName = one
+		if find := strings.Contains(text, ConfigWikiName); find {
+			countSplit := strings.SplitN(text, ":", 2)
+			Command := countSplit[0]
+			Text := countSplit[1]
+			return true, Text, Command
+		}
 	}
-	return false,""
+	return false, "", ""
 }
 
-func sendGroupWikiInfo(GroupID int, QueryText string, quoteID int) {
-	WikiInfo := Plugin.GetWikiInfo(QueryText)
+func sendGroupWikiInfo(WikiName string, GroupID int, QueryText string, quoteID int) {
+	WikiInfo := Plugin.GetWikiInfo(WikiName, QueryText)
 	SendGroupMessage(GroupID, WikiInfo, true, quoteID)
 }
 
@@ -60,48 +68,48 @@ func GroupMessageProcessing(json WebHook_root) {
 	//只处理文字消息
 	if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
 		text := json.MessageChain[1].(map[string]interface{})["text"]
-		find,QueryText := CommandExtraction(text.(string))
+		find, QueryText, Command := CommandExtraction(text.(string))
 		if find {
 			GroupID := json.Sender.Group.Id
 			quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
 			UserID := json.Sender.Id
 			go SendNudge(UserID, GroupID, "Group")
-			go sendGroupWikiInfo(GroupID, QueryText, quoteID)
+			go sendGroupWikiInfo(Command, GroupID, QueryText, quoteID)
 		}
 	}
 }
 
-func sendFriendWikiInfo(UserID int, QueryText string) {
-	WikiInfo := Plugin.GetWikiInfo(QueryText)
-	SendFriendMessage(UserID,WikiInfo,false,0)
+func sendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
+	WikiInfo := Plugin.GetWikiInfo(WikiName, QueryText)
+	SendFriendMessage(UserID, WikiInfo, false, 0)
 }
 
 //好友消息处理
 func FriendMessageProcessing(json WebHook_root) {
 	if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
 		text := json.MessageChain[1].(map[string]interface{})["text"]
-		find,QueryText := CommandExtraction(text.(string))
+		find, QueryText, Command := CommandExtraction(text.(string))
 		if find {
 			UserID := json.Sender.Id
-			go sendFriendWikiInfo(UserID, QueryText)
+			go sendFriendWikiInfo(Command, UserID, QueryText)
 		}
 	}
 }
 
-func sendTempdWikiInfo(UserID int, GroupID int,QueryText string) {
-	WikiInfo := Plugin.GetWikiInfo(QueryText)
-	SendTempMessage(UserID,GroupID,WikiInfo,false,0)
+func sendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText string) {
+	WikiInfo := Plugin.GetWikiInfo(WikiName, QueryText)
+	SendTempMessage(UserID, GroupID, WikiInfo, false, 0)
 }
 
 //临时会话消息处理
 func TempMessageProcessing(json WebHook_root) {
 	if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
 		text := json.MessageChain[1].(map[string]interface{})["text"]
-		find,QueryText := CommandExtraction(text.(string))
+		find, QueryText, Command := CommandExtraction(text.(string))
 		if find {
 			UserID := json.Sender.Id
 			GroupID := json.Sender.Group.Id
-			go sendTempdWikiInfo(UserID, GroupID,QueryText)
+			go sendTempdWikiInfo(Command, UserID, GroupID, QueryText)
 		}
 	}
 }

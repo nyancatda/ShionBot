@@ -51,7 +51,22 @@ QQBot:
   BotQQNumber: 1000000000
   #HttpAPI的VerifyKey
   VerifyKey: 5eadce46qw58
+#Wiki链接，支持多个
 Wiki:
-  #需要对接的wiki的地址
-  WikiLink: https://minewiki.net
+  #Wiki名字，即使命令前缀，例如mw:首页
+  mw:
+    #Wiki的链接
+    WikiLink: https://minewiki.net
+  me:
+    WikiLink: https://zh.moegirl.org.cn
+```
+
+## 命令
+1. 查询Wiki
+```
+Wiki名字:需要查询的内容
+```
+例子:
+```
+mw:首页
 ```
