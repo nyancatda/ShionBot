@@ -59,6 +59,33 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 	log("Group", strconv.Itoa(target), text)
 }
 
+//发送带@的群消息
+//target 群号
+//text 消息文本
+//AtID 需要@的人的QQ号
+func SendGroupAtMessage(target int, text string, AtID int) {
+	Config := utils.ReadConfig()
+	sessionKey := GetSessionKey()
+	//判断是否需要引用回复
+	requestBody := fmt.Sprintf(`{
+			"sessionKey": "%s",
+			"target": %d,
+			"messageChain": [
+			{
+				"type": "At",
+				"target": %d
+			},
+			{
+			"type": "Plain",
+			"text": "%s"
+			}
+			]
+		}`, sessionKey, target, AtID, text)
+	url := Config.QQBot.APILink + "/sendGroupMessage"
+	utils.PostRequestJosn(url, requestBody)
+	log("Group", strconv.Itoa(target), text)
+}
+
 //发送头像戳一戳
 //target 目标QQ号
 //subject 消息接受主体，为群号或QQ号

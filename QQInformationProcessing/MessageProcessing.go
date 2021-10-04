@@ -1,8 +1,10 @@
 package QQInformationProcessing
 
 import (
+	"fmt"
 	"math"
 	"strings"
+
 	"xyz.nyan/MediaWiki-Bot/Plugin"
 	"xyz.nyan/MediaWiki-Bot/utils"
 )
@@ -10,7 +12,9 @@ import (
 type WebHook_root struct {
 	Type         string        `json:"type"`
 	Sender       SenderJson    `json:"sender"`
+	FromId       int           `json:"fromId"`
 	MessageChain []interface{} `json:"messageChain"`
+	Subject      SubjectJson   `json:"subject"`
 }
 type SenderJson struct {
 	Id                 int       `json:"id"`
@@ -28,6 +32,10 @@ type GroupJson struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
 }
+type SubjectJson struct {
+	Id   int    `json:"id"`
+	Kind string `json:"kind"`
+}
 
 //消息处理,这里判断是哪类消息
 func MessageProcessing(json WebHook_root) {
@@ -38,6 +46,8 @@ func MessageProcessing(json WebHook_root) {
 		FriendMessageProcessing(json)
 	case "TempMessage":
 		TempMessageProcessing(json)
+	case "NudgeEvent":
+		NudgeEventMessageProcessing(json)
 	}
 }
 
@@ -55,7 +65,7 @@ func CommandExtraction(text string) (bool, string, string) {
 				return true, Text, Command
 			}
 		}
-	} else if find := strings.Contains(text, "[["); find{
+	} else if find := strings.Contains(text, "[["); find {
 		if find := strings.Contains(text, "]]"); find {
 			//获取主Wiki名字
 			Config := utils.ReadConfig()
@@ -123,5 +133,20 @@ func TempMessageProcessing(json WebHook_root) {
 			GroupID := json.Sender.Group.Id
 			go sendTempdWikiInfo(Command, UserID, GroupID, QueryText)
 		}
+	}
+}
+
+func NudgeEventMessageProcessing(json WebHook_root) {
+	HelpText := " 使用说明请前往 https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 查看"
+	switch json.Subject.Kind {
+	case "Group":
+		fmt.Println(json)
+		fmt.Println(json.FromId)
+		if (json.FromId != utils.ReadConfig().QQBot.BotQQNumber) {
+			go SendNudge(json.FromId, json.Subject.Id, "Group")
+			go SendGroupAtMessage(json.Subject.Id, HelpText, json.FromId)
+		}
+	case "Friend":
+		go SendFriendMessage(json.FromId, HelpText, false, 0)
 	}
 }
