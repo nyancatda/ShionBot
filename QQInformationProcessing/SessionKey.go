@@ -15,12 +15,23 @@ type verifyJson struct {
 }
 
 func CreateSessionKey() (string,*http.Response,error) {
-	var SessionKey string
+	//释放旧的SessionKey
+	bytes, _ := ioutil.ReadFile("SessionKey")
+    OldSessionKey := string(bytes)
 	Config := utils.ReadConfig()
 	requestBody := fmt.Sprintf(`{
+		"verifyKey": "%s",
+		"qq": %d
+	  }`, OldSessionKey,Config.QQBot.BotQQNumber)
+	url := Config.QQBot.APILink + "/release"
+	utils.PostRequestJosn(url, requestBody)
+
+	var SessionKey string
+	Config = utils.ReadConfig()
+	requestBody = fmt.Sprintf(`{
 		"verifyKey": "%s"
 	}`, Config.QQBot.VerifyKey)
-	url := Config.QQBot.APILink + "/verify"
+	url = Config.QQBot.APILink + "/verify"
 	body,resp,http_error := utils.PostRequestJosn(url, requestBody)
 
 	var config verifyJson
