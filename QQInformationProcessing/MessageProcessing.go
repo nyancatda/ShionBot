@@ -11,6 +11,7 @@ type WebHook_root struct {
 	Type         string        `json:"type"`
 	Sender       SenderJson    `json:"sender"`
 	FromId       int           `json:"fromId"`
+	Target       int           `json:"target"`
 	MessageChain []interface{} `json:"messageChain"`
 	Subject      SubjectJson   `json:"subject"`
 }
@@ -138,7 +139,7 @@ func NudgeEventMessageProcessing(json WebHook_root) {
 	HelpText := " 使用说明请前往 https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 查看"
 	switch json.Subject.Kind {
 	case "Group":
-		if json.FromId != utils.ReadConfig().QQBot.BotQQNumber {
+		if json.FromId != utils.ReadConfig().QQBot.BotQQNumber && json.Target == utils.ReadConfig().QQBot.BotQQNumber {
 			go SendNudge(json.FromId, json.Subject.Id, "Group")
 			go SendGroupAtMessage(json.Subject.Id, HelpText, json.FromId)
 		}
