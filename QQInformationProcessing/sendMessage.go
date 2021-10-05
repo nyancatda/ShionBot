@@ -1,12 +1,43 @@
 package QQInformationProcessing
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"time"
 
 	"xyz.nyan/MediaWiki-Bot/utils"
 )
+
+type returnJson struct {
+	Code      int    `json:"code"`
+	Msg       string `json:"msg"`
+	MessageId string `json:"messageId"`
+}
+
+func sendError(body []byte,err error,url string, requestBody string) {
+	if err != nil {
+		fmt.Println("无法正确链接至Mirai，请检查设置")
+	} else {
+		var config returnJson
+		json.Unmarshal([]byte(body), &config)
+		if config.Code != 0 {
+			SessionKey, resp, err := CreateSessionKey()
+			if err != nil {
+				fmt.Println("无法正确链接至Mirai，请检查设置")
+				fmt.Println(err)
+			} else if resp.Status != "200 OK" {
+				fmt.Println("无法正确链接至Mirai，请检查设置")
+			} else {
+				var result map[string]interface{}
+				json.Unmarshal([]byte(requestBody), &result)
+				result["sessionKey"] = SessionKey
+				Body, _ := json.Marshal(result)
+				utils.PostRequestJosn(url, string(Body))
+			}
+		}
+	}
+}
 
 //日志输出
 //Type 消息类型，可选 Friend,Group,Stranger
@@ -55,7 +86,9 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 	}
 
 	url := Config.QQBot.APILink + "/sendGroupMessage"
-	utils.PostRequestJosn(url, requestBody)
+	body, _, err := utils.PostRequestJosn(url, requestBody)
+	sendError(body, err, url, requestBody)
+
 	log("Group", strconv.Itoa(target), text)
 }
 
@@ -82,7 +115,9 @@ func SendGroupAtMessage(target int, text string, AtID int) {
 			]
 		}`, sessionKey, target, AtID, text)
 	url := Config.QQBot.APILink + "/sendGroupMessage"
-	utils.PostRequestJosn(url, requestBody)
+	body, _, err := utils.PostRequestJosn(url, requestBody)
+	sendError(body, err, url, requestBody)
+
 	log("Group", strconv.Itoa(target), text)
 }
 
@@ -101,7 +136,9 @@ func SendNudge(target int, subject int, kind string) {
 	}`, sessionKey, target, subject, kind)
 
 	url := Config.QQBot.APILink + "/sendNudge"
-	utils.PostRequestJosn(url, requestBody)
+	body, _, err := utils.PostRequestJosn(url, requestBody)
+	sendError(body, err, url, requestBody)
+
 	log(kind, strconv.Itoa(subject), "戳一戳"+strconv.Itoa(target))
 }
 
@@ -141,7 +178,9 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) {
 	}
 
 	url := Config.QQBot.APILink + "/sendFriendMessage"
-	utils.PostRequestJosn(url, requestBody)
+	body, _, err := utils.PostRequestJosn(url, requestBody)
+	sendError(body, err, url, requestBody)
+
 	log("Friend", strconv.Itoa(target), text)
 }
 
@@ -184,6 +223,8 @@ func SendTempMessage(target int, group int, text string, quote bool, quoteID int
 	}
 
 	url := Config.QQBot.APILink + "/sendTempMessage"
-	utils.PostRequestJosn(url, requestBody)
+	body, _, err := utils.PostRequestJosn(url, requestBody)
+	sendError(body, err, url, requestBody)
+
 	log("Temp", strconv.Itoa(target), text)
 }
