@@ -8,7 +8,7 @@ import (
 	"log"
 )
 
-func HttpRequest(url string) ([]byte) {
+func HttpRequest(url string) ([]byte,error) {
 	res, err := http.Get(url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
@@ -20,5 +20,5 @@ func HttpRequest(url string) ([]byte) {
 		fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
 		log.Println(err)
 	}
-	return body
+	return body,err
 }

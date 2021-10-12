@@ -36,6 +36,10 @@ type SubjectJson struct {
 	Kind string `json:"kind"`
 }
 
+func Error(WikiName string) string {
+	return "无法访问" + WikiName + "，请联系管理员"
+}
+
 //消息处理,这里判断是哪类消息
 func MessageProcessing(json WebHook_root) {
 	switch json.Type {
@@ -80,7 +84,10 @@ func CommandExtraction(text string) (bool, string, string) {
 }
 
 func sendGroupWikiInfo(WikiName string, GroupID int, QueryText string, quoteID int) {
-	WikiInfo := Plugin.GetWikiInfo(WikiName, QueryText)
+	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
+	if err != nil {
+		SendGroupMessage(GroupID, Error(WikiName), true, quoteID)
+	}
 	SendGroupMessage(GroupID, WikiInfo, true, quoteID)
 }
 
@@ -101,7 +108,10 @@ func GroupMessageProcessing(json WebHook_root) {
 }
 
 func sendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
-	WikiInfo := Plugin.GetWikiInfo(WikiName, QueryText)
+	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
+	if err != nil {
+		SendFriendMessage(UserID, Error(WikiName), false, 0)
+	}
 	SendFriendMessage(UserID, WikiInfo, false, 0)
 }
 
@@ -118,7 +128,10 @@ func FriendMessageProcessing(json WebHook_root) {
 }
 
 func sendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText string) {
-	WikiInfo := Plugin.GetWikiInfo(WikiName, QueryText)
+	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
+	if err != nil {
+		SendTempMessage(UserID, GroupID, Error(WikiName), false, 0)
+	}
 	SendTempMessage(UserID, GroupID, WikiInfo, false, 0)
 }
 
