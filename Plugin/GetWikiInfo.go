@@ -19,7 +19,8 @@ func SearchWiki(WikiName string, title string) string {
 	if len(SearchList) != 0 {
 		var SearchPages strings.Builder
 		for _, value := range SearchList {
-			SearchPages.WriteString(value.(string))
+			PagseName := "[" + value.(string) + "]"
+			SearchPages.WriteString(PagseName)
 			SearchPages.WriteString("\n")
 		}
 		return SearchPages.String()
