@@ -5,19 +5,20 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"log"
 )
 
 func HttpRequest(url string) ([]byte) {
 	res, err := http.Get(url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
-		os.Exit(1)
+		log.Println(err)
 	}
 	body, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
-		os.Exit(1)
+		log.Println(err)
 	}
 	return body
 }
