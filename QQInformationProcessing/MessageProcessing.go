@@ -3,6 +3,8 @@ package QQInformationProcessing
 import (
 	"math"
 	"strings"
+
+	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
 	"xyz.nyan/MediaWiki-Bot/Plugin"
 	"xyz.nyan/MediaWiki-Bot/utils"
 )
@@ -36,8 +38,8 @@ type SubjectJson struct {
 	Kind string `json:"kind"`
 }
 
-func Error(WikiName string) string {
-	return "无法访问" + WikiName + "，请联系管理员"
+func Error(WikiLink string) string {
+	return "无法访问" + WikiLink + "，请联系管理员"
 }
 
 //消息处理,这里判断是哪类消息
@@ -86,7 +88,9 @@ func CommandExtraction(text string) (bool, string, string) {
 func sendGroupWikiInfo(WikiName string, GroupID int, QueryText string, quoteID int) {
 	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
 	if err != nil {
-		SendGroupMessage(GroupID, Error(WikiName), true, quoteID)
+		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		SendGroupMessage(GroupID, Error(WikiLink), true, quoteID)
+		return
 	}
 	SendGroupMessage(GroupID, WikiInfo, true, quoteID)
 }
@@ -110,7 +114,9 @@ func GroupMessageProcessing(json WebHook_root) {
 func sendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
 	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
 	if err != nil {
-		SendFriendMessage(UserID, Error(WikiName), false, 0)
+		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		SendFriendMessage(UserID, Error(WikiLink), false, 0)
+		return
 	}
 	SendFriendMessage(UserID, WikiInfo, false, 0)
 }
@@ -130,7 +136,9 @@ func FriendMessageProcessing(json WebHook_root) {
 func sendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText string) {
 	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
 	if err != nil {
-		SendTempMessage(UserID, GroupID, Error(WikiName), false, 0)
+		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		SendTempMessage(UserID, GroupID, Error(WikiLink), false, 0)
+		return
 	}
 	SendTempMessage(UserID, GroupID, WikiInfo, false, 0)
 }
