@@ -3,13 +3,41 @@ package Plugin
 import (
 	"fmt"
 	"github.com/antchfx/htmlquery"
+	"log"
 	"strings"
 	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
-	"log"
 )
 
 func Error(WikiLink string, title string) string {
 	return "在[" + WikiLink + "]中找不到[" + title + "]哦，请检查输入是否正确"
+}
+
+//搜索wiki
+func SearchWiki(WikiName string, title string) string {
+	SearchInfo, _ := MediaWikiAPI.Opensearch(WikiName, title)
+	SearchList := SearchInfo[1].([]interface{})
+	if len(SearchList) != 0 {
+		var SearchPages strings.Builder
+		for _, value := range SearchList {
+			SearchPages.WriteString(value.(string))
+			SearchPages.WriteString("\n")
+		}
+		return SearchPages.String()
+	} else {
+		return ""
+	}
+}
+
+//为空处理
+func NilProcessing(WikiName string, title string) string {
+	SearchInfo := SearchWiki(WikiName, title)
+	if SearchInfo != "" {
+		Info := "没有找到页面，但是找到了以下结果\n" + SearchInfo + "请使用 " + WikiName + ":页面标题 重新查询"
+		return Info
+	} else {
+		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		return Error(WikiLink, title)
+	}
 }
 
 //获取Wiki页面标题，过滤后缀
@@ -74,14 +102,12 @@ func GetWikiInfo(WikiName string, title string) (string, error) {
 
 	_, ok := info["query"]
 	if !ok {
-		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		return Error(WikiLink, title), err
+		return NilProcessing(WikiName, title), err
 	}
 
 	pagesIdInfo, ok := info["query"].(map[string]interface{})["pages"]
 	if !ok {
-		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		return Error(WikiLink, title), err
+		return NilProcessing(WikiName, title), err
 	}
 
 	var PageId string
@@ -109,7 +135,6 @@ func GetWikiInfo(WikiName string, title string) (string, error) {
 		}
 		return returnText, err
 	} else {
-		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		return Error(WikiLink, title), err
+		return NilProcessing(WikiName, title), err
 	}
 }
