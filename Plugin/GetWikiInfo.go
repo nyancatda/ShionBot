@@ -15,15 +15,18 @@ func Error(WikiLink string, title string) string {
 //搜索wiki
 func SearchWiki(WikiName string, title string) string {
 	SearchInfo, _ := MediaWikiAPI.Opensearch(WikiName, title)
-	SearchList := SearchInfo[1].([]interface{})
-	if len(SearchList) != 0 {
-		var SearchPages strings.Builder
-		for _, value := range SearchList {
-			PagseName := "[" + value.(string) + "]"
-			SearchPages.WriteString(PagseName)
-			SearchPages.WriteString("\n")
+	if len(SearchInfo) != 0 {
+		SearchList := SearchInfo[1].([]interface{})
+		if len(SearchList) != 0 {
+			var SearchPages strings.Builder
+			for _, value := range SearchList {
+				PagseName := "[" + value.(string) + "]"
+				SearchPages.WriteString(PagseName)
+				SearchPages.WriteString("\n")
+			}
+			return SearchPages.String()
 		}
-		return SearchPages.String()
+		return ""
 	} else {
 		return ""
 	}
