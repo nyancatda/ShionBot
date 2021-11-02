@@ -7,6 +7,7 @@ import (
 	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
 	"xyz.nyan/MediaWiki-Bot/Plugin"
 	"xyz.nyan/MediaWiki-Bot/utils"
+	"xyz.nyan/MediaWiki-Bot/utils/Language"
 )
 
 type WebHook_root struct {
@@ -39,7 +40,7 @@ type SubjectJson struct {
 }
 
 func Error(WikiLink string) string {
-	return "无法访问" + WikiLink + "，请联系管理员"
+	return Language.Message().WikiLinkError_1 + WikiLink + Language.Message().WikiLinkError_2
 }
 
 //消息处理,这里判断是哪类消息
@@ -157,7 +158,7 @@ func TempMessageProcessing(json WebHook_root) {
 }
 
 func NudgeEventMessageProcessing(json WebHook_root) {
-	HelpText := " 使用说明请前往 https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 查看"
+	HelpText := Language.Message().HelpText
 	switch json.Subject.Kind {
 	case "Group":
 		if json.FromId != utils.ReadConfig().QQBot.BotQQNumber && json.Target == utils.ReadConfig().QQBot.BotQQNumber {

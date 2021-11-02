@@ -6,10 +6,11 @@ import (
 	"log"
 	"strings"
 	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
+	"xyz.nyan/MediaWiki-Bot/utils/Language"
 )
 
 func Error(WikiLink string, title string) string {
-	return "在[" + WikiLink + "]中找不到[" + title + "]哦，请检查输入是否正确"
+	return Language.Message().GetWikiInfoError_1 + WikiLink + Language.Message().GetWikiInfoError_2 + title + Language.Message().GetWikiInfoError_3
 }
 
 //搜索wiki
@@ -36,7 +37,7 @@ func SearchWiki(WikiName string, title string) string {
 func NilProcessing(WikiName string, title string) string {
 	SearchInfo := SearchWiki(WikiName, title)
 	if SearchInfo != "" {
-		Info := "没有找到页面，但是找到了以下结果\n" + SearchInfo + "请使用 " + WikiName + ":页面标题 重新查询"
+		Info := Language.Message().WikiInfoSearch_1 + SearchInfo + Language.Message().WikiInfoSearch_2 + WikiName + Language.Message().WikiInfoSearch_3
 		return Info
 	} else {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
@@ -128,7 +129,7 @@ func GetWikiInfo(WikiName string, title string) (string, error) {
 				log.Println(err)
 			}
 			WikiPageLink := WikiPageInfo.(map[string]interface{})["fullurl"].(string)
-			returnText = WikiPageLink + "\n(重定向[" + FromTitle + "]->[" + ToTitle + "])\n" + PagesExtract.(string)
+			returnText = WikiPageLink + Language.Message().WikiInfoRedirect_1 + FromTitle + Language.Message().WikiInfoRedirect_2 + ToTitle + Language.Message().WikiInfoRedirect_3 + PagesExtract.(string)
 		} else {
 			WikiPageInfo, err := QueryWikiInfo(WikiName, title)
 			if err != nil {

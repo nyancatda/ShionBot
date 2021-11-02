@@ -14,6 +14,7 @@ type Config struct {
 
 type Run struct {
 	WebHookPort string `yaml:"WebHookPort"`
+	Language string `yaml:"Language"`
 }
 
 type QQBot struct {

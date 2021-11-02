@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"xyz.nyan/MediaWiki-Bot/utils"
+	"xyz.nyan/MediaWiki-Bot/utils/Language"
 )
 
 type returnJson struct {
@@ -15,19 +16,19 @@ type returnJson struct {
 	MessageId string `json:"messageId"`
 }
 
-func sendError(body []byte,err error,url string, requestBody string) {
+func sendError(body []byte, err error, url string, requestBody string) {
 	if err != nil {
-		fmt.Println("无法正确链接至Mirai，请检查设置")
+		fmt.Println(Language.Message().CannotConnectMirai)
 	} else {
 		var config returnJson
 		json.Unmarshal([]byte(body), &config)
 		if config.Code != 0 {
 			SessionKey, resp, err := CreateSessionKey()
 			if err != nil {
-				fmt.Println("无法正确链接至Mirai，请检查设置")
+				fmt.Println(Language.Message().CannotConnectMirai)
 				fmt.Println(err)
 			} else if resp.Status != "200 OK" {
-				fmt.Println("无法正确链接至Mirai，请检查设置")
+				fmt.Println(Language.Message().CannotConnectMirai)
 			} else {
 				var result map[string]interface{}
 				json.Unmarshal([]byte(requestBody), &result)
@@ -139,7 +140,7 @@ func SendNudge(target int, subject int, kind string) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log(kind, strconv.Itoa(subject), "戳一戳"+strconv.Itoa(target))
+	log(kind, strconv.Itoa(subject), Language.Message().Nudge+strconv.Itoa(target))
 }
 
 //发送好友消息
