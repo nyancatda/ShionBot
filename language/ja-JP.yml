@@ -1,8 +1,8 @@
-MainErrorTips: "按任意键退出...."
-UnableApplySession: "无法向Mirai申请新的Session，请检查设置"
+MainErrorTips: "いずれのキーを押すと戻る...."
+UnableApplySession: "Miraiに新しいSessionを申請できないので，設定をチェックしてください"
 ConfigFileException: "配置文件异常"
-CannotConnectMirai: "无法正确链接至Mirai，请检查设置"
-RunOK: "机器人WebHook接收已开启，运行于"
+CannotConnectMirai: "正しくMiraiにリンクできないので，設定をチェックしてください"
+RunOK: "ロボットWebHookのうけるのはもうONにしている，运行于"
 RunOK_Port: "端口"
 Nudge: "戳一戳"
 
