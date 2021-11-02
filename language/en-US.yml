@@ -1,0 +1,32 @@
+MainErrorTips: "Press any key to exit..."
+UnableApplySession: "Unable to apply for a new Session to Mirai, please check the Settings"
+ConfigFileException: "Error in configufation"
+CannotConnectMirai: "Unable to link to Mirai correctly, please check Settings"
+RunOK: "Robot WebHook reception enabled，running on"
+RunOK_Port: "Port"
+Nudge: "Nudge"
+
+#Unable to access https://zh.moegirl.org.cn, please contact the administrator
+WikiLinkError_1: "Unable to access "
+WikiLinkError_2: ", please contact the administrator"
+
+HelpText: "使用说明请前往 https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 查看"
+
+#Can't find [Mainpage] in [https://zh.moegirl.org.cn], Please check that the input is correct
+GetWikiInfoError_1: "Can't find ["
+GetWikiInfoError_2: "] in ["
+GetWikiInfoError_3: "], Please check that the input is correct"
+
+#没有找到页面，但是找到了以下结果
+#[Mainpage]
+#请使用 mg:页面标题 重新查询
+WikiInfoSearch_1: "没有找到页面，但是找到了以下结果\n"
+WikiInfoSearch_2: "Please ues "
+WikiInfoSearch_3: ":页面标题 重新查询"
+
+#https://zh.moegirl.org.cn/Mainpage
+#(重定向[MainPage]->[Mainpage])
+#......
+WikiInfoRedirect_1: "\n(重定向["
+WikiInfoRedirect_2: "]->["
+WikiInfoRedirect_3: "])\n"
