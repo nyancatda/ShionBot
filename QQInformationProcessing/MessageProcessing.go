@@ -40,7 +40,7 @@ type SubjectJson struct {
 }
 
 func Error(WikiLink string) string {
-	return Language.Message().WikiLinkError_1 + WikiLink + Language.Message().WikiLinkError_2
+	return Language.StringVariable(1, Language.Message().WikiLinkError, WikiLink, "")
 }
 
 //消息处理,这里判断是哪类消息

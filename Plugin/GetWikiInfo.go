@@ -10,7 +10,8 @@ import (
 )
 
 func Error(WikiLink string, title string) string {
-	return Language.Message().GetWikiInfoError_1 + WikiLink + Language.Message().GetWikiInfoError_2 + title + Language.Message().GetWikiInfoError_3
+	text := Language.StringVariable(2, Language.Message().GetWikiInfoError, WikiLink, title)
+	return text
 }
 
 //搜索wiki
@@ -37,7 +38,7 @@ func SearchWiki(WikiName string, title string) string {
 func NilProcessing(WikiName string, title string) string {
 	SearchInfo := SearchWiki(WikiName, title)
 	if SearchInfo != "" {
-		Info := Language.Message().WikiInfoSearch_1 + SearchInfo + Language.Message().WikiInfoSearch_2 + WikiName + Language.Message().WikiInfoSearch_3
+		Info := Language.StringVariable(2, Language.Message().WikiInfoSearch, SearchInfo, WikiName)
 		return Info
 	} else {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
@@ -129,7 +130,8 @@ func GetWikiInfo(WikiName string, title string) (string, error) {
 				log.Println(err)
 			}
 			WikiPageLink := WikiPageInfo.(map[string]interface{})["fullurl"].(string)
-			returnText = WikiPageLink + Language.Message().WikiInfoRedirect_1 + FromTitle + Language.Message().WikiInfoRedirect_2 + ToTitle + Language.Message().WikiInfoRedirect_3 + PagesExtract.(string)
+			info := Language.StringVariable(2, Language.Message().WikiInfoRedirect, FromTitle, ToTitle)
+			returnText = WikiPageLink + info + PagesExtract.(string)
 		} else {
 			WikiPageInfo, err := QueryWikiInfo(WikiName, title)
 			if err != nil {

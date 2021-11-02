@@ -7,26 +7,19 @@ RunOK_Port: "端口"
 Nudge: "戳一戳"
 
 #无法访问https://zh.moegirl.org.cn，请联系管理员
-WikiLinkError_1: "无法访问"
-WikiLinkError_2: "，请联系管理员"
+WikiLinkError: "无法访问{%0}，请联系管理员"
 
 HelpText: "使用说明请前往 https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 查看"
 
 #在[https://zh.moegirl.org.cn]中找不到[Mainpage]哦，请检查输入是否正确
-GetWikiInfoError_1: "在["
-GetWikiInfoError_2: "]中找不到["
-GetWikiInfoError_3: "]哦，请检查输入是否正确"
+GetWikiInfoError: "在[{%0}]中找不到[{%1}]哦，请检查输入是否正确"
 
 #没有找到页面，但是找到了以下结果
 #[Mainpage]
 #请使用 mg:页面标题 重新查询
-WikiInfoSearch_1: "没有找到页面，但是找到了以下结果\n"
-WikiInfoSearch_2: "请使用 "
-WikiInfoSearch_3: ":页面标题 重新查询"
+WikiInfoSearch: "没有找到页面，但是找到了以下结果\n{%0}请使用 {%1}:页面标题 重新查询"
 
 #https://zh.moegirl.org.cn/Mainpage
 #(重定向[MainPage]->[Mainpage])
 #......
-WikiInfoRedirect_1: "\n(重定向["
-WikiInfoRedirect_2: "]->["
-WikiInfoRedirect_3: "])\n"
+WikiInfoRedirect: "\n(重定向[{%0}]->[{%1}])\n"
