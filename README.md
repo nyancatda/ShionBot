@@ -44,6 +44,9 @@ adapterSettings:
 Run:
   #指定机器人的WebHook接收的端口
   WebHookPort: 8000
+  #指定机器人的语言
+  #中文:zh-CN,英语:en-US,日语ja-JP
+  Language: zh-CN
 QQBot:
   #HttpAPI地址
   APILink: http://127.0.0.1:8888
