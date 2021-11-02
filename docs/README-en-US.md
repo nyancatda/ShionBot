@@ -1,4 +1,4 @@
-中文|English|日本語
+[中文](https://github.com/nyancatda/MediaWiki-Bot)|English|[日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
 MediaWiki的QQ查询机器人
 
