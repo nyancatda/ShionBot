@@ -2,8 +2,7 @@ MainErrorTips: "按任意键退出...."
 UnableApplySession: "无法向Mirai申请新的Session，请检查设置"
 ConfigFileException: "配置文件异常"
 CannotConnectMirai: "无法正确链接至Mirai，请检查设置"
-RunOK: "机器人WebHook接收已开启，运行于"
-RunOK_Port: "端口"
+RunOK: "机器人WebHook接收已开启，运行于{%0}端口"
 Nudge: "戳一戳"
 
 #无法访问https://zh.moegirl.org.cn，请联系管理员
