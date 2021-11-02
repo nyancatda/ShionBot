@@ -56,7 +56,7 @@ func main() {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	fmt.Println(Language.Message().RunOK + Port + Language.Message().RunOK_Port)
+	fmt.Println(Language.StringVariable(1, Language.Message().RunOK, Port, ""))
 
 	r.POST("/", func(c *gin.Context) {
 		var json QQInformationProcessing.WebHook_root
