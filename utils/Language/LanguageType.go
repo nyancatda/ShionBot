@@ -6,7 +6,6 @@ type LanguageInfo struct {
 	ConfigFileException string `yaml:"ConfigFileException"`
 	CannotConnectMirai  string `yaml:"CannotConnectMirai"`
 	RunOK               string `yaml:"RunOK"`
-	RunOK_Port          string `yaml:"RunOK_Port"`
 	Nudge               string `yaml:"Nudge"`
 	WikiLinkError       string `yaml:"WikiLinkError"`
 	HelpText            string `yaml:"HelpText"`
