@@ -17,7 +17,7 @@ GetWikiInfoError: "Can't find [{%1}] in [{%0}], please check that the input is c
 #The page could not be found, but the following results were found
 #[Mainpage]
 #Please use "mg:Page title" to query again
-WikiInfoSearch: "The page could not be found, but the following results were found\n{%0}Please use "{%1}:Page title" to query again"
+WikiInfoSearch: "The page could not be found, but the following results were found\n{%0}Please use `{%1}:Page title` to query again"
 
 #https://zh.moegirl.org.cn/Mainpage
 #(redirect[MainPage]->[Mainpage])
