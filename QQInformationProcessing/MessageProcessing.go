@@ -1,6 +1,7 @@
 package QQInformationProcessing
 
 import (
+	"fmt"
 	"math"
 	"strings"
 
@@ -81,6 +82,11 @@ func CommandExtraction(text string) (bool, string, string) {
 			Text := strings.Trim(trimStr, "]")
 			return true, Text, MainWikiName
 		}
+	} else if find := strings.Contains(text, "/"); find {
+		countSplit := strings.Split(text, "/")
+		Text := countSplit[1]
+		fmt.Println(Text)
+		return true, Text, "/"
 	}
 
 	return false, "", ""
