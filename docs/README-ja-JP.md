@@ -1,27 +1,27 @@
 [中文](https://github.com/nyancatda/MediaWiki-Bot)|[English](docs/README-en-US.md)|日本語
 # MediaWiki-Bot
-MediaWiki的多语言QQ查询机器人
-可以对使用MediaWiki搭建的站点进行信息查询，支持多种语言
+MediaWikiの多言語QQ検索ボット  
+MediaWikiを使うWebページの検索が可能
 
-基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
+Ginと[mirai-api-http](https://github.com/project-mirai/mirai-api-http)に基づいて作られた
 
-*项目目前处于开发阶段，存在很多问题，可扩展性也很差，只能说堪堪能用，以后慢慢完善吧*  
-*代码写的很烂，函数基本上想到啥封装啥，变量也是想到什么写什么，高血压请勿阅读*
+*このプロジェクトは現在開発中なので、様々な問題があって、スケーラビリティも悪い。まあまあしか言えない。これからどんどん改善しよう*  
+*書かれたコードが…あまり上手とは言えない。関数もほとんど思い付いたらパッケージングしておく。変数も思い付いたら書いておく。怒ったらごめんww*
 
-## 如何使用
+## 使い方
 
-## 启动  
-1. 从[Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)下载最新构建
-1. 在程序同级目录创建[config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
-1. 配置[mirai-api-http](https://github.com/nyancatda/MediaWiki-Bot#%E9%85%8D%E7%BD%AEmirai-api-http)
-1. 运行程序
+##   スタートアップ
+1. [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)から最新バージョンの構築をダウンロードする
+1. プログラムの同じディレクトリで[config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)を作成して、それからテンプレートにしたがってメッセージを入力する
+1. [mirai-api-http](https://github.com/nyancatda/MediaWiki-Bot#%E9%85%8D%E7%BD%AEmirai-api-http)を設定する
+1. プログラムを実行する
 
-## 配置mirai-api-http
-1. 启用http和webhook
-1. 启用enableVerify，并设置VerifyKey
-1. 将webhook地址设置为http://127.0.0.1:+指定的机器人运行端口
+## mirai-api-httpの設定
+1. httpとwebhookを起動する
+1. enableVerifyを起動してから、VerifyKeyを設定する
+1. webhookアドレスをhttp://127.0.0.1:+指定されたボットのポート に設定する
 
-setting.yml模板*仅供参考*
+setting.ymlテンプレート*参考だけ*
 ```
 adapters:
   - http
@@ -41,75 +41,75 @@ adapterSettings:
     - 'http://127.0.0.1:8000/'
 ```
 
-## config.yml文件模板
+## config.ymlファイルテンプレート
 ```
 Run:
-  #指定机器人的WebHook接收的端口
+  #指定されたボットのWebHookが受信ボット
   WebHookPort: 8000
-  #指定机器人的语言
-  #中文:zh-CN,英语:en-US,日语ja-JP
+  #ボットの言語を選ぶ
+  #中国語:zh-CN,英語:en-US,日本語ja-JP
   Language: zh-CN
 QQBot:
-  #HttpAPI地址
+  #HttpAPIアドレス
   APILink: http://127.0.0.1:8888
-  #机器人QQ号
+  #ボットのQQアプリ番号
   BotQQNumber: 1000000000
-  #HttpAPI的VerifyKey
+  #HttpAPIのVerifyKey
   VerifyKey: 5eadce46qw58
-#Wiki链接，支持多个，第一个为主Wiki
+#Wikiアドレス 複数、一番目が優先のWiki
 Wiki:
   - 
-    #Wiki名字，即使命令前缀，例如mw:首页
+    #Wiki名前，コマンドのプレフィックス，例:mw:◯◯
     WikiName: mw
-    #Wiki的链接
+    #Wikiアドレス
     WikiLink: https://minewiki.net
   - 
     WikiName: me
     WikiLink: https://zh.moegirl.org.cn
 ```
 
-## 命令
-1. 查询Wiki
+## コマンド
+1. 検索Wiki
 ```
-Wiki名字:需要查询的内容
+Wiki名前:検索したいこと
 ```
-例子:
+例:
 ```
-mw:首页
-```
-
-```
-[[需要查询的内容]]
-```
-例子:
-```
-[[首页]]
-```
-2. 修改语言  
-*修改只对单个用户生效，默认语言修改请通过配置文件*
-```
-/language 语言
-```
-例子
-```
-/language zh-CN
+mw:◯◯
 ```
 
-## 多语言适配
-目前官方已经适配了以下语言:  
-多语言适配进度:  
+```
+[[検索したいこと]]
+```
+例:
+```
+[[◯◯]]
+```
+2. 言語の変更
+*変更は1人のユーザーに対してのみ有効。デフォルトの言語を変更するには、構成ファイルで変更してください*
+```
+/language 言語
+```
+例:
+```
+/language ja-JP
+```
+
+## 多语言アダプテーション
+現在使える言語は:  
+進度:  
 - [x] zh-CN(中文/简体)
 - [ ] zh-HK(中文/香港)
 - [x] en-US(English)
 - [x] ja-JP(日本語)
 - [ ] ru_ru(русский язык)
 
-如果你希望对本项目增加更多语言，请fork仓库后在`language`目录下建立目标语言文件，完成翻译后可以请求提交至主仓库
+このプロジェクトにさらに言語を追加したい場合は、repositoryをforkして、`language`ディレクトリでファイルを作成する。翻訳ができたらmaster repositoriesに提出したら助かります
 
-## 鸣谢  
-感谢大佬们对这个项目的支持  
-*排名不分先后*
+##   最後
+このプロジェクトの翻訳の提供者に感謝します
+*以下のリストは優先順位つけていない*
 1. [SuperYYT](https://github.com/SuperYYT)  
-  英语翻提供译者
+  英語翻訳提供者
 2. [java23333](https://github.com/java23333)  
-  日语翻译提供者
+  日本語翻訳提供者
