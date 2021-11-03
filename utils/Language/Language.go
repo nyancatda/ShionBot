@@ -1,9 +1,12 @@
 package Language
 
 import (
-	"gopkg.in/yaml.v2"
+	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 	"xyz.nyan/MediaWiki-Bot/utils"
 )
 
@@ -31,6 +34,21 @@ func StringVariable(quantity int, strHaiCoder string, text0 string, text1 string
 		text = strings.Replace(text, "{%1}", text1, 1)
 	}
 	return text
+}
+
+//释放语言文件
+func ReleaseFile() {
+	//打包语言文件
+	//go-bindata -o=utils/Language/languages.go -pkg=Language language/...
+	_, err := os.Stat("./language")
+	if err != nil {
+		os.Mkdir("./language", 0777)
+		for filename := range _bindata {
+			bytes, _ := Asset(filename)
+			ioutil.WriteFile(filename, bytes, 0664)
+			fmt.Println(filename)
+		}
+	}
 }
 
 func Message() *LanguageInfo {

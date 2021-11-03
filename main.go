@@ -35,6 +35,8 @@ func CycleGetKey() {
 }
 
 func main() {
+	//释放语言文件
+	Language.ReleaseFile()
 	//判断配置文件是否正常
 	if utils.CheckConfigFile() {
 		fmt.Println(Language.Message().ConfigFileException)
