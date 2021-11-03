@@ -47,7 +47,7 @@ Run:
   #指定されたボットのWebHookが受信ボット
   WebHookPort: 8000
   #ボットの言語を選ぶ
-  #中文:zh-CN,英语:en-US,日语ja-JP
+  #中国語:zh-CN,英語:en-US,日本語ja-JP
   Language: zh-CN
 QQBot:
   #HttpAPIアドレス
