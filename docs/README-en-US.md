@@ -1,26 +1,26 @@
 [中文](https://github.com/nyancatda/MediaWiki-Bot)|English|[日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
-MediaWiki的QQ查询机器人
+QQ query bot on MedisWiki
 
-基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
+Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-http)
 
-*项目目前处于开发阶段，存在很多问题，可扩展性也很差，只能说堪堪能用，以后慢慢完善吧*  
-*代码写的很烂，函数基本上想到啥封装啥，变量也是想到什么写什么，高血压请勿阅读*
+*This project is still under development with many problems and low scalability. I will continue to improve it in the future, please use it with caution now. *  
+*The code is terrible. Functions and variables are used casually. I'm sorry if it makes you uncomfortable. *
 
-## 如何使用
+## How to ues
 
-## 启动  
-1. 从[Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)下载最新构建
-1. 在程序同级目录创建[config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
-1. 配置[mirai-api-http](https://github.com/nyancatda/MediaWiki-Bot#%E9%85%8D%E7%BD%AEmirai-api-http)
-1. 运行程序
+## Start  
+1. Download the latest [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases). 
+1. Create [config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF) in the program's sibling directory. And follow the template to fill in the information. 
+1. [Configure the mirai-api-http](https://github.com/nyancatda/MediaWiki-Bot/blob/main/docs/README-en-US.md#%E9%85%8D%E7%BD%AEmirai-api-http)
+1. Run the program. 
 
-## 配置mirai-api-http
-1. 启用http和webhook
-1. 启用enableVerify，并设置VerifyKey
-1. 将webhook地址设置为http://127.0.0.1:+指定的机器人运行端口
+## Configure the mirai-api-http
+1. Enable the http and webhook
+1. Enable the enableVerify and enter your VerifyKey
+1. Fill the webhook address as: http://127.0.0.1:+port
 
-setting.yml模板*仅供参考*
+setting.yml *The template is for reference only*
 ```
 adapters:
   - http
@@ -40,47 +40,47 @@ adapterSettings:
     - 'http://127.0.0.1:8000/'
 ```
 
-## config.yml文件模板
+## config.yml template
 ```
 Run:
-  #指定机器人的WebHook接收的端口
+  #Specify WebHook port
   WebHookPort: 8000
-  #指定机器人的语言
-  #中文:zh-CN,英语:en-US,日语ja-JP
+  #Language
+  #Chinese:zh-CN,English:en-US,Japanese:ja-JP
   Language: zh-CN
 QQBot:
-  #HttpAPI地址
+  #HttpAPI address
   APILink: http://127.0.0.1:8888
-  #机器人QQ号
+  #The robot QQ number
   BotQQNumber: 1000000000
-  #HttpAPI的VerifyKey
+  #HttpAPI‘s VerifyKey
   VerifyKey: 5eadce46qw58
-#Wiki链接，支持多个，第一个为主Wiki
+#Wiki urls. Multiple URLs can be added. The first one is the default Wiki
 Wiki:
   - 
-    #Wiki名字，即使命令前缀，例如mw:首页
+    #Wiki name, the prefix of the command，example: mw:home
     WikiName: mw
-    #Wiki的链接
+    #Wiki's URLs
     WikiLink: https://minewiki.net
   - 
     WikiName: me
     WikiLink: https://zh.moegirl.org.cn
 ```
 
-## 命令
-1. 查询Wiki
+## Command
+1. Inquire the Wiki
 ```
-Wiki名字:需要查询的内容
+Wiki name:What to search
 ```
-例子:
+Example:
 ```
-mw:首页
+mw:home
 ```
 
 ```
-[[需要查询的内容]]
+[[What to search]]
 ```
-例子:
+Example:
 ```
-[[首页]]
+[[home]]
 ```

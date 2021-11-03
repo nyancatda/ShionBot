@@ -1,6 +1,6 @@
-#语言已更改为zh-CN
-LanguageModifiedSuccessfully: "The language has been changed to {%0}"
-#zh-CN语言不存在
+#Language has been changed to en-US
+LanguageModifiedSuccessfully: "Language has been changed to {%0}"
+#en-US does note exist
 LanguageModificationFailed: "{%0} does not exist"
 
 #This language file is provided by YYT <https://www.yyt.cool/>
