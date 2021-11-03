@@ -1,3 +1,8 @@
+#语言已更改为zh-CN
+LanguageModifiedSuccessfully: "语言已更改为{%0}"
+#zh-CN语言不存在
+LanguageModificationFailed: "{%0}语言不存在"
+
 MainErrorTips: "按任意键退出...."
 UnableApplySession: "无法向Mirai申请新的Session，请检查设置"
 ConfigFileException: "配置文件异常"
