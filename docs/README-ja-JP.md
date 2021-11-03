@@ -16,7 +16,7 @@ Ginと[mirai-api-http](https://github.com/project-mirai/mirai-api-http)に基づ
 1. [mirai-api-http](https://github.com/nyancatda/MediaWiki-Bot#%E9%85%8D%E7%BD%AEmirai-api-http)を設定する
 1. プログラムを実行する
 
-## 配置mirai-api-http
+## mirai-api-httpの設定
 1. httpとwebhookを起動する
 1. enableVerifyを起動してから、VerifyKeyを設定する
 1. webhookアドレスをhttp://127.0.0.1:+指定されたボットのポート に設定する
@@ -68,12 +68,12 @@ Wiki:
     WikiLink: https://zh.moegirl.org.cn
 ```
 
-## 命令
+## コマンド
 1. 検索Wiki
 ```
 Wiki名前:検索したいこと
 ```
-例子:
+例:
 ```
 mw:◯◯
 ```
