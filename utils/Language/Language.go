@@ -1,7 +1,6 @@
 package Language
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -46,7 +45,6 @@ func ReleaseFile() {
 		for filename := range _bindata {
 			bytes, _ := Asset(filename)
 			ioutil.WriteFile(filename, bytes, 0664)
-			fmt.Println(filename)
 		}
 	}
 }
