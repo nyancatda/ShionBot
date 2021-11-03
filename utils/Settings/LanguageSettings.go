@@ -1,25 +1,22 @@
 package Settings
 
 import (
-	"strconv"
-
 	"strings"
 	"xyz.nyan/MediaWiki-Bot/Struct"
 	"xyz.nyan/MediaWiki-Bot/utils"
 	Languages "xyz.nyan/MediaWiki-Bot/utils/Language"
 )
 
-func LanguageSettings(Messagejson Struct.QQWebHook_root, Language string) (string, bool) {
+func LanguageSettings(UserID string, Language string) (string, bool) {
 	var MessageOK bool
 	var Message string
 	db := utils.SQLLiteLink()
 
 	db.AutoMigrate(&Struct.UserInfo{})
 
-	UserID := Messagejson.Sender.Id
 	var user Struct.UserInfo
 	db.Where("account = ?", UserID).Find(&user)
-	if user.Account != strconv.Itoa(UserID) {
+	if user.Account != UserID {
 		files, _, _ := utils.GetFilesAndDirs("./language")
 		for _, dir := range files {
 			LanguageName := strings.Replace(dir, `\`, "/", 1)
@@ -27,14 +24,14 @@ func LanguageSettings(Messagejson Struct.QQWebHook_root, Language string) (strin
 			LanguageNames = strings.Split(LanguageNames[2], ".")
 			LanguageName = LanguageNames[0]
 			if LanguageName == Language {
-				UserInfos := Struct.UserInfo{Account: strconv.Itoa(UserID), Language: Language}
+				UserInfos := Struct.UserInfo{Account: UserID, Language: Language}
 				db.Create(&UserInfos)
 				MessageOK = true
-				Message = Languages.StringVariable(1, Languages.Message(strconv.Itoa(UserID)).LanguageModifiedSuccessfully, LanguageName, "")
+				Message = Languages.StringVariable(1, Languages.Message(UserID).LanguageModifiedSuccessfully, LanguageName, "")
 				break
 			} else {
 				MessageOK = false
-				Message = Languages.StringVariable(1, Languages.Message(strconv.Itoa(UserID)).LanguageModificationFailed, LanguageName, "")
+				Message = Languages.StringVariable(1, Languages.Message(UserID).LanguageModificationFailed, LanguageName, "")
 			}
 		}
 	} else {
@@ -47,11 +44,11 @@ func LanguageSettings(Messagejson Struct.QQWebHook_root, Language string) (strin
 			if Language == LanguageName {
 				db.Model(&Struct.UserInfo{}).Where("account = ?", UserID).Update("language", Language)
 				MessageOK = true
-				Message = Languages.StringVariable(1, Languages.Message(strconv.Itoa(UserID)).LanguageModifiedSuccessfully, LanguageName, "")
+				Message = Languages.StringVariable(1, Languages.Message(UserID).LanguageModifiedSuccessfully, LanguageName, "")
 				break
 			} else {
 				MessageOK = false
-				Message = Languages.StringVariable(1, Languages.Message(strconv.Itoa(UserID)).LanguageModificationFailed, LanguageName, "")
+				Message = Languages.StringVariable(1, Languages.Message(UserID).LanguageModificationFailed, LanguageName, "")
 			}
 		}
 	}

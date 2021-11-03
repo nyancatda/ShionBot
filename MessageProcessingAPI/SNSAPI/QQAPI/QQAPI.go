@@ -1,4 +1,4 @@
-package QQInformationProcessing
+package QQAPI
 
 import (
 	"encoding/json"

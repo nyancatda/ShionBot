@@ -7,7 +7,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"xyz.nyan/MediaWiki-Bot/QQInformationProcessing"
+	"xyz.nyan/MediaWiki-Bot/InformationProcessing"
+	"xyz.nyan/MediaWiki-Bot/MessageProcessingAPI/SNSAPI/QQAPI"
 	"xyz.nyan/MediaWiki-Bot/Struct"
 	"xyz.nyan/MediaWiki-Bot/utils"
 	"xyz.nyan/MediaWiki-Bot/utils/Language"
@@ -25,7 +26,7 @@ func CycleGetKey() {
 		timer := time.NewTimer(1 * time.Second)
 		<-timer.C
 		time.Sleep(299 * time.Second)
-		_, resp, err := QQInformationProcessing.CreateSessionKey()
+		_, resp, err := QQAPI.CreateSessionKey()
 		if err != nil {
 			fmt.Println(Language.Message("").UnableApplySession)
 			fmt.Println(err)
@@ -46,7 +47,7 @@ func main() {
 	Config := utils.ReadConfig()
 	Port := Config.Run.WebHookPort
 
-	_, resp, err := QQInformationProcessing.CreateSessionKey()
+	_, resp, err := QQAPI.CreateSessionKey()
 	if err != nil {
 		fmt.Println(Language.Message("").CannotConnectMirai)
 		Error()
@@ -68,7 +69,7 @@ func main() {
 			fmt.Println(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		QQInformationProcessing.MessageProcessing(json)
+		InformationProcessing.QQMessageProcessing(json)
 	})
 
 	r.Run(":" + Port)
