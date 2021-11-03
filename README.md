@@ -1,6 +1,7 @@
 中文|[English](docs/README-en-US.md)|[日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
-MediaWiki的QQ查询机器人
+MediaWiki的多语言QQ查询机器人
+支持对MediaWiki搭建的站点进行信息查询，支持多种语言
 
 基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
 
@@ -84,3 +85,20 @@ mw:首页
 ```
 [[首页]]
 ```
+2. 修改语言  
+*修改只对单个用户生效，默认语言修改请通过配置文件*
+```
+/language 语言
+```
+例子
+```
+/language zh-CN
+```
+
+## 鸣谢  
+感谢大佬们对这个项目的支持  
+*排名不分先后*
+1. [SuperYYT](https://github.com/SuperYYT)  
+  英语翻提供译者
+2. [java23333](https://github.com/java23333)  
+  日语翻译提供者

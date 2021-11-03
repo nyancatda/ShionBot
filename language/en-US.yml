@@ -1,0 +1,30 @@
+#语言已更改为zh-CN
+LanguageModifiedSuccessfully: "语言已更改为{%0}"
+#zh-CN语言不存在
+LanguageModificationFailed: "{%0}语言不存在"
+
+#This language file is provided by YYT <https://www.yyt.cool/>
+MainErrorTips: "Press any key to exit..."
+UnableApplySession: "Unable to apply for a new Session to Mirai, please check the Settings"
+ConfigFileException: "Error in configufation"
+CannotConnectMirai: "Unable to link to Mirai correctly, please check Settings"
+RunOK: "Robot WebHook reception enabled，running on port {%0}"
+Nudge: "Nudge"
+
+#Unable to access https://zh.moegirl.org.cn, please contact the administrator
+WikiLinkError: "Unable to access{%0}, please contact the administrator "
+
+HelpText: "Please go to https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 for instructions"
+
+#Can't find [Mainpage] in [https://zh.moegirl.org.cn], please check that the input is correct
+GetWikiInfoError: "Can't find [{%1}] in [{%0}], please check that the input is correct"
+
+#The page could not be found, but the following results were found
+#[Mainpage]
+#Please use "mg:Page title" to query again
+WikiInfoSearch: "The page could not be found, but the following results were found\n{%0}Please use `{%1}:Page title` to query again"
+
+#https://zh.moegirl.org.cn/Mainpage
+#(redirect[MainPage]->[Mainpage])
+#......
+WikiInfoRedirect: "\n(redirect[{%0}]->[{%1}])\n"
