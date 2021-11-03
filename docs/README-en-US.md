@@ -1,6 +1,6 @@
 [中文](https://github.com/nyancatda/MediaWiki-Bot)|English|[日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
-QQ query bot on MedisWiki
+QQ query bot on MedisWiki  
 可以对使用MediaWiki搭建的站点进行信息查询，支持多种语言
 
 Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-http)

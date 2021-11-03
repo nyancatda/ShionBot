@@ -1,6 +1,6 @@
 中文|[English](docs/README-en-US.md)|[日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
-MediaWiki的多语言QQ查询机器人
+MediaWiki的多语言QQ查询机器人  
 可以对使用MediaWiki搭建的站点进行信息查询，支持多种语言
 
 基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
