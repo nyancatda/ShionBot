@@ -1,65 +1,23 @@
 package QQInformationProcessing
 
 import (
-	"fmt"
 	"math"
 	"strings"
 
 	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
 	"xyz.nyan/MediaWiki-Bot/Plugin"
+	"xyz.nyan/MediaWiki-Bot/Struct"
 	"xyz.nyan/MediaWiki-Bot/utils"
 	"xyz.nyan/MediaWiki-Bot/utils/Language"
+	"xyz.nyan/MediaWiki-Bot/utils/Settings"
 )
-
-type WebHook_root struct {
-	Type         string        `json:"type"`
-	Sender       SenderJson    `json:"sender"`
-	FromId       int           `json:"fromId"`
-	Target       int           `json:"target"`
-	MessageChain []interface{} `json:"messageChain"`
-	Subject      SubjectJson   `json:"subject"`
-}
-type SenderJson struct {
-	Id                 int       `json:"id"`
-	MemberName         string    `json:"memberName"`
-	SpecialTitle       string    `json:"specialTitle"`
-	Permission         string    `json:"permission"`
-	JoinTimestamp      int       `json:"joinTimestamp"`
-	LastSpeakTimestamp int       `json:"lastSpeakTimestamp"`
-	MuteTimeRemaining  int       `json:"muteTimeRemaining"`
-	Nickname           string    `json:"nickname"`
-	Remark             string    `json:"remark"`
-	Group              GroupJson `json:"group"`
-}
-type GroupJson struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-}
-type SubjectJson struct {
-	Id   int    `json:"id"`
-	Kind string `json:"kind"`
-}
 
 func Error(WikiLink string) string {
 	return Language.StringVariable(1, Language.Message().WikiLinkError, WikiLink, "")
 }
 
-//消息处理,这里判断是哪类消息
-func MessageProcessing(json WebHook_root) {
-	switch json.Type {
-	case "GroupMessage":
-		GroupMessageProcessing(json)
-	case "FriendMessage":
-		FriendMessageProcessing(json)
-	case "TempMessage":
-		TempMessageProcessing(json)
-	case "NudgeEvent":
-		NudgeEventMessageProcessing(json)
-	}
-}
-
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数
-func CommandExtraction(text string) (bool, string, string) {
+func CommandExtraction(json Struct.QQWebHook_root, text string) (bool, string, string) {
 	if find := strings.Contains(text, ":"); find {
 		Config := utils.ReadConfig()
 		var ConfigWikiName string
@@ -83,15 +41,14 @@ func CommandExtraction(text string) (bool, string, string) {
 			return true, Text, MainWikiName
 		}
 	} else if find := strings.Contains(text, "/"); find {
-		countSplit := strings.Split(text, "/")
-		Text := countSplit[1]
-		fmt.Println(Text)
-		return true, Text, "/"
+		SettingsMessageProcessing(json)
+		return false, "", "/"
 	}
 
 	return false, "", ""
 }
 
+//发送群组消息
 func sendGroupWikiInfo(WikiName string, GroupID int, QueryText string, quoteID int) {
 	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
 	if err != nil {
@@ -102,22 +59,7 @@ func sendGroupWikiInfo(WikiName string, GroupID int, QueryText string, quoteID i
 	SendGroupMessage(GroupID, WikiInfo, true, quoteID)
 }
 
-//群消息处理
-func GroupMessageProcessing(json WebHook_root) {
-	//只处理文字消息
-	if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
-		text := json.MessageChain[1].(map[string]interface{})["text"]
-		find, QueryText, Command := CommandExtraction(text.(string))
-		if find {
-			GroupID := json.Sender.Group.Id
-			quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
-			UserID := json.Sender.Id
-			go SendNudge(UserID, GroupID, "Group")
-			go sendGroupWikiInfo(Command, GroupID, QueryText, quoteID)
-		}
-	}
-}
-
+//发送好友消息
 func sendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
 	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
 	if err != nil {
@@ -128,18 +70,7 @@ func sendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
 	SendFriendMessage(UserID, WikiInfo, false, 0)
 }
 
-//好友消息处理
-func FriendMessageProcessing(json WebHook_root) {
-	if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
-		text := json.MessageChain[1].(map[string]interface{})["text"]
-		find, QueryText, Command := CommandExtraction(text.(string))
-		if find {
-			UserID := json.Sender.Id
-			go sendFriendWikiInfo(Command, UserID, QueryText)
-		}
-	}
-}
-
+//发送临时会话消息
 func sendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText string) {
 	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
 	if err != nil {
@@ -150,20 +81,8 @@ func sendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText strin
 	SendTempMessage(UserID, GroupID, WikiInfo, false, 0)
 }
 
-//临时会话消息处理
-func TempMessageProcessing(json WebHook_root) {
-	if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
-		text := json.MessageChain[1].(map[string]interface{})["text"]
-		find, QueryText, Command := CommandExtraction(text.(string))
-		if find {
-			UserID := json.Sender.Id
-			GroupID := json.Sender.Group.Id
-			go sendTempdWikiInfo(Command, UserID, GroupID, QueryText)
-		}
-	}
-}
-
-func NudgeEventMessageProcessing(json WebHook_root) {
+//戳一戳消息处理
+func NudgeEventMessageProcessing(json Struct.QQWebHook_root) {
 	HelpText := Language.Message().HelpText
 	switch json.Subject.Kind {
 	case "Group":
@@ -173,5 +92,67 @@ func NudgeEventMessageProcessing(json WebHook_root) {
 		}
 	case "Friend":
 		go SendFriendMessage(json.FromId, HelpText, false, 0)
+	}
+}
+
+//消息处理
+func MessageProcessing(json Struct.QQWebHook_root) {
+	switch json.Type {
+	case "GroupMessage":
+		if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
+			text := json.MessageChain[1].(map[string]interface{})["text"]
+			find, QueryText, Command := CommandExtraction(json, text.(string))
+			if find {
+				GroupID := json.Sender.Group.Id
+				quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
+				UserID := json.Sender.Id
+				go SendNudge(UserID, GroupID, "Group")
+				go sendGroupWikiInfo(Command, GroupID, QueryText, quoteID)
+			}
+		}
+	case "FriendMessage":
+		if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
+			text := json.MessageChain[1].(map[string]interface{})["text"]
+			find, QueryText, Command := CommandExtraction(json, text.(string))
+			if find {
+				UserID := json.Sender.Id
+				go sendFriendWikiInfo(Command, UserID, QueryText)
+			}
+		}
+	case "TempMessage":
+		if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
+			text := json.MessageChain[1].(map[string]interface{})["text"]
+			find, QueryText, Command := CommandExtraction(json, text.(string))
+			if find {
+				UserID := json.Sender.Id
+				GroupID := json.Sender.Group.Id
+				go sendTempdWikiInfo(Command, UserID, GroupID, QueryText)
+			}
+		}
+	case "NudgeEvent":
+		NudgeEventMessageProcessing(json)
+	}
+}
+
+//设置消息返回
+func SettingsMessageProcessing(json Struct.QQWebHook_root) {
+	text := json.MessageChain[1].(map[string]interface{})["text"]
+	countSplit := strings.Split(text.(string), "/")
+	Text := countSplit[1]
+	Message, Bool := Settings.Settings(json, Text)
+	if Bool {
+		switch json.Type {
+		case "GroupMessage":
+			GroupID := json.Sender.Group.Id
+			quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
+			go SendGroupMessage(GroupID, Message, true, quoteID)
+		case "FriendMessage":
+			UserID := json.Sender.Id
+			go SendFriendMessage(UserID, Message, false, 0)
+		case "TempMessage":
+			UserID := json.Sender.Id
+			GroupID := json.Sender.Group.Id
+			go SendTempMessage(UserID, GroupID, Message, false, 0)
+		}
 	}
 }

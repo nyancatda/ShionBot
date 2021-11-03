@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"xyz.nyan/MediaWiki-Bot/QQInformationProcessing"
+	"xyz.nyan/MediaWiki-Bot/Struct"
 	"xyz.nyan/MediaWiki-Bot/utils"
 	"xyz.nyan/MediaWiki-Bot/utils/Language"
 )
@@ -61,7 +62,7 @@ func main() {
 	fmt.Println(Language.StringVariable(1, Language.Message().RunOK, Port, ""))
 
 	r.POST("/", func(c *gin.Context) {
-		var json QQInformationProcessing.WebHook_root
+		var json Struct.QQWebHook_root
 		if err := c.ShouldBindJSON(&json); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			fmt.Println(http.StatusBadRequest, gin.H{"error": err.Error()})
