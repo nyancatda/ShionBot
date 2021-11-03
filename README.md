@@ -1,7 +1,7 @@
 中文|[English](docs/README-en-US.md)|[日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
 MediaWiki的多语言QQ查询机器人
-支持对MediaWiki搭建的站点进行信息查询，支持多种语言
+可以对使用MediaWiki搭建的站点进行信息查询，支持多种语言
 
 基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
 
@@ -94,6 +94,16 @@ mw:首页
 ```
 /language zh-CN
 ```
+
+## 多语言适配
+多语言适配进度:  
+- [x] zh-CN(中文/简体)
+- [ ] zh-HK(中文/香港)
+- [x] en-US(English)
+- [x] ja-JP(日本語)
+- [ ] ru_ru(русский язык)
+
+如果你希望对本项目增加更多语言，请fork仓库后在`language`目录下建立目标语言文件，完成翻译后可以请求提交至主仓库
 
 ## 鸣谢  
 感谢大佬们对这个项目的支持  
