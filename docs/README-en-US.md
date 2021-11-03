@@ -18,7 +18,7 @@ Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-htt
 ## Configure the mirai-api-http
 1. Enable the http and webhook
 1. Enable the enableVerify and enter your VerifyKey
-1. Fill the webhook address as: http://127.0.0.1:+the port which your robot is running on
+1. Fill the webhook address as: http://127.0.0.1:+port
 
 setting.yml *The template is for reference only*
 ```
