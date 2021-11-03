@@ -1,7 +1,7 @@
-#语言已更改为zh-CN
-LanguageModifiedSuccessfully: "语言已更改为{%0}"
-#zh-CN语言不存在
-LanguageModificationFailed: "{%0}语言不存在"
+#言語はzh-CNに変更した
+LanguageModifiedSuccessfully: "言語は{%0}に変更した"
+#zh-CN言語はない
+LanguageModificationFailed: "{%0}言語はない"
 
 MainErrorTips: "いずれのキーを押すと戻る...."
 UnableApplySession: "Miraiに新しいSession申請できない，設定をチェックしてください"
