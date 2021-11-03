@@ -2,6 +2,7 @@ package QQInformationProcessing
 
 import (
 	"math"
+	"strconv"
 	"strings"
 
 	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
@@ -12,8 +13,8 @@ import (
 	"xyz.nyan/MediaWiki-Bot/utils/Settings"
 )
 
-func Error(WikiLink string) string {
-	return Language.StringVariable(1, Language.Message().WikiLinkError, WikiLink, "")
+func Error(UserID string, WikiLink string) string {
+	return Language.StringVariable(1, Language.Message(UserID).WikiLinkError, WikiLink, "")
 }
 
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数
@@ -49,11 +50,11 @@ func CommandExtraction(json Struct.QQWebHook_root, text string) (bool, string, s
 }
 
 //发送群组消息
-func sendGroupWikiInfo(WikiName string, GroupID int, QueryText string, quoteID int) {
-	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
+func sendGroupWikiInfo(UserID int, WikiName string, GroupID int, QueryText string, quoteID int) {
+	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		SendGroupMessage(GroupID, Error(WikiLink), true, quoteID)
+		SendGroupMessage(GroupID, Error(strconv.Itoa(UserID), WikiLink), true, quoteID)
 		return
 	}
 	SendGroupMessage(GroupID, WikiInfo, true, quoteID)
@@ -61,10 +62,10 @@ func sendGroupWikiInfo(WikiName string, GroupID int, QueryText string, quoteID i
 
 //发送好友消息
 func sendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
-	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
+	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		SendFriendMessage(UserID, Error(WikiLink), false, 0)
+		SendFriendMessage(UserID, Error(strconv.Itoa(UserID), WikiLink), false, 0)
 		return
 	}
 	SendFriendMessage(UserID, WikiInfo, false, 0)
@@ -72,10 +73,10 @@ func sendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
 
 //发送临时会话消息
 func sendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText string) {
-	WikiInfo, err := Plugin.GetWikiInfo(WikiName, QueryText)
+	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		SendTempMessage(UserID, GroupID, Error(WikiLink), false, 0)
+		SendTempMessage(UserID, GroupID, Error(strconv.Itoa(UserID), WikiLink), false, 0)
 		return
 	}
 	SendTempMessage(UserID, GroupID, WikiInfo, false, 0)
@@ -83,7 +84,8 @@ func sendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText strin
 
 //戳一戳消息处理
 func NudgeEventMessageProcessing(json Struct.QQWebHook_root) {
-	HelpText := Language.Message().HelpText
+	UserID := json.Sender.Id
+	HelpText := Language.Message(strconv.Itoa(UserID)).HelpText
 	switch json.Subject.Kind {
 	case "Group":
 		if json.FromId != utils.ReadConfig().QQBot.BotQQNumber && json.Target == utils.ReadConfig().QQBot.BotQQNumber {
@@ -107,7 +109,7 @@ func MessageProcessing(json Struct.QQWebHook_root) {
 				quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
 				UserID := json.Sender.Id
 				go SendNudge(UserID, GroupID, "Group")
-				go sendGroupWikiInfo(Command, GroupID, QueryText, quoteID)
+				go sendGroupWikiInfo(UserID, Command, GroupID, QueryText, quoteID)
 			}
 		}
 	case "FriendMessage":

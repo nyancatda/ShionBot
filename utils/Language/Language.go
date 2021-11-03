@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"gopkg.in/yaml.v2"
+	"xyz.nyan/MediaWiki-Bot/Struct"
 	"xyz.nyan/MediaWiki-Bot/utils"
 )
 
@@ -49,9 +50,18 @@ func ReleaseFile() {
 	}
 }
 
-func Message() *LanguageInfo {
-	Config := utils.ReadConfig()
-	language := Config.Run.Language
+//使用默认语言Account为空即可
+func Message(Account string) *LanguageInfo {
+	db := utils.SQLLiteLink()
+	var user Struct.UserInfo
+	db.Where("account = ?", Account).Find(&user)
+	var language string
+	if user.Language != "" {
+		language = user.Language
+	} else {
+		Config := utils.ReadConfig()
+		language = Config.Run.Language
+	}
 	Info := ReadLanguage(language)
 	return Info
 }

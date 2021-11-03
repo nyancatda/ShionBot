@@ -1,11 +1,8 @@
 package Settings
 
 import (
-	"log"
 	"strconv"
 
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 	"strings"
 	"xyz.nyan/MediaWiki-Bot/Struct"
 	"xyz.nyan/MediaWiki-Bot/utils"
@@ -14,10 +11,7 @@ import (
 func LanguageSettings(Messagejson Struct.QQWebHook_root, Language string) (string, bool) {
 	var MessageOK bool
 	var Message string
-	db, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
-	if err != nil {
-		log.Println(err)
-	}
+	db := utils.SQLLiteLink()
 
 	db.AutoMigrate(&Struct.UserInfo{})
 

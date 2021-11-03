@@ -18,17 +18,17 @@ type returnJson struct {
 
 func sendError(body []byte, err error, url string, requestBody string) {
 	if err != nil {
-		fmt.Println(Language.Message().CannotConnectMirai)
+		fmt.Println(Language.Message("").CannotConnectMirai)
 	} else {
 		var config returnJson
 		json.Unmarshal([]byte(body), &config)
 		if config.Code != 0 {
 			SessionKey, resp, err := CreateSessionKey()
 			if err != nil {
-				fmt.Println(Language.Message().CannotConnectMirai)
+				fmt.Println(Language.Message("").CannotConnectMirai)
 				fmt.Println(err)
 			} else if resp.Status != "200 OK" {
-				fmt.Println(Language.Message().CannotConnectMirai)
+				fmt.Println(Language.Message("").CannotConnectMirai)
 			} else {
 				var result map[string]interface{}
 				json.Unmarshal([]byte(requestBody), &result)
@@ -140,7 +140,7 @@ func SendNudge(target int, subject int, kind string) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log(kind, strconv.Itoa(subject), Language.Message().Nudge+strconv.Itoa(target))
+	log(kind, strconv.Itoa(subject), Language.Message("").Nudge+strconv.Itoa(target))
 }
 
 //发送好友消息

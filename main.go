@@ -14,7 +14,7 @@ import (
 )
 
 func Error() {
-	fmt.Printf(Language.Message().MainErrorTips)
+	fmt.Printf(Language.Message("").MainErrorTips)
 	key := make([]byte, 1)
 	os.Stdin.Read(key)
 	os.Exit(1)
@@ -27,10 +27,10 @@ func CycleGetKey() {
 		time.Sleep(299 * time.Second)
 		_, resp, err := QQInformationProcessing.CreateSessionKey()
 		if err != nil {
-			fmt.Println(Language.Message().UnableApplySession)
+			fmt.Println(Language.Message("").UnableApplySession)
 			fmt.Println(err)
 		} else if resp.Status != "200 OK" {
-			fmt.Println(Language.Message().UnableApplySession)
+			fmt.Println(Language.Message("").UnableApplySession)
 		}
 	}
 }
@@ -40,7 +40,7 @@ func main() {
 	Language.ReleaseFile()
 	//判断配置文件是否正常
 	if utils.CheckConfigFile() {
-		fmt.Println(Language.Message().ConfigFileException)
+		fmt.Println(Language.Message("").ConfigFileException)
 		Error()
 	}
 	Config := utils.ReadConfig()
@@ -48,10 +48,10 @@ func main() {
 
 	_, resp, err := QQInformationProcessing.CreateSessionKey()
 	if err != nil {
-		fmt.Println(Language.Message().CannotConnectMirai)
+		fmt.Println(Language.Message("").CannotConnectMirai)
 		Error()
 	} else if resp.Status != "200 OK" {
-		fmt.Println(Language.Message().CannotConnectMirai)
+		fmt.Println(Language.Message("").CannotConnectMirai)
 		Error()
 	}
 
@@ -59,7 +59,7 @@ func main() {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	fmt.Println(Language.StringVariable(1, Language.Message().RunOK, Port, ""))
+	fmt.Println(Language.StringVariable(1, Language.Message("").RunOK, Port, ""))
 
 	r.POST("/", func(c *gin.Context) {
 		var json Struct.QQWebHook_root
