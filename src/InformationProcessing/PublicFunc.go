@@ -5,7 +5,14 @@ import (
 
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	
 )
+
+//Wiki链接错误返回
+func Error(UserID string, WikiLink string) string {
+	return Language.StringVariable(1, Language.Message(UserID).WikiLinkError, WikiLink, "")
+}
 
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数
 func CommandExtraction(SNSName string, QQjson Struct.WebHookJson, text string) (bool, string, string) {

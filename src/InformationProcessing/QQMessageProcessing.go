@@ -14,16 +14,12 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/utils/Settings"
 )
 
-func QQError(UserID string, WikiLink string) string {
-	return Language.StringVariable(1, Language.Message(UserID).WikiLinkError, WikiLink, "")
-}
-
 //发送群组消息
 func QQsendGroupWikiInfo(UserID int, WikiName string, GroupID int, QueryText string, quoteID int) {
 	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessageProcessingAPI.SendGroupMessage("QQ", GroupID, QQError(strconv.Itoa(UserID), WikiLink), true, quoteID)
+		MessageProcessingAPI.SendGroupMessage("QQ", GroupID, Error(strconv.Itoa(UserID), WikiLink), true, quoteID)
 		return
 	}
 	MessageProcessingAPI.SendGroupMessage("QQ", GroupID, WikiInfo, true, quoteID)
@@ -34,7 +30,7 @@ func QQsendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
 	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessageProcessingAPI.SendFriendMessage("QQ", UserID, QQError(strconv.Itoa(UserID), WikiLink), false, 0)
+		MessageProcessingAPI.SendFriendMessage("QQ", UserID, Error(strconv.Itoa(UserID), WikiLink), false, 0)
 		return
 	}
 	MessageProcessingAPI.SendFriendMessage("QQ", UserID, WikiInfo, false, 0)
@@ -45,7 +41,7 @@ func QQsendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText str
 	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessageProcessingAPI.SendTempMessage("QQ", UserID, GroupID, QQError(strconv.Itoa(UserID), WikiLink), false, 0)
+		MessageProcessingAPI.SendTempMessage("QQ", UserID, GroupID, Error(strconv.Itoa(UserID), WikiLink), false, 0)
 		return
 	}
 	MessageProcessingAPI.SendTempMessage("QQ", UserID, GroupID, WikiInfo, false, 0)
