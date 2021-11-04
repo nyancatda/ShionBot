@@ -22,6 +22,7 @@ func Error() {
 	os.Exit(1)
 }
 
+//定时请求mirai-api-http Session
 func CycleGetKey() {
 	for {
 		timer := time.NewTimer(1 * time.Second)
@@ -40,14 +41,11 @@ func CycleGetKey() {
 func main() {
 	//释放资源文件
 	ReleaseFile.ReleaseFile()
-	//判断配置文件是否正常
-	if utils.CheckConfigFile() {
-		fmt.Println(Language.Message("").ConfigFileException)
-		Error()
-	}
-	Config := utils.ReadConfig()
-	Port := Config.Run.WebHookPort
 
+	//读取配置文件
+	Config := utils.ReadConfig()
+
+	//缓存mirai-api-http Session并启动定时获取进程
 	_, resp, err := QQAPI.CreateSessionKey()
 	if err != nil {
 		fmt.Println(Language.Message("").CannotConnectMirai)
@@ -56,13 +54,13 @@ func main() {
 		fmt.Println(Language.Message("").CannotConnectMirai)
 		Error()
 	}
-
 	go CycleGetKey()
 
+	//启动WebHook接收
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
+	Port := Config.Run.WebHookPort
 	fmt.Println(Language.StringVariable(1, Language.Message("").RunOK, Port, ""))
-
 	r.POST("/", func(c *gin.Context) {
 		var json Struct.QQWebHook_root
 		if err := c.ShouldBindJSON(&json); err != nil {
@@ -72,6 +70,5 @@ func main() {
 		}
 		InformationProcessing.QQMessageProcessing(json)
 	})
-
 	r.Run(":" + Port)
 }
