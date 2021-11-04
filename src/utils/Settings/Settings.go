@@ -3,7 +3,8 @@ package Settings
 import (
 	"strconv"
 	"strings"
-	"xyz.nyan/MediaWiki-Bot/Struct"
+
+	"xyz.nyan/MediaWiki-Bot/src/Struct"
 )
 
 func Settings(SNSName string, QQMessagejson Struct.QQWebHook_root, CommandText string) (string, bool) {

@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"xyz.nyan/MediaWiki-Bot/utils"
+	"xyz.nyan/MediaWiki-Bot/src/utils"
 )
 
 type verifyJson struct {
@@ -14,15 +14,15 @@ type verifyJson struct {
 	Session string `json:"session"`
 }
 
-func CreateSessionKey() (string,*http.Response,error) {
+func CreateSessionKey() (string, *http.Response, error) {
 	//释放旧的SessionKey
 	bytes, _ := ioutil.ReadFile("SessionKey")
-    OldSessionKey := string(bytes)
+	OldSessionKey := string(bytes)
 	Config := utils.ReadConfig()
 	requestBody := fmt.Sprintf(`{
 		"verifyKey": "%s",
 		"qq": %d
-	  }`, OldSessionKey,Config.QQBot.BotQQNumber)
+	  }`, OldSessionKey, Config.QQBot.BotQQNumber)
 	url := Config.QQBot.APILink + "/release"
 	utils.PostRequestJosn(url, requestBody)
 
@@ -32,7 +32,7 @@ func CreateSessionKey() (string,*http.Response,error) {
 		"verifyKey": "%s"
 	}`, Config.QQBot.VerifyKey)
 	url = Config.QQBot.APILink + "/verify"
-	body,resp,http_error := utils.PostRequestJosn(url, requestBody)
+	body, resp, http_error := utils.PostRequestJosn(url, requestBody)
 
 	var config verifyJson
 	json.Unmarshal([]byte(body), &config)
@@ -48,12 +48,12 @@ func CreateSessionKey() (string,*http.Response,error) {
 
 	//缓存SessionKey
 	ioutil.WriteFile("SessionKey", []byte(SessionKey), 0664)
-	return SessionKey,resp,http_error
+	return SessionKey, resp, http_error
 }
 
 func GetSessionKey() string {
-    bytes, _ := ioutil.ReadFile("SessionKey")
-    SessionKey := string(bytes)
+	bytes, _ := ioutil.ReadFile("SessionKey")
+	SessionKey := string(bytes)
 
 	return SessionKey
 }

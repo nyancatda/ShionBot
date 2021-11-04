@@ -2,9 +2,10 @@ package Settings
 
 import (
 	"strings"
-	"xyz.nyan/MediaWiki-Bot/Struct"
-	"xyz.nyan/MediaWiki-Bot/utils"
-	Languages "xyz.nyan/MediaWiki-Bot/utils/Language"
+
+	"xyz.nyan/MediaWiki-Bot/src/Struct"
+	"xyz.nyan/MediaWiki-Bot/src/utils"
+	Languages "xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
 func LanguageSettings(UserID string, Language string) (string, bool) {

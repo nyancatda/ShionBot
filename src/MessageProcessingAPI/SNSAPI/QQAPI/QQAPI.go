@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"xyz.nyan/MediaWiki-Bot/utils"
-	"xyz.nyan/MediaWiki-Bot/utils/Language"
+	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
 type returnJson struct {

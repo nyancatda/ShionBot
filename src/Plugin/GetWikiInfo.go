@@ -2,12 +2,13 @@ package Plugin
 
 import (
 	"fmt"
-	"github.com/antchfx/htmlquery"
 	"log"
 	"strconv"
 	"strings"
-	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
-	"xyz.nyan/MediaWiki-Bot/utils/Language"
+
+	"github.com/antchfx/htmlquery"
+	"xyz.nyan/MediaWiki-Bot/src/MediaWikiAPI"
+	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
 func Error(UserID int, WikiLink string, title string) string {

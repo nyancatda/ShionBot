@@ -5,7 +5,8 @@ import (
 	"encoding/json"
 
 	"strconv"
-	"xyz.nyan/MediaWiki-Bot/utils"
+
+	"xyz.nyan/MediaWiki-Bot/src/utils"
 )
 
 //从配置文件读取Wiki名字对应的Wiki链接

@@ -3,8 +3,8 @@ package InformationProcessing
 import (
 	"strings"
 
-	"xyz.nyan/MediaWiki-Bot/Struct"
-	"xyz.nyan/MediaWiki-Bot/utils"
+	"xyz.nyan/MediaWiki-Bot/src/Struct"
+	"xyz.nyan/MediaWiki-Bot/src/utils"
 )
 
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数

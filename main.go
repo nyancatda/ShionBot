@@ -7,11 +7,11 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"xyz.nyan/MediaWiki-Bot/InformationProcessing"
-	"xyz.nyan/MediaWiki-Bot/MessageProcessingAPI/SNSAPI/QQAPI"
-	"xyz.nyan/MediaWiki-Bot/Struct"
-	"xyz.nyan/MediaWiki-Bot/utils"
-	"xyz.nyan/MediaWiki-Bot/utils/Language"
+	"xyz.nyan/MediaWiki-Bot/src/InformationProcessing"
+	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/QQAPI"
+	"xyz.nyan/MediaWiki-Bot/src/Struct"
+	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
 func Error() {

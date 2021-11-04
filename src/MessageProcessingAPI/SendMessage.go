@@ -1,7 +1,7 @@
 package MessageProcessingAPI
 
 import (
-	"xyz.nyan/MediaWiki-Bot/MessageProcessingAPI/SNSAPI/QQAPI"
+	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/QQAPI"
 )
 
 //发送好友消息

@@ -5,13 +5,13 @@ import (
 	"strconv"
 	"strings"
 
-	"xyz.nyan/MediaWiki-Bot/MediaWikiAPI"
-	"xyz.nyan/MediaWiki-Bot/MessageProcessingAPI"
-	"xyz.nyan/MediaWiki-Bot/Plugin"
-	"xyz.nyan/MediaWiki-Bot/Struct"
-	"xyz.nyan/MediaWiki-Bot/utils"
-	"xyz.nyan/MediaWiki-Bot/utils/Language"
-	"xyz.nyan/MediaWiki-Bot/utils/Settings"
+	"xyz.nyan/MediaWiki-Bot/src/MediaWikiAPI"
+	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI"
+	"xyz.nyan/MediaWiki-Bot/src/Plugin"
+	"xyz.nyan/MediaWiki-Bot/src/Struct"
+	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	"xyz.nyan/MediaWiki-Bot/src/utils/Settings"
 )
 
 func QQError(UserID string, WikiLink string) string {
