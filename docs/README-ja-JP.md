@@ -102,7 +102,7 @@ mw:◯◯
 - [ ] zh-HK(中文/香港)
 - [x] en-US(English)
 - [x] ja-JP(日本語)
-- [ ] ru_ru(русский язык)
+- [ ] ru_RU(русский язык)
 
 このプロジェクトにさらに言語を追加したい場合は、repositoryをforkして、`language`ディレクトリでファイルを作成する。翻訳ができたらmaster repositoriesに提出したら助かります
 

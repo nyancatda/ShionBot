@@ -101,7 +101,7 @@ Adaptation progress:
 - [ ] zh-HK(中文/香港)
 - [x] en-US(English)
 - [x] ja-JP(日本語)
-- [ ] ru_ru(русский язык)
+- [ ] ru_RU(русский язык)
 
 If you want to add more languages to this project, please fork the repository and create a new language file in the `language` directory. After the translation is completed, you can pull the request to the main repository. 
 
