@@ -1,7 +1,7 @@
 [中文](https://github.com/nyancatda/MediaWiki-Bot)|English|[日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
 QQ query bot on MedisWiki  
-可以对使用MediaWiki搭建的站点进行信息查询，支持多种语言
+Can query MediaWiki site for information, support multiple languages
 
 Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-http)
 
@@ -85,30 +85,30 @@ Example:
 ```
 [[home]]
 ```
-2. 修改语言  
-*修改只对单个用户生效，默认语言修改请通过配置文件*
+2. Change language  
+*The modification only takes effect for a single user. Please modify the default language in the configuration file.*
 ```
-/language 语言
+/language language
 ```
-例子
+Example
 ```
 /language zh-CN
 ```
 
-## 多语言适配
-多语言适配进度:  
+## Multi-language
+Adaptation progress: 
 - [x] zh-CN(中文/简体)
 - [ ] zh-HK(中文/香港)
 - [x] en-US(English)
 - [x] ja-JP(日本語)
 - [ ] ru_ru(русский язык)
 
-如果你希望对本项目增加更多语言，请fork仓库后在`language`目录下建立目标语言文件，完成翻译后可以请求提交至主仓库
+If you want to add more languages to this project, please fork the repository and create a new language file in the `language` directory. After the translation is completed, you can pull the request to the main repository. 
 
-## 鸣谢  
-感谢大佬们对这个项目的支持  
-*排名不分先后*
+## Thanks  
+Thanks to all contributors  
+*Names not listed in order*
 1. [SuperYYT](https://github.com/SuperYYT)  
-  英语翻提供译者
+  English translation provider
 2. [java23333](https://github.com/java23333)  
-  日语翻译提供者
+  Japanese translation provider
