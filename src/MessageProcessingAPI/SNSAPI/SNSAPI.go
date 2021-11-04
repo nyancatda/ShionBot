@@ -10,7 +10,7 @@ import (
 //Type 消息类型，可选 Friend,Group,Stranger
 //target 消息接收者
 //text 消息主体
-func Log(Type string, SNSName string, target string, text string) {
+func Log(SNSName string, Type string, target string, text string) {
 	timestamp := time.Now().Unix()
 	tm := time.Unix(timestamp, 0)
 
