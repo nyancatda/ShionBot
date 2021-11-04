@@ -1,8 +1,6 @@
 package Settings
 
 import (
-	"strings"
-
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 	Languages "xyz.nyan/MediaWiki-Bot/src/utils/Language"
@@ -18,12 +16,8 @@ func LanguageSettings(UserID string, Language string) (string, bool) {
 	var user Struct.QQUserInfo
 	db.Where("account = ?", UserID).Find(&user)
 	if user.Account != UserID {
-		files, _, _ := utils.GetFilesAndDirs("./resources/language/")
-		for _, dir := range files {
-			LanguageName := strings.Replace(dir, `\`, "/", 1)
-			LanguageNames := strings.Split(LanguageName, "/")
-			LanguageNames = strings.Split(LanguageNames[4], ".")
-			LanguageName = LanguageNames[0]
+		files := Languages.LanguageList()
+		for _, LanguageName := range files {
 			if LanguageName == Language {
 				UserInfos := Struct.QQUserInfo{Account: UserID, Language: Language}
 				db.Create(&UserInfos)
@@ -36,12 +30,8 @@ func LanguageSettings(UserID string, Language string) (string, bool) {
 			}
 		}
 	} else {
-		files, _, _ := utils.GetFilesAndDirs("./resources/language/")
-		for _, dir := range files {
-			LanguageName := strings.Replace(dir, `\`, "/", 1)
-			LanguageNames := strings.Split(LanguageName, "/")
-			LanguageNames = strings.Split(LanguageNames[4], ".")
-			LanguageName = LanguageNames[0]
+		files := Languages.LanguageList()
+		for _, LanguageName := range files {
 			if Language == LanguageName {
 				db.Model(&Struct.QQUserInfo{}).Where("account = ?", UserID).Update("language", Language)
 				MessageOK = true

@@ -23,6 +23,20 @@ func ReadLanguage(Language string) *LanguageInfo {
 	return newStu
 }
 
+//获取本地语言列表
+func LanguageList() []string {
+	var LanguageList []string
+	files, _, _ := utils.GetFilesAndDirs("./resources/language/")
+	for _, dir := range files {
+		LanguageName := strings.Replace(dir, `\`, "/", 1)
+		LanguageNames := strings.Split(LanguageName, "/")
+		LanguageNames = strings.Split(LanguageNames[4], ".")
+		LanguageName = LanguageNames[0]
+		LanguageList = append(LanguageList, LanguageName)
+	}
+	return LanguageList
+}
+
 //替换字符串中的变量位置
 func StringVariable(quantity int, strHaiCoder string, text0 string, text1 string) string {
 	text := ""
@@ -52,15 +66,20 @@ func ReleaseFile() {
 
 //使用默认语言Account为空即可
 func Message(Account string) *LanguageInfo {
-	db := utils.SQLLiteLink()
-	var user Struct.QQUserInfo
-	db.Where("account = ?", Account).Find(&user)
 	var language string
-	if user.Language != "" {
-		language = user.Language
-	} else {
+	if Account == "" {
 		Config := utils.ReadConfig()
 		language = Config.Run.Language
+	} else {
+		db := utils.SQLLiteLink()
+		var user Struct.QQUserInfo
+		db.Where("account = ?", Account).Find(&user)
+		if user.Language != "" {
+			language = user.Language
+		} else {
+			Config := utils.ReadConfig()
+			language = Config.Run.Language
+		}
 	}
 	Info := ReadLanguage(language)
 	return Info
