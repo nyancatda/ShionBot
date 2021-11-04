@@ -60,6 +60,8 @@ QQBot:
 TelegramBot:
   #机器人toekn
   Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
+  #TelegramAPI地址
+  BotAPILink: https://api.telegram.org/
 Wiki:
   - 
     #Wiki名字，即使命令前缀，例如mw:首页

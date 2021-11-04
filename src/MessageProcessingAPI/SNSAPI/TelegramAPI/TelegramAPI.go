@@ -19,14 +19,14 @@ func SendMessage(chat_type string, chat_id int, text string, disable_web_page_pr
 	Config := utils.ReadConfig()
 	requestBody := fmt.Sprintf(`{
 		"chat_id": %d,
-		"text": %s,
+		"text": "%s",
 		"disable_web_page_preview": %t,
 		"disable_notification": %t,
 		"reply_to_message_id": %d,
 		"allow_sending_without_reply": %t
 	  }`, chat_id, text, disable_web_page_preview, disable_notification, reply_to_message_id, allow_sending_without_reply)
 
-	url := "https://api.telegram.org/bot" + Config.TelegramBot.Token + "/sendMessage"
+	url := Config.TelegramBot.BotAPILink + "bot" + Config.TelegramBot.Token + "/sendMessage"
 	utils.PostRequestJosn(url, requestBody)
 
 	SNSAPI.Log(chat_type, strconv.Itoa(chat_id), text)

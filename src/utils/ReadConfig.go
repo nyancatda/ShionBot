@@ -25,7 +25,8 @@ type QQBot struct {
 }
 
 type TelegramBot struct {
-	Token string `yaml:"Token"`
+	Token      string `yaml:"Token"`
+	BotAPILink string `yaml:"BotAPILink"`
 }
 
 func ReadConfig() *Config {
