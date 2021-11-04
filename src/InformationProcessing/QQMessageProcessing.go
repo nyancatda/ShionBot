@@ -55,7 +55,7 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 	case "Group":
 		if json.FromId != utils.ReadConfig().QQBot.BotQQNumber && json.Target == utils.ReadConfig().QQBot.BotQQNumber {
 			go MessageProcessingAPI.SendNudge(json.FromId, json.Subject.Id, "Group")
-			go MessageProcessingAPI.SendGroupAtMessage("QQ", json.Subject.Id, HelpText, json.FromId)
+			go MessageProcessingAPI.SendGroupAtMessage("QQ", json.Subject.Id, HelpText, strconv.Itoa(json.FromId))
 		}
 	case "Friend":
 		go MessageProcessingAPI.SendFriendMessage("QQ", json.FromId, HelpText, false, 0)

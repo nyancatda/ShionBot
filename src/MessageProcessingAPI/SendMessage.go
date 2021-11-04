@@ -1,7 +1,9 @@
 package MessageProcessingAPI
 
 import (
+	"strconv"
 	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/QQAPI"
+	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/TelegramAPI"
 )
 
 //发送好友消息
@@ -14,6 +16,8 @@ func SendFriendMessage(SNSName string, target int, text string, quote bool, quot
 	switch SNSName {
 	case "QQ":
 		QQAPI.SendFriendMessage(target, text, quote, quoteID)
+	case "Telegram":
+		TelegramAPI.SendMessage("Friend", target, text, true, false, quoteID, quote)
 	}
 }
 
@@ -27,6 +31,8 @@ func SendGroupMessage(SNSName string, target int, text string, quote bool, quote
 	switch SNSName {
 	case "QQ":
 		QQAPI.SendGroupMessage(target, text, quote, quoteID)
+	case "Telegram":
+		TelegramAPI.SendMessage("Group", target, text, true, false, quoteID, quote)
 	}
 }
 
@@ -35,10 +41,14 @@ func SendGroupMessage(SNSName string, target int, text string, quote bool, quote
 //target 群号
 //text 消息文本
 //AtID 需要@的人的ID
-func SendGroupAtMessage(SNSName string, target int, text string, AtID int) {
+func SendGroupAtMessage(SNSName string, target int, text string, AtID string) {
 	switch SNSName {
 	case "QQ":
+		AtID, _ := strconv.Atoi(AtID)
 		QQAPI.SendGroupAtMessage(target, text, AtID)
+	case "Telegram":
+		text = "@" + AtID + " " + text
+		TelegramAPI.SendMessage("Group", target, text, true, false, 0, false)
 	}
 }
 
@@ -53,6 +63,8 @@ func SendTempMessage(SNSName string, target int, group int, text string, quote b
 	switch SNSName {
 	case "QQ":
 		QQAPI.SendTempMessage(target, group, text, quote, quoteID)
+	case "Telegram":
+		TelegramAPI.SendMessage("Stranger", target, text, true, false, quoteID, quote)
 	}
 }
 
