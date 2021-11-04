@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
+	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
-	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI"
 )
 
 type returnJson struct {
@@ -15,6 +15,8 @@ type returnJson struct {
 	Msg       string `json:"msg"`
 	MessageId string `json:"messageId"`
 }
+
+var sns_name string = "QQ"
 
 func sendError(body []byte, err error, url string, requestBody string) {
 	if err != nil {
@@ -79,7 +81,7 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	SNSAPI.Log("Group", strconv.Itoa(target), text)
+	SNSAPI.Log(sns_name, "Group", strconv.Itoa(target), text)
 }
 
 //发送带@的群消息
@@ -108,7 +110,7 @@ func SendGroupAtMessage(target int, text string, AtID int) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	SNSAPI.Log("Group", strconv.Itoa(target), text)
+	SNSAPI.Log(sns_name, "Group", strconv.Itoa(target), text)
 }
 
 //发送头像戳一戳
@@ -129,7 +131,7 @@ func SendNudge(target int, subject int, kind string) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	SNSAPI.Log(kind, strconv.Itoa(subject), Language.Message("").Nudge+strconv.Itoa(target))
+	SNSAPI.Log(sns_name, kind, strconv.Itoa(subject), Language.Message("").Nudge+strconv.Itoa(target))
 }
 
 //发送好友消息
@@ -171,7 +173,7 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	SNSAPI.Log("Friend", strconv.Itoa(target), text)
+	SNSAPI.Log(sns_name, "Friend", strconv.Itoa(target), text)
 }
 
 //发送临时会话
@@ -216,5 +218,5 @@ func SendTempMessage(target int, group int, text string, quote bool, quoteID int
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	SNSAPI.Log("Temp", strconv.Itoa(target), text)
+	SNSAPI.Log(sns_name, "Temp", strconv.Itoa(target), text)
 }

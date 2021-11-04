@@ -8,6 +8,8 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 )
 
+var sns_name string = "Telegram"
+
 //发送消息
 //chat_id 聊天ID
 //text 需要发送的信息
@@ -29,5 +31,5 @@ func SendMessage(chat_type string, chat_id int, text string, disable_web_page_pr
 	url := Config.TelegramBot.BotAPILink + "bot" + Config.TelegramBot.Token + "/sendMessage"
 	utils.PostRequestJosn(url, requestBody)
 
-	SNSAPI.Log(chat_type, strconv.Itoa(chat_id), text)
+	SNSAPI.Log(sns_name, chat_type, strconv.Itoa(chat_id), text)
 }
