@@ -19,10 +19,10 @@ func QQsendGroupWikiInfo(UserID int, WikiName string, GroupID int, QueryText str
 	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessageProcessingAPI.SendGroupMessage("QQ", GroupID, Error(strconv.Itoa(UserID), WikiLink), true, quoteID)
+		MessageProcessingAPI.SendMessage("QQ", "Group", GroupID, Error(strconv.Itoa(UserID), WikiLink), true, quoteID, "", 0)
 		return
 	}
-	MessageProcessingAPI.SendGroupMessage("QQ", GroupID, WikiInfo, true, quoteID)
+	MessageProcessingAPI.SendMessage("QQ", "Group", GroupID, WikiInfo, true, quoteID, "", 0)
 }
 
 //发送好友消息
@@ -30,10 +30,10 @@ func QQsendFriendWikiInfo(WikiName string, UserID int, QueryText string) {
 	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessageProcessingAPI.SendFriendMessage("QQ", UserID, Error(strconv.Itoa(UserID), WikiLink), false, 0)
+		MessageProcessingAPI.SendMessage("QQ", "Friend", UserID, Error(strconv.Itoa(UserID), WikiLink), false, 0, "", 0)
 		return
 	}
-	MessageProcessingAPI.SendFriendMessage("QQ", UserID, WikiInfo, false, 0)
+	MessageProcessingAPI.SendMessage("QQ", "Friend", UserID, WikiInfo, false, 0, "", 0)
 }
 
 //发送临时会话消息
@@ -41,10 +41,10 @@ func QQsendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText str
 	WikiInfo, err := Plugin.GetWikiInfo(UserID, WikiName, QueryText)
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessageProcessingAPI.SendTempMessage("QQ", UserID, GroupID, Error(strconv.Itoa(UserID), WikiLink), false, 0)
+		MessageProcessingAPI.SendMessage("QQ", "Temp", UserID, Error(strconv.Itoa(UserID), WikiLink), false, 0, "", GroupID)
 		return
 	}
-	MessageProcessingAPI.SendTempMessage("QQ", UserID, GroupID, WikiInfo, false, 0)
+	MessageProcessingAPI.SendMessage("QQ", "Temp", UserID, WikiInfo, false, 0, "", GroupID)
 }
 
 //戳一戳消息处理
@@ -55,10 +55,10 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 	case "Group":
 		if json.FromId != utils.ReadConfig().QQBot.BotQQNumber && json.Target == utils.ReadConfig().QQBot.BotQQNumber {
 			go MessageProcessingAPI.SendNudge(json.FromId, json.Subject.Id, "Group")
-			go MessageProcessingAPI.SendGroupAtMessage("QQ", json.Subject.Id, HelpText, strconv.Itoa(json.FromId))
+			go MessageProcessingAPI.SendMessage("QQ", "GroupAt", json.Subject.Id, HelpText, false, 0, strconv.Itoa(json.FromId), 0)
 		}
 	case "Friend":
-		go MessageProcessingAPI.SendFriendMessage("QQ", json.FromId, HelpText, false, 0)
+		go MessageProcessingAPI.SendMessage("QQ", "Friend", json.FromId, HelpText, false, 0, "", 0)
 	}
 }
 
@@ -112,14 +112,14 @@ func QQSettingsMessageProcessing(json Struct.WebHookJson) {
 		case "GroupMessage":
 			GroupID := json.Sender.Group.Id
 			quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
-			go MessageProcessingAPI.SendGroupMessage("QQ", GroupID, Message, true, quoteID)
+			go MessageProcessingAPI.SendMessage("QQ", "Group", GroupID, Message, true, quoteID, "", 0)
 		case "FriendMessage":
 			UserID := json.Sender.Id
-			go MessageProcessingAPI.SendFriendMessage("QQ", UserID, Message, false, 0)
+			go MessageProcessingAPI.SendMessage("QQ", "Friend", UserID, Message, false, 0, "", 0)
 		case "TempMessage":
 			UserID := json.Sender.Id
 			GroupID := json.Sender.Group.Id
-			go MessageProcessingAPI.SendTempMessage("QQ", UserID, GroupID, Message, false, 0)
+			go MessageProcessingAPI.SendMessage("QQ", "Temp", UserID, Message, false, 0, "", GroupID)
 		}
 	}
 }
