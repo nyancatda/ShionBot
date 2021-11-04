@@ -2,7 +2,6 @@ package Language
 
 import (
 	"io/ioutil"
-	"os"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -48,20 +47,6 @@ func StringVariable(quantity int, strHaiCoder string, text0 string, text1 string
 		text = strings.Replace(text, "{%1}", text1, 1)
 	}
 	return text
-}
-
-//释放语言文件
-func ReleaseFile() {
-	//打包语言文件
-	//go-bindata -o=src/utils/Language/languages.go -pkg=Language resources/language/...
-	_, err := os.Stat("./resources/language/")
-	if err != nil {
-		os.MkdirAll("./resources/language/", 0777)
-		for filename := range _bindata {
-			bytes, _ := Asset(filename)
-			ioutil.WriteFile(filename, bytes, 0664)
-		}
-	}
 }
 
 //使用默认语言Account为空即可

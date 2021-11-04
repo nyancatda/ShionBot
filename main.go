@@ -11,6 +11,7 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/QQAPI"
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/MediaWiki-Bot/src/utils/ReleaseFile"
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
@@ -37,8 +38,8 @@ func CycleGetKey() {
 }
 
 func main() {
-	//释放语言文件
-	Language.ReleaseFile()
+	//释放资源文件
+	ReleaseFile.ReleaseFile()
 	//判断配置文件是否正常
 	if utils.CheckConfigFile() {
 		fmt.Println(Language.Message("").ConfigFileException)

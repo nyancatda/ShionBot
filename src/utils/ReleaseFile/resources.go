@@ -1,4 +1,4 @@
-package Language
+package ReleaseFile
 
 import (
 	"bytes"
