@@ -1,4 +1,4 @@
-中文|[English](docs/README-en-US.md)|[日本語](docs/README-ja-JP.md)
+中文 | [English](docs/README-en-US.md) | [日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
 MediaWiki的多语言QQ查询机器人  
 可以对使用MediaWiki搭建的站点进行信息查询，支持多种语言
@@ -64,7 +64,7 @@ Wiki:
     #Wiki的链接
     WikiLink: https://minewiki.net
   - 
-    WikiName: me
+    WikiName: mg
     WikiLink: https://zh.moegirl.org.cn
 ```
 
@@ -103,7 +103,7 @@ mw:首页
 - [x] ja-JP(日本語)
 - [ ] ru_ru(русский язык)
 
-如果你希望对本项目增加更多语言，请fork仓库后在`language`目录下建立目标语言文件，完成翻译后可以请求提交至主仓库
+如果您希望为本项目增加更多语言，请fork仓库后在`language`目录下建立目标语言文件，完成翻译后可以请求提交至主仓库
 
 ## 鸣谢  
 感谢大佬们对这个项目的支持  

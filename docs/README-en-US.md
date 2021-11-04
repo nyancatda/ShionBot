@@ -1,4 +1,4 @@
-[中文](https://github.com/nyancatda/MediaWiki-Bot)|English|[日本語](docs/README-ja-JP.md)
+[中文](https://github.com/nyancatda/MediaWiki-Bot) | English | [日本語](README-ja-JP.md)
 # MediaWiki-Bot
 QQ query bot on MedisWiki  
 Can query MediaWiki site for information, support multiple languages
@@ -64,7 +64,7 @@ Wiki:
     #Wiki's URLs
     WikiLink: https://minewiki.net
   - 
-    WikiName: me
+    WikiName: mg
     WikiLink: https://zh.moegirl.org.cn
 ```
 
