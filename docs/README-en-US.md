@@ -44,7 +44,7 @@ adapterSettings:
 ## config.yml template
 ```
 Run:
-  #Specify WebHook port
+  #Specify Webhook receiving port
   WebHookPort: 8000
   #Language
   #Chinese:zh-CN,English:en-US,Japanese:ja-JP
