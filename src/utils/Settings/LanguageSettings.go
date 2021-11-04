@@ -13,42 +13,42 @@ func LanguageSettings(UserID string, Language string) (string, bool) {
 	var Message string
 	db := utils.SQLLiteLink()
 
-	db.AutoMigrate(&Struct.UserInfo{})
+	db.AutoMigrate(&Struct.QQUserInfo{})
 
-	var user Struct.UserInfo
+	var user Struct.QQUserInfo
 	db.Where("account = ?", UserID).Find(&user)
 	if user.Account != UserID {
-		files, _, _ := utils.GetFilesAndDirs("./language")
+		files, _, _ := utils.GetFilesAndDirs("./resources/language/")
 		for _, dir := range files {
 			LanguageName := strings.Replace(dir, `\`, "/", 1)
 			LanguageNames := strings.Split(LanguageName, "/")
-			LanguageNames = strings.Split(LanguageNames[2], ".")
+			LanguageNames = strings.Split(LanguageNames[4], ".")
 			LanguageName = LanguageNames[0]
 			if LanguageName == Language {
-				UserInfos := Struct.UserInfo{Account: UserID, Language: Language}
+				UserInfos := Struct.QQUserInfo{Account: UserID, Language: Language}
 				db.Create(&UserInfos)
 				MessageOK = true
 				Message = Languages.StringVariable(1, Languages.Message(UserID).LanguageModifiedSuccessfully, LanguageName, "")
 				break
 			} else {
-				MessageOK = false
+				MessageOK = true
 				Message = Languages.StringVariable(1, Languages.Message(UserID).LanguageModificationFailed, LanguageName, "")
 			}
 		}
 	} else {
-		files, _, _ := utils.GetFilesAndDirs("./language")
+		files, _, _ := utils.GetFilesAndDirs("./resources/language/")
 		for _, dir := range files {
 			LanguageName := strings.Replace(dir, `\`, "/", 1)
 			LanguageNames := strings.Split(LanguageName, "/")
-			LanguageNames = strings.Split(LanguageNames[2], ".")
+			LanguageNames = strings.Split(LanguageNames[4], ".")
 			LanguageName = LanguageNames[0]
 			if Language == LanguageName {
-				db.Model(&Struct.UserInfo{}).Where("account = ?", UserID).Update("language", Language)
+				db.Model(&Struct.QQUserInfo{}).Where("account = ?", UserID).Update("language", Language)
 				MessageOK = true
 				Message = Languages.StringVariable(1, Languages.Message(UserID).LanguageModifiedSuccessfully, LanguageName, "")
 				break
 			} else {
-				MessageOK = false
+				MessageOK = true
 				Message = Languages.StringVariable(1, Languages.Message(UserID).LanguageModificationFailed, LanguageName, "")
 			}
 		}

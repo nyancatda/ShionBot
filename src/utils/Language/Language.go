@@ -53,7 +53,7 @@ func ReleaseFile() {
 //使用默认语言Account为空即可
 func Message(Account string) *LanguageInfo {
 	db := utils.SQLLiteLink()
-	var user Struct.UserInfo
+	var user Struct.QQUserInfo
 	db.Where("account = ?", Account).Find(&user)
 	var language string
 	if user.Language != "" {
