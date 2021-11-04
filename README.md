@@ -57,6 +57,9 @@ QQBot:
   #HttpAPI的VerifyKey
   VerifyKey: 5eadce46qw58
 #Wiki链接，支持多个，第一个为主Wiki
+TelegramBot:
+  #机器人toekn
+  Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
 Wiki:
   - 
     #Wiki名字，即使命令前缀，例如mw:首页

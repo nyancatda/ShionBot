@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"time"
 
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI"
 )
 
 type returnJson struct {
@@ -38,17 +38,6 @@ func sendError(body []byte, err error, url string, requestBody string) {
 			}
 		}
 	}
-}
-
-//日志输出
-//Type 消息类型，可选 Friend,Group,Stranger
-//target 消息来源
-//text 消息主体
-func log(Type string, target string, text string) {
-	timestamp := time.Now().Unix()
-	tm := time.Unix(timestamp, 0)
-
-	fmt.Println("[" + tm.Format("2006-01-02 03:04:05") + "] [" + Type + "] " + target + " -> " + text)
 }
 
 //发送群消息
@@ -90,7 +79,7 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log("Group", strconv.Itoa(target), text)
+	SNSAPI.Log("Group", strconv.Itoa(target), text)
 }
 
 //发送带@的群消息
@@ -119,7 +108,7 @@ func SendGroupAtMessage(target int, text string, AtID int) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log("Group", strconv.Itoa(target), text)
+	SNSAPI.Log("Group", strconv.Itoa(target), text)
 }
 
 //发送头像戳一戳
@@ -140,7 +129,7 @@ func SendNudge(target int, subject int, kind string) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log(kind, strconv.Itoa(subject), Language.Message("").Nudge+strconv.Itoa(target))
+	SNSAPI.Log(kind, strconv.Itoa(subject), Language.Message("").Nudge+strconv.Itoa(target))
 }
 
 //发送好友消息
@@ -182,7 +171,7 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) {
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log("Friend", strconv.Itoa(target), text)
+	SNSAPI.Log("Friend", strconv.Itoa(target), text)
 }
 
 //发送临时会话
@@ -227,5 +216,5 @@ func SendTempMessage(target int, group int, text string, quote bool, quoteID int
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log("Temp", strconv.Itoa(target), text)
+	SNSAPI.Log("Temp", strconv.Itoa(target), text)
 }
