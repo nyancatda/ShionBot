@@ -15,8 +15,8 @@ WikiLinkError: "{%0}にアクセスできない，管理者に連絡してくだ
 
 HelpText: "使い方は https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 で調べてください"
 
-#[https://zh.moegirl.org.cn]には[Mainpage]が見つけなかった，入力が正しいかどうかチェックしてください
-GetWikiInfoError: "[{%0}]には[{%1}]が見つけなかった，入力が正しいかどうかチェックしてください"
+#[https://zh.moegirl.org.cn]には[Mainpage]が見つけられなかった，入力は正しいかどうかチェックしてください
+GetWikiInfoError: "[{%0}]には[{%1}]が見つけられなかった，入力は正しいかどうかチェックしてください"
 
 #ページを見つけなかったが，以下の結果を見つけた
 #[Mainpage]
