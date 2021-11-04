@@ -11,8 +11,8 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/QQAPI"
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
-	"xyz.nyan/MediaWiki-Bot/src/utils/ReleaseFile"
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	"xyz.nyan/MediaWiki-Bot/src/utils/ReleaseFile"
 )
 
 func Error() {
@@ -62,13 +62,13 @@ func main() {
 	Port := Config.Run.WebHookPort
 	fmt.Println(Language.StringVariable(1, Language.Message("").RunOK, Port, ""))
 	r.POST("/", func(c *gin.Context) {
-		var json Struct.QQWebHook_root
+		var json Struct.WebHookJson
 		if err := c.ShouldBindJSON(&json); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			fmt.Println(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		InformationProcessing.QQMessageProcessing(json)
+		InformationProcessing.InformationProcessing(json)
 	})
 	r.Run(":" + Port)
 }

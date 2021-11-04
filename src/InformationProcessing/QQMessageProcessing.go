@@ -52,7 +52,7 @@ func QQsendTempdWikiInfo(WikiName string, UserID int, GroupID int, QueryText str
 }
 
 //戳一戳消息处理
-func QQNudgeEventMessageProcessing(json Struct.QQWebHook_root) {
+func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 	UserID := json.Sender.Id
 	HelpText := Language.Message(strconv.Itoa(UserID)).HelpText
 	switch json.Subject.Kind {
@@ -67,7 +67,7 @@ func QQNudgeEventMessageProcessing(json Struct.QQWebHook_root) {
 }
 
 //消息处理
-func QQMessageProcessing(json Struct.QQWebHook_root) {
+func QQMessageProcessing(json Struct.WebHookJson) {
 	switch json.Type {
 	case "GroupMessage":
 		if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
@@ -106,7 +106,7 @@ func QQMessageProcessing(json Struct.QQWebHook_root) {
 }
 
 //设置消息返回
-func QQSettingsMessageProcessing(json Struct.QQWebHook_root) {
+func QQSettingsMessageProcessing(json Struct.WebHookJson) {
 	text := json.MessageChain[1].(map[string]interface{})["text"]
 	countSplit := strings.Split(text.(string), "/")
 	Text := countSplit[1]
