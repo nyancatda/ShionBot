@@ -77,7 +77,7 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 		}`, sessionKey, target, text)
 	}
 
-	url := Config.QQBot.APILink + "/sendGroupMessage"
+	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
@@ -106,7 +106,7 @@ func SendGroupAtMessage(target int, text string, AtID int) {
 			}
 			]
 		}`, sessionKey, target, AtID, text)
-	url := Config.QQBot.APILink + "/sendGroupMessage"
+	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
@@ -127,7 +127,7 @@ func SendNudge(target int, subject int, kind string) {
 		"kind":"%s"
 	}`, sessionKey, target, subject, kind)
 
-	url := Config.QQBot.APILink + "/sendNudge"
+	url := Config.SNS.QQ.APILink + "/sendNudge"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
@@ -169,7 +169,7 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) {
 		}`, sessionKey, target, text)
 	}
 
-	url := Config.QQBot.APILink + "/sendFriendMessage"
+	url := Config.SNS.QQ.APILink + "/sendFriendMessage"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
@@ -214,7 +214,7 @@ func SendTempMessage(target int, group int, text string, quote bool, quoteID int
 		}`, sessionKey, target, group, text)
 	}
 
-	url := Config.QQBot.APILink + "/sendTempMessage"
+	url := Config.SNS.QQ.APILink + "/sendTempMessage"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 

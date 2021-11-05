@@ -56,18 +56,19 @@ Run:
   #指定机器人的语言
   #中文:zh-CN,英语:en-US,日语ja-JP
   Language: zh-CN
-QQBot:
-  #HttpAPI地址
-  APILink: http://127.0.0.1:8888
-  #机器人QQ号
-  BotQQNumber: 1000000000
-  #HttpAPI的VerifyKey
-  VerifyKey: 5eadce46qw58
-TelegramBot:
-  #机器人toekn
-  Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
-  #TelegramAPI地址
-  BotAPILink: https://api.telegram.org/
+SNS:
+  QQ:
+    #HttpAPI地址
+    APILink: http://127.0.0.1:8888
+    #机器人QQ号
+    BotQQNumber: 1000000000
+    #HttpAPI的VerifyKey
+    VerifyKey: 5eadce46qw58
+  Telegram:
+    #机器人toekn
+    Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
+    #TelegramAPI地址
+    BotAPILink: https://api.telegram.org/
 #Wiki链接，支持多个，第一个为主Wiki
 Wiki:
   - 

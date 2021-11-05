@@ -7,10 +7,9 @@ import (
 )
 
 type Config struct {
-	Run         *Run         `yaml:"Run"`
-	QQBot       *QQBot       `yaml:"QQBot"`
-	TelegramBot *TelegramBot `yaml:"TelegramBot"`
-	Wiki        interface{}  `yaml:"Wiki"`
+	Run  *Run        `yaml:"Run"`
+	SNS  *SNS        `yaml:"SNS"`
+	Wiki interface{} `yaml:"Wiki"`
 }
 
 type Run struct {
@@ -18,13 +17,16 @@ type Run struct {
 	Language    string `yaml:"Language"`
 }
 
-type QQBot struct {
+type SNS struct {
+	QQ       *QQ       `yaml:"QQ"`
+	Telegram *Telegram `yaml:"Telegram"`
+}
+type QQ struct {
 	APILink     string `yaml:"APILink"`
 	BotQQNumber int    `yaml:"BotQQNumber"`
 	VerifyKey   string `yaml:"VerifyKey"`
 }
-
-type TelegramBot struct {
+type Telegram struct {
 	Token      string `yaml:"Token"`
 	BotAPILink string `yaml:"BotAPILink"`
 }
