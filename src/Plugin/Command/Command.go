@@ -1,4 +1,4 @@
-package Settings
+package Command
 
 import (
 	"strconv"
@@ -7,7 +7,7 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 )
 
-func Settings(SNSName string, QQMessagejson Struct.WebHookJson, CommandText string) (string, bool) {
+func Command(SNSName string, QQMessagejson Struct.WebHookJson, CommandText string) (string, bool) {
 	if find := strings.Contains(CommandText, "language"); find {
 		switch SNSName {
 		case "QQ":

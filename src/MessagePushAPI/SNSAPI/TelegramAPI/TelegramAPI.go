@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI"
+	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 )
 

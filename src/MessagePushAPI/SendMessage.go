@@ -1,9 +1,10 @@
-package MessageProcessingAPI
+package MessagePushAPI
 
 import (
 	"strconv"
-	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/QQAPI"
-	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/TelegramAPI"
+
+	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/QQAPI"
+	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/TelegramAPI"
 )
 
 //发送消息

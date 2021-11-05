@@ -1,4 +1,4 @@
-package Settings
+package Command
 
 import (
 	"xyz.nyan/MediaWiki-Bot/src/Struct"

@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"xyz.nyan/MediaWiki-Bot/src/InformationProcessing"
-	"xyz.nyan/MediaWiki-Bot/src/MessageProcessingAPI/SNSAPI/QQAPI"
+	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
