@@ -20,5 +20,15 @@ func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string)
 		}
 		return LanguageSettings(SNSName, strconv.Itoa(UserID), Language)
 	}
+	if find := strings.Contains(CommandText, "help"); find {
+		var UserID int
+		switch SNSName {
+		case "QQ":
+			UserID = Messagejson.Sender.Id
+		case "Telegram":
+			UserID = Messagejson.Message.From.Id
+		}
+		return Help(SNSName, strconv.Itoa(UserID))
+	}
 	return "", false
 }
