@@ -3,6 +3,7 @@ package MessagePushAPI
 import (
 	"strconv"
 
+	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/LineAPI"
 	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/TelegramAPI"
 )
@@ -13,30 +14,50 @@ import (
 //target 接受的聊天的ID
 //text 消息文本
 //quote 是否需要回复
-//quoteID 回复的消息ID(不需要时为0即可)
+//quoteID 回复的消息ID(不需要时为空即可)
 //AtID (可选)需要@的人的ID
 //group (可选)临时会话群号
-func SendMessage(SNSName string, ChatType string, target int, text string, quote bool, quoteID int, AtID string, group int) {
+func SendMessage(SNSName string, ChatType string, target string, text string, quote bool, quoteID string, AtID string, group int) {
 	switch SNSName {
 	case "QQ":
+		targets, _ := strconv.Atoi(target)
 		switch ChatType {
 		case "Friend":
-			QQAPI.SendFriendMessage(target, text, quote, quoteID)
+			quoteIDs, _ := strconv.Atoi(quoteID)
+			QQAPI.SendFriendMessage(targets, text, quote, quoteIDs)
 		case "Group":
-			QQAPI.SendGroupMessage(target, text, quote, quoteID)
+			quoteIDs, _ := strconv.Atoi(quoteID)
+			QQAPI.SendGroupMessage(targets, text, quote, quoteIDs)
 		case "GroupAt":
 			AtID, _ := strconv.Atoi(AtID)
-			QQAPI.SendGroupAtMessage(target, text, AtID)
+			QQAPI.SendGroupAtMessage(targets, text, AtID)
 		case "Temp":
-			QQAPI.SendTempMessage(target, group, text, quote, quoteID)
+			quoteIDs, _ := strconv.Atoi(quoteID)
+			QQAPI.SendTempMessage(targets, group, text, quote, quoteIDs)
 		}
 	case "Telegram":
+		targets, _ := strconv.Atoi(target)
 		switch ChatType {
 		case "GroupAt":
 			text = "@" + AtID + " " + text
-			TelegramAPI.SendMessage("Group", target, text, true, false, 0, false)
+			TelegramAPI.SendMessage("Group", targets, text, true, false, 0, false)
 		default:
-			TelegramAPI.SendMessage("Friend", target, text, true, false, quoteID, quote)
+			quoteIDs, _ := strconv.Atoi(quoteID)
+			TelegramAPI.SendMessage("Friend", targets, text, true, false, quoteIDs, quote)
+		}
+	case "Line":
+		switch ChatType {
+		case "GroupAt":
+			text = "@" + AtID + " " + text
+			LineAPI.SendPushMessage(ChatType, target, text, false)
+		case "Group":
+			if quote {
+				LineAPI.SendReplyMessage(ChatType, quoteID, text, false)
+			} else {
+				LineAPI.SendPushMessage(ChatType, target, text, false)
+			}
+		default:
+			LineAPI.SendPushMessage(ChatType, target, text, false)
 		}
 	}
 }

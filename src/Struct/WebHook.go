@@ -12,6 +12,10 @@ type WebHookJson struct {
 	//Telegram
 	Update_id int     `json:"update_id"`
 	Message   Message `json:"message"`
+
+	//Line
+	Destination string   `json:"destination"`
+	Events      []Events `json:"events"`
 }
 
 //QQ
@@ -59,4 +63,24 @@ type Chat struct {
 	Last_name  string `json:"last_name"`
 	Username   string `json:"username"`
 	Type       string `json:"type"`
+}
+
+//Line
+type Events struct {
+	Type       string      `json:"type"`
+	Message    MessageLine `json:"message"`
+	Timestamp  int         `json:"timestamp"`
+	Source     Source      `json:"source"`
+	ReplyToken string      `json:"replyToken"`
+	Mode       string      `json:"mode"`
+}
+type MessageLine struct {
+	Type string `json:"type"`
+	Id   string `json:"id"`
+	Text string `json:"text"`
+}
+type Source struct {
+	Type    string `json:"type"`
+	GroupId string `json:"groupId"`
+	UserId  string `json:"userId"`
 }
