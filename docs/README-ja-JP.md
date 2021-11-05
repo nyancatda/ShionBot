@@ -10,13 +10,13 @@ Ginと[mirai-api-http](https://github.com/project-mirai/mirai-api-http)に基づ
 
 ## 使い方
 
-##   スタートアップ
+## 💮 スタートアップ
 1. [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)から最新バージョンの構築をダウンロードする
 1. プログラムの同じディレクトリで[config.yml](#configyml%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88)を作成して、それからテンプレートにしたがってメッセージを入力する
 1. 配置[聊天软件](#聊天软件配置)
 1. プログラムを実行する
 
-## 聊天软件配置
+## 🛠️ 聊天软件配置
 *请至少配置一个聊天软件，否则机器人将无法工作*
 ### mirai-api-http(QQ)
 1. httpとwebhookを起動する
@@ -104,7 +104,7 @@ Wiki:
     WikiLink: https://zh.moegirl.org.cn
 ```
 
-## コマンド
+## 🔣 コマンド
 0. 帮助
 ```
 /help
@@ -137,7 +137,7 @@ mw:◯◯
 /language ja-JP
 ```
 
-## 多语言アダプテーション
+## 🌐 多语言アダプテーション
 現在使える言語は:  
 進度:  
 - [x] zh-CN(中文/简体)
@@ -148,7 +148,7 @@ mw:◯◯
 
 このプロジェクトにさらに言語を追加したい場合は、repositoryをforkして、`language`ディレクトリでファイルを作成する。翻訳ができたらmaster repositoriesに提出したら助かります
 
-##   最後
+## 🎐 最後
 このプロジェクトの翻訳の提供者に感謝します
 *以下のリストは優先順位つけていない*
 1. [SuperYYT](https://github.com/SuperYYT)  

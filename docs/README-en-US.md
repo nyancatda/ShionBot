@@ -10,13 +10,13 @@ Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-htt
 
 ## How to ues
 
-## Start  
+## 💮 Start  
 1. Download the latest [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases). 
 1. Create [config.yml](#configyml-template) in the program's sibling directory. And follow the template to fill in the information. 
 1. 配置[聊天软件](#聊天软件配置)
 1. Run the program. 
 
-## 聊天软件配置
+## 🛠️ 聊天软件配置
 *请至少配置一个聊天软件，否则机器人将无法工作*
 ### mirai-api-http(QQ)
 1. Enable the http and webhook
@@ -104,7 +104,7 @@ Wiki:
     WikiLink: https://zh.moegirl.org.cn
 ```
 
-## Command
+## 🔣 Command
 0. 帮助
 ```
 /help
@@ -137,7 +137,7 @@ Example
 /language zh-CN
 ```
 
-## Multi-language
+## 🌐 Multi-language
 Adaptation progress: 
 - [x] zh-CN(中文/简体)
 - [ ] zh-HK(中文/香港)
@@ -147,7 +147,7 @@ Adaptation progress:
 
 If you want to add more languages to this project, please fork the repository and create a new language file in the `language` directory. After the translation is completed, you can pull the request to the main repository. 
 
-## Thanks  
+## 🎐 Thanks  
 Thanks to all contributors  
 *Names not listed in order*
 1. [SuperYYT](https://github.com/SuperYYT)  

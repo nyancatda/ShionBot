@@ -5,18 +5,18 @@
 
 基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
 
-*项目目前处于开发阶段，存在很多问题，可扩展性也很差，只能说堪堪能用，以后慢慢完善吧*  
-*代码写的很烂，函数基本上想到啥封装啥，变量也是想到什么写什么，高血压请勿阅读*
+*项目目前处于开发阶段，存在很多问题，请自行判断使用场景是否合适*  
+*因为本人水平有限，代码质量不高，如果让你感到不适，我很抱歉*
 
 ## 如何使用
 
-## 启动  
+## 💮 启动  
 1. 从[Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)下载最新构建
 1. 在程序同级目录创建[config.yml](#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
 1. 配置[聊天软件](#聊天软件配置)
 1. 运行程序
 
-## 聊天软件配置
+## 🛠️ 聊天软件配置
 *请至少配置一个聊天软件，否则机器人将无法工作*
 ### mirai-api-http(QQ)
 1. 启用http和webhook
@@ -112,7 +112,7 @@ Wiki:
     WikiLink: https://zh.moegirl.org.cn
 ```
 
-## 命令
+## 🔣 命令
 0. 帮助
 ```
 /help
@@ -145,7 +145,7 @@ mw:首页
 /language zh-CN
 ```
 
-## 多语言适配
+## 🌐 多语言适配
 多语言适配进度:  
 - [x] zh-CN(中文/简体)
 - [ ] zh-HK(中文/香港)
@@ -155,7 +155,7 @@ mw:首页
 
 如果您希望为本项目增加更多语言，请fork仓库后在`language`目录下建立目标语言文件，完成翻译后可以请求提交至主仓库
 
-## 鸣谢  
+## 🎐 鸣谢  
 感谢大佬们对这个项目的支持  
 *排名不分先后*
 1. [SuperYYT](https://github.com/SuperYYT)  
