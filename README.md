@@ -84,6 +84,11 @@ SNS:
     Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
     #TelegramAPI地址
     BotAPILink: https://api.telegram.org/
+  Line:
+    #是否启用Line机器人部分
+    Switch: true
+    #机器人的访问token
+    ChannelAccessToken: Qik9O7sP49vCeY/b6zWaDa0......
 #Wiki链接，支持多个，第一个为主Wiki
 Wiki:
   - 
