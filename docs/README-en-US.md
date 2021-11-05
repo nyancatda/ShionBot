@@ -1,7 +1,7 @@
 [中文](https://github.com/nyancatda/MediaWiki-Bot) | English | [日本語](README-ja-JP.md)
 # MediaWiki-Bot
 通过聊天软件对MediaWiki进行信息查询的机器人   
-可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram
+可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram，Line
 
 Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-http)
 
@@ -55,6 +55,15 @@ adapterSettings:
   ```
   *注意，Telegram的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
 1. 如果你的服务器位于中国大陆，你还需要搭建Telegram Bot API的反向代理服务，关于如何搭建，请查看[TelegramBotAPI反向代理服务器搭建](docs/Telegram/ReverseProxyAPI.md)
+### Line
+1. 设置Line Bot WebHook上报地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，可以在[Developers的控制台](https://developers.line.biz/console/)里设置，也可以[使用API设置](https://developers.line.biz/en/reference/messaging-api/#set-webhook-endpoint-url)  
+WebHook地址例子:
+```
+https://127.0.0.1:8000/32eeAme5lwEG0KL
+```
+*注意，Line的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
+
+2. 如果你的服务器位于中国大陆，你还需要搭建Line Bot API的反向代理服务，关于如何搭建，请查看[LineBotAPI反向代理服务器搭建](docs/Line/ReverseProxyAPI.md)
 
 ## config.yml template
 ```
