@@ -3,7 +3,6 @@ package Plugin
 import (
 	"fmt"
 	"log"
-	"strconv"
 	"strings"
 
 	"github.com/antchfx/htmlquery"
@@ -11,8 +10,8 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
-func Error(SNSName string, UserID int, WikiLink string, title string) string {
-	text := Language.StringVariable(2, Language.Message(SNSName, strconv.Itoa(UserID)).GetWikiInfoError, WikiLink, title)
+func Error(SNSName string, UserID string, WikiLink string, title string) string {
+	text := Language.StringVariable(2, Language.Message(SNSName, UserID).GetWikiInfoError, WikiLink, title)
 	return text
 }
 
@@ -37,10 +36,10 @@ func SearchWiki(WikiName string, title string) string {
 }
 
 //为空处理
-func NilProcessing(SNSName string, UserID int, WikiName string, title string) string {
+func NilProcessing(SNSName string, UserID string, WikiName string, title string) string {
 	SearchInfo := SearchWiki(WikiName, title)
 	if SearchInfo != "" {
-		Info := Language.StringVariable(2, Language.Message(SNSName, strconv.Itoa(UserID)).WikiInfoSearch, SearchInfo, WikiName)
+		Info := Language.StringVariable(2, Language.Message(SNSName, UserID).WikiInfoSearch, SearchInfo, WikiName)
 		return Info
 	} else {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
@@ -98,7 +97,7 @@ func QueryRedirects(WikiName string, title string) (whether bool, to string, fro
 }
 
 //获取Wiki页面信息
-func GetWikiInfo(SNSName string, UserID int, WikiName string, title string) (string, error) {
+func GetWikiInfo(SNSName string, UserID string, WikiName string, title string) (string, error) {
 	var err error
 	RedirectsState, ToTitle, FromTitle, _ := QueryRedirects(WikiName, title)
 	var info map[string]interface{}
@@ -132,7 +131,7 @@ func GetWikiInfo(SNSName string, UserID int, WikiName string, title string) (str
 				log.Println(err)
 			}
 			WikiPageLink := WikiPageInfo.(map[string]interface{})["fullurl"].(string)
-			info := Language.StringVariable(2, Language.Message(SNSName, strconv.Itoa(UserID)).WikiInfoRedirect, FromTitle, ToTitle)
+			info := Language.StringVariable(2, Language.Message(SNSName, UserID).WikiInfoRedirect, FromTitle, ToTitle)
 			returnText = WikiPageLink + info + PagesExtract.(string)
 		} else {
 			WikiPageInfo, err := QueryWikiInfo(WikiName, title)
