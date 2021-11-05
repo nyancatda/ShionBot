@@ -48,7 +48,7 @@ adapterSettings:
     - 'http://127.0.0.1:8000/'
 ```
 ### Telegram
-1. 设置Telegram WebHook上报地址为机器人接收地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
+1. 设置Telegram WebHook上报地址为机器人接收地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)  
   WebHook地址例子:
   ```
   https://127.0.0.1:8000/32eeAme5lwEG0KL
