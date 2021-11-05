@@ -1,4 +1,4 @@
-中文 | [English](ReverseProxyAPI-en-US.md) | [日本語](ReverseProxyAPI-ja-JP.md)
+[中文](ReverseProxyAPI.md) | English | [日本語](ReverseProxyAPI-ja-JP.md)
 # TelegramBotAPI反向代理服务器搭建
 *本篇教程将告诉你如何使用CloudFlare Workers搭建一个自己的TelegramBotAPI反向代理服务器*
 1. 前往[CloudFlare Workers](https://workers.cloudflare.com/)官网，注册一个账号，并新建一个Worker
