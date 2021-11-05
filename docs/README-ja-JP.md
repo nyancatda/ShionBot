@@ -56,13 +56,19 @@ Run:
   #ボットの言語を選ぶ
   #中国語:zh-CN,英語:en-US,日本語ja-JP
   Language: zh-CN
-QQBot:
-  #HttpAPIアドレス
-  APILink: http://127.0.0.1:8888
-  #ボットのQQアプリ番号
-  BotQQNumber: 1000000000
-  #HttpAPIのVerifyKey
-  VerifyKey: 5eadce46qw58
+SNS:
+  QQ:
+    #HttpAPIアドレス
+    APILink: http://127.0.0.1:8888
+    #ボットのQQアプリ番号
+    BotQQNumber: 1000000000
+    #HttpAPIのVerifyKey
+    VerifyKey: 5eadce46qw58
+  Telegram:
+    #机器人toekn
+    Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
+    #TelegramAPI地址
+    BotAPILink: https://api.telegram.org/
 #Wikiアドレス 複数、一番目が優先のWiki
 Wiki:
   - 

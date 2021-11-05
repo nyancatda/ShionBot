@@ -56,13 +56,19 @@ Run:
   #Language
   #Chinese:zh-CN,English:en-US,Japanese:ja-JP
   Language: zh-CN
-QQBot:
-  #HttpAPI address
-  APILink: http://127.0.0.1:8888
-  #The robot QQ number
-  BotQQNumber: 1000000000
-  #HttpAPI‘s VerifyKey
-  VerifyKey: 5eadce46qw58
+SNS:
+  QQ:
+    #HttpAPI address
+    APILink: http://127.0.0.1:8888
+    #The robot QQ number
+    BotQQNumber: 1000000000
+    #HttpAPI‘s VerifyKey
+    VerifyKey: 5eadce46qw58
+  Telegram:
+    #机器人toekn
+    Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
+    #TelegramAPI地址
+    BotAPILink: https://api.telegram.org/
 #Wiki urls. Multiple URLs can be added. The first one is the default Wiki
 Wiki:
   - 
