@@ -7,30 +7,38 @@ import (
 )
 
 type Config struct {
-	Run *Run `yaml:"Run"`
-	QQBot *QQBot `yaml:"QQBot"`
+	Run  *Run        `yaml:"Run"`
+	SNS  *SNS        `yaml:"SNS"`
 	Wiki interface{} `yaml:"Wiki"`
 }
 
 type Run struct {
 	WebHookPort string `yaml:"WebHookPort"`
-	Language string `yaml:"Language"`
+	Language    string `yaml:"Language"`
 }
 
-type QQBot struct {
-	APILink string `yaml:"APILink"`
-	BotQQNumber int `yaml:"BotQQNumber"`
-	VerifyKey string `yaml:"VerifyKey"`
+type SNS struct {
+	QQ       *QQ       `yaml:"QQ"`
+	Telegram *Telegram `yaml:"Telegram"`
+}
+type QQ struct {
+	APILink     string `yaml:"APILink"`
+	BotQQNumber int    `yaml:"BotQQNumber"`
+	VerifyKey   string `yaml:"VerifyKey"`
+}
+type Telegram struct {
+	Token      string `yaml:"Token"`
+	BotAPILink string `yaml:"BotAPILink"`
 }
 
-func ReadConfig() (*Config) {
-	content,err := ioutil.ReadFile("./config.yml")
-	if err != nil{
+func ReadConfig() *Config {
+	content, err := ioutil.ReadFile("./config.yml")
+	if err != nil {
 		panic(err)
 	}
 	newStu := &Config{}
-	err = yaml.Unmarshal(content,&newStu)
-	if err != nil{
+	err = yaml.Unmarshal(content, &newStu)
+	if err != nil {
 		panic(err)
 	}
 	return newStu

@@ -5,5 +5,12 @@ import (
 )
 
 func InformationProcessing(json Struct.WebHookJson) {
-	QQMessageProcessing(json)
+	if json.Type != "" {
+		QQMessageProcessing(json)
+		return
+	}
+
+	if json.Update_id != 0 {
+		TelegramMessageProcessing(json)
+	}
 }

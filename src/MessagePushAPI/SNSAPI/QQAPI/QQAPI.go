@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"time"
 
+	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
@@ -16,19 +16,21 @@ type returnJson struct {
 	MessageId string `json:"messageId"`
 }
 
+var sns_name string = "QQ"
+
 func sendError(body []byte, err error, url string, requestBody string) {
 	if err != nil {
-		fmt.Println(Language.Message("").CannotConnectMirai)
+		fmt.Println(Language.Message("", "").CannotConnectMirai)
 	} else {
 		var config returnJson
 		json.Unmarshal([]byte(body), &config)
 		if config.Code != 0 {
 			SessionKey, resp, err := CreateSessionKey()
 			if err != nil {
-				fmt.Println(Language.Message("").CannotConnectMirai)
+				fmt.Println(Language.Message("", "").CannotConnectMirai)
 				fmt.Println(err)
 			} else if resp.Status != "200 OK" {
-				fmt.Println(Language.Message("").CannotConnectMirai)
+				fmt.Println(Language.Message("", "").CannotConnectMirai)
 			} else {
 				var result map[string]interface{}
 				json.Unmarshal([]byte(requestBody), &result)
@@ -38,17 +40,6 @@ func sendError(body []byte, err error, url string, requestBody string) {
 			}
 		}
 	}
-}
-
-//日志输出
-//Type 消息类型，可选 Friend,Group,Stranger
-//target 消息来源
-//text 消息主体
-func log(Type string, target string, text string) {
-	timestamp := time.Now().Unix()
-	tm := time.Unix(timestamp, 0)
-
-	fmt.Println("[" + tm.Format("2006-01-02 03:04:05") + "] [" + Type + "] " + target + " -> " + text)
 }
 
 //发送群消息
@@ -86,11 +77,11 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 		}`, sessionKey, target, text)
 	}
 
-	url := Config.QQBot.APILink + "/sendGroupMessage"
+	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log("Group", strconv.Itoa(target), text)
+	SNSAPI.Log(sns_name, "Group", strconv.Itoa(target), text)
 }
 
 //发送带@的群消息
@@ -115,11 +106,11 @@ func SendGroupAtMessage(target int, text string, AtID int) {
 			}
 			]
 		}`, sessionKey, target, AtID, text)
-	url := Config.QQBot.APILink + "/sendGroupMessage"
+	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log("Group", strconv.Itoa(target), text)
+	SNSAPI.Log(sns_name, "Group", strconv.Itoa(target), text)
 }
 
 //发送头像戳一戳
@@ -136,11 +127,11 @@ func SendNudge(target int, subject int, kind string) {
 		"kind":"%s"
 	}`, sessionKey, target, subject, kind)
 
-	url := Config.QQBot.APILink + "/sendNudge"
+	url := Config.SNS.QQ.APILink + "/sendNudge"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log(kind, strconv.Itoa(subject), Language.Message("").Nudge+strconv.Itoa(target))
+	SNSAPI.Log(sns_name, kind, strconv.Itoa(subject), Language.Message("", "").Nudge+strconv.Itoa(target))
 }
 
 //发送好友消息
@@ -178,11 +169,11 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) {
 		}`, sessionKey, target, text)
 	}
 
-	url := Config.QQBot.APILink + "/sendFriendMessage"
+	url := Config.SNS.QQ.APILink + "/sendFriendMessage"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log("Friend", strconv.Itoa(target), text)
+	SNSAPI.Log(sns_name, "Friend", strconv.Itoa(target), text)
 }
 
 //发送临时会话
@@ -223,9 +214,9 @@ func SendTempMessage(target int, group int, text string, quote bool, quoteID int
 		}`, sessionKey, target, group, text)
 	}
 
-	url := Config.QQBot.APILink + "/sendTempMessage"
+	url := Config.SNS.QQ.APILink + "/sendTempMessage"
 	body, _, err := utils.PostRequestJosn(url, requestBody)
 	sendError(body, err, url, requestBody)
 
-	log("Temp", strconv.Itoa(target), text)
+	SNSAPI.Log(sns_name, "Temp", strconv.Itoa(target), text)
 }

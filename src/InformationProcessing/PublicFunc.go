@@ -5,10 +5,16 @@ import (
 
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
+//Wiki链接错误返回
+func Error(SNSName string, UserID string, WikiLink string) string {
+	return Language.StringVariable(1, Language.Message(SNSName, UserID).WikiLinkError, WikiLink, "")
+}
+
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数
-func CommandExtraction(SNSName string, QQjson Struct.WebHookJson, text string) (bool, string, string) {
+func CommandExtraction(SNSName string, json Struct.WebHookJson, text string) (bool, string, string) {
 	if find := strings.Contains(text, ":"); find {
 		Config := utils.ReadConfig()
 		var ConfigWikiName string
@@ -34,7 +40,9 @@ func CommandExtraction(SNSName string, QQjson Struct.WebHookJson, text string) (
 	} else if find := strings.Contains(text, "/"); find {
 		switch SNSName {
 		case "QQ":
-			QQSettingsMessageProcessing(QQjson)
+			QQSettingsMessageProcessing(json)
+		case "Telegram":
+			TelegramSettingsMessageProcessing(json)
 		}
 		return false, "", "/"
 	}

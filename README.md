@@ -1,7 +1,7 @@
 中文 | [English](docs/README-en-US.md) | [日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
-MediaWiki的多语言QQ查询机器人  
-可以对使用MediaWiki搭建的站点进行信息查询，支持多种语言
+通过聊天软件对MediaWiki进行查询信息的机器人  
+可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram
 
 基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
 
@@ -12,16 +12,19 @@ MediaWiki的多语言QQ查询机器人
 
 ## 启动  
 1. 从[Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)下载最新构建
-1. 在程序同级目录创建[config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
-1. 配置[mirai-api-http](https://github.com/nyancatda/MediaWiki-Bot#%E9%85%8D%E7%BD%AEmirai-api-http)
+1. 在程序同级目录创建[config.yml](#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
+1. 配置[聊天软件](#聊天软件配置)
 1. 运行程序
 
-## 配置mirai-api-http
+## 聊天软件配置
+*请至少配置一个聊天软件，否则机器人将无法工作*
+### mirai-api-http(QQ)
 1. 启用http和webhook
 1. 启用enableVerify，并设置VerifyKey
 1. 将webhook地址设置为http://127.0.0.1:+指定的机器人运行端口
 
-setting.yml模板*仅供参考*
+setting.yml模板  
+*仅供参考*
 ```
 adapters:
   - http
@@ -40,6 +43,10 @@ adapterSettings:
     destinations: 
     - 'http://127.0.0.1:8000/'
 ```
+### Telegram
+1. 设置Telegram WebHook上报地址为机器人接收地址，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
+  *注意，Telegram的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
+1. 如果你的服务器位于中国大陆，你还需要搭建Telegram Bot API的反向代理服务，关于如何搭建，请查看[TelegramBotAPI反向代理服务器搭建](docs/Telegram/ReverseProxyAPI.md)
 
 ## config.yml文件模板
 ```
@@ -49,13 +56,19 @@ Run:
   #指定机器人的语言
   #中文:zh-CN,英语:en-US,日语ja-JP
   Language: zh-CN
-QQBot:
-  #HttpAPI地址
-  APILink: http://127.0.0.1:8888
-  #机器人QQ号
-  BotQQNumber: 1000000000
-  #HttpAPI的VerifyKey
-  VerifyKey: 5eadce46qw58
+SNS:
+  QQ:
+    #HttpAPI地址
+    APILink: http://127.0.0.1:8888
+    #机器人QQ号
+    BotQQNumber: 1000000000
+    #HttpAPI的VerifyKey
+    VerifyKey: 5eadce46qw58
+  Telegram:
+    #机器人toekn
+    Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
+    #TelegramAPI地址
+    BotAPILink: https://api.telegram.org/
 #Wiki链接，支持多个，第一个为主Wiki
 Wiki:
   - 

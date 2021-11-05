@@ -22,16 +22,16 @@ func CreateSessionKey() (string, *http.Response, error) {
 	requestBody := fmt.Sprintf(`{
 		"verifyKey": "%s",
 		"qq": %d
-	  }`, OldSessionKey, Config.QQBot.BotQQNumber)
-	url := Config.QQBot.APILink + "/release"
+	  }`, OldSessionKey, Config.SNS.QQ.BotQQNumber)
+	url := Config.SNS.QQ.APILink + "/release"
 	utils.PostRequestJosn(url, requestBody)
 
 	var SessionKey string
 	Config = utils.ReadConfig()
 	requestBody = fmt.Sprintf(`{
 		"verifyKey": "%s"
-	}`, Config.QQBot.VerifyKey)
-	url = Config.QQBot.APILink + "/verify"
+	}`, Config.SNS.QQ.VerifyKey)
+	url = Config.SNS.QQ.APILink + "/verify"
 	body, resp, http_error := utils.PostRequestJosn(url, requestBody)
 
 	var config verifyJson
@@ -42,8 +42,8 @@ func CreateSessionKey() (string, *http.Response, error) {
 	requestBody = fmt.Sprintf(`{
 		"sessionKey": "%s",
 		"qq": %d
-	}`, SessionKey, Config.QQBot.BotQQNumber)
-	url = Config.QQBot.APILink + "/bind"
+	}`, SessionKey, Config.SNS.QQ.BotQQNumber)
+	url = Config.SNS.QQ.APILink + "/bind"
 	utils.PostRequestJosn(url, requestBody)
 
 	//缓存SessionKey

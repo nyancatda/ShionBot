@@ -11,8 +11,8 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
-func Error(UserID int, WikiLink string, title string) string {
-	text := Language.StringVariable(2, Language.Message(strconv.Itoa(UserID)).GetWikiInfoError, WikiLink, title)
+func Error(SNSName string, UserID int, WikiLink string, title string) string {
+	text := Language.StringVariable(2, Language.Message(SNSName, strconv.Itoa(UserID)).GetWikiInfoError, WikiLink, title)
 	return text
 }
 
@@ -37,14 +37,14 @@ func SearchWiki(WikiName string, title string) string {
 }
 
 //为空处理
-func NilProcessing(UserID int, WikiName string, title string) string {
+func NilProcessing(SNSName string, UserID int, WikiName string, title string) string {
 	SearchInfo := SearchWiki(WikiName, title)
 	if SearchInfo != "" {
-		Info := Language.StringVariable(2, Language.Message(strconv.Itoa(UserID)).WikiInfoSearch, SearchInfo, WikiName)
+		Info := Language.StringVariable(2, Language.Message(SNSName, strconv.Itoa(UserID)).WikiInfoSearch, SearchInfo, WikiName)
 		return Info
 	} else {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		return Error(UserID, WikiLink, title)
+		return Error(SNSName, UserID, WikiLink, title)
 	}
 }
 
@@ -98,7 +98,7 @@ func QueryRedirects(WikiName string, title string) (whether bool, to string, fro
 }
 
 //获取Wiki页面信息
-func GetWikiInfo(UserID int, WikiName string, title string) (string, error) {
+func GetWikiInfo(SNSName string, UserID int, WikiName string, title string) (string, error) {
 	var err error
 	RedirectsState, ToTitle, FromTitle, _ := QueryRedirects(WikiName, title)
 	var info map[string]interface{}
@@ -110,12 +110,12 @@ func GetWikiInfo(UserID int, WikiName string, title string) (string, error) {
 
 	_, ok := info["query"]
 	if !ok {
-		return NilProcessing(UserID, WikiName, title), err
+		return NilProcessing(SNSName, UserID, WikiName, title), err
 	}
 
 	pagesIdInfo, ok := info["query"].(map[string]interface{})["pages"]
 	if !ok {
-		return NilProcessing(UserID, WikiName, title), err
+		return NilProcessing(SNSName, UserID, WikiName, title), err
 	}
 
 	var PageId string
@@ -132,7 +132,7 @@ func GetWikiInfo(UserID int, WikiName string, title string) (string, error) {
 				log.Println(err)
 			}
 			WikiPageLink := WikiPageInfo.(map[string]interface{})["fullurl"].(string)
-			info := Language.StringVariable(2, Language.Message(strconv.Itoa(UserID)).WikiInfoRedirect, FromTitle, ToTitle)
+			info := Language.StringVariable(2, Language.Message(SNSName, strconv.Itoa(UserID)).WikiInfoRedirect, FromTitle, ToTitle)
 			returnText = WikiPageLink + info + PagesExtract.(string)
 		} else {
 			WikiPageInfo, err := QueryWikiInfo(WikiName, title)
@@ -144,6 +144,6 @@ func GetWikiInfo(UserID int, WikiName string, title string) (string, error) {
 		}
 		return returnText, err
 	} else {
-		return NilProcessing(UserID, WikiName, title), err
+		return NilProcessing(SNSName, UserID, WikiName, title), err
 	}
 }
