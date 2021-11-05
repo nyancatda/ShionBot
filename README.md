@@ -12,8 +12,8 @@
 
 ## 启动  
 1. 从[Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)下载最新构建
-1. 在程序同级目录创建[config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
-1. 配置[聊天软件]()
+1. 在程序同级目录创建[config.yml](#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
+1. 配置[聊天软件](#聊天软件配置)
 1. 运行程序
 
 ## 聊天软件配置

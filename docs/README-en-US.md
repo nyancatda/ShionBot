@@ -12,8 +12,8 @@ Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-htt
 
 ## Start  
 1. Download the latest [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases). 
-1. Create [config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF) in the program's sibling directory. And follow the template to fill in the information. 
-1. 配置[聊天软件]()
+1. Create [config.yml](#configyml-template) in the program's sibling directory. And follow the template to fill in the information. 
+1. 配置[聊天软件](#聊天软件配置)
 1. Run the program. 
 
 ## 聊天软件配置

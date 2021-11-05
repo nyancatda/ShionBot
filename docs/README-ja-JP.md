@@ -12,8 +12,8 @@ Ginと[mirai-api-http](https://github.com/project-mirai/mirai-api-http)に基づ
 
 ##   スタートアップ
 1. [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)から最新バージョンの構築をダウンロードする
-1. プログラムの同じディレクトリで[config.yml](https://github.com/nyancatda/MediaWiki-Bot#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)を作成して、それからテンプレートにしたがってメッセージを入力する
-1. 配置[聊天软件]()
+1. プログラムの同じディレクトリで[config.yml](#configyml%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88)を作成して、それからテンプレートにしたがってメッセージを入力する
+1. 配置[聊天软件](#聊天软件配置)
 1. プログラムを実行する
 
 ## 聊天软件配置
