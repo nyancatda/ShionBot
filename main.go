@@ -25,6 +25,14 @@ func main() {
 	//释放资源文件
 	ReleaseFile.ReleaseFile()
 
+	//建立数据储存文件夹
+	_, err := os.Stat("./data")
+	if err != nil {
+		os.MkdirAll("./data", 0777)
+		db := utils.SQLLiteLink()
+		db.AutoMigrate(&Struct.UserInfo{})
+	}
+
 	//读取配置文件
 	Config := utils.ReadConfig()
 

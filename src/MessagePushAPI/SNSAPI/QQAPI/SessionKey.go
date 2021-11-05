@@ -16,7 +16,7 @@ type verifyJson struct {
 
 func CreateSessionKey() (string, *http.Response, error) {
 	//释放旧的SessionKey
-	bytes, _ := ioutil.ReadFile("SessionKey")
+	bytes, _ := ioutil.ReadFile("data/SessionKey")
 	OldSessionKey := string(bytes)
 	Config := utils.ReadConfig()
 	requestBody := fmt.Sprintf(`{
@@ -47,12 +47,12 @@ func CreateSessionKey() (string, *http.Response, error) {
 	utils.PostRequestJosn(url, requestBody)
 
 	//缓存SessionKey
-	ioutil.WriteFile("SessionKey", []byte(SessionKey), 0664)
+	ioutil.WriteFile("data/SessionKey", []byte(SessionKey), 0664)
 	return SessionKey, resp, http_error
 }
 
 func GetSessionKey() string {
-	bytes, _ := ioutil.ReadFile("SessionKey")
+	bytes, _ := ioutil.ReadFile("data/SessionKey")
 	SessionKey := string(bytes)
 
 	return SessionKey

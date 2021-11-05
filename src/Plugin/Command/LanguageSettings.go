@@ -11,8 +11,6 @@ func LanguageSettings(SNSName string, UserID string, Language string) (string, b
 	var Message string
 	db := utils.SQLLiteLink()
 
-	db.AutoMigrate(&Struct.UserInfo{})
-
 	var user Struct.UserInfo
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 	if user.Account != UserID {
