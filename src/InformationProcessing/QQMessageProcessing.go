@@ -51,7 +51,7 @@ func QQsendTempdWikiInfo(WikiName string, UserID string, GroupID int, QueryText 
 
 //戳一戳消息处理
 func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
-	UserID := json.Sender.Id
+	UserID := json.FromId
 	HelpText := Language.Message(sns_name_qq, strconv.Itoa(UserID)).HelpText
 	switch json.Subject.Kind {
 	case "Group":
@@ -60,7 +60,7 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 			MessagePushAPI.SendMessage(sns_name_qq, "GroupAt", strconv.Itoa(json.Subject.Id), HelpText, false, "", strconv.Itoa(json.FromId), 0)
 		}
 	case "Friend":
-		go MessagePushAPI.SendMessage(sns_name_qq, "Friend", strconv.Itoa(json.FromId), HelpText, false, "", "", 0)
+		go MessagePushAPI.SendMessage(sns_name_qq, "Friend", strconv.Itoa(UserID), HelpText, false, "", "", 0)
 	}
 }
 
