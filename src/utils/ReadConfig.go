@@ -14,6 +14,7 @@ type Config struct {
 
 type Run struct {
 	WebHookPort string `yaml:"WebHookPort"`
+	WebHookKey  string `yaml:"WebHookKey"`
 	Language    string `yaml:"Language"`
 }
 

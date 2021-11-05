@@ -1,6 +1,6 @@
 中文 | [English](docs/README-en-US.md) | [日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
-通过聊天软件对MediaWiki进行查询信息的机器人  
+通过聊天软件对MediaWiki进行信息查询的机器人  
 可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram
 
 基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
@@ -21,7 +21,11 @@
 ### mirai-api-http(QQ)
 1. 启用http和webhook
 1. 启用enableVerify，并设置VerifyKey
-1. 将webhook地址设置为http://127.0.0.1:+指定的机器人运行端口
+1. 将webhook地址设置为http://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>
+  例子:
+  ```
+  http://127.0.0.1:8000/32eeAme5lwEG0KL
+  ```
 
 setting.yml模板  
 *仅供参考*
@@ -44,7 +48,11 @@ adapterSettings:
     - 'http://127.0.0.1:8000/'
 ```
 ### Telegram
-1. 设置Telegram WebHook上报地址为机器人接收地址，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
+1. 设置Telegram WebHook上报地址为机器人接收地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
+  WebHook地址例子:
+  ```
+  https://127.0.0.1:8000/32eeAme5lwEG0KL
+  ```
   *注意，Telegram的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
 1. 如果你的服务器位于中国大陆，你还需要搭建Telegram Bot API的反向代理服务，关于如何搭建，请查看[TelegramBotAPI反向代理服务器搭建](docs/Telegram/ReverseProxyAPI.md)
 
@@ -53,6 +61,8 @@ adapterSettings:
 Run:
   #指定机器人的WebHook接收的端口
   WebHookPort: 8000
+  #指定机器人的WebHook密钥(只能使用字母与数字)
+  WebHookKey: 32eeAme5lwEG0KL
   #指定机器人的语言
   #中文:zh-CN,英语:en-US,日语ja-JP
   Language: zh-CN
