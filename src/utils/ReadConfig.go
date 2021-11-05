@@ -37,6 +37,7 @@ type Telegram struct {
 type Line struct {
 	Switch             bool   `yaml:"Switch"`
 	ChannelAccessToken string `yaml:"ChannelAccessToken"`
+	BotAPILink         string `yaml:"BotAPILink"`
 }
 
 func ReadConfig() *Config {

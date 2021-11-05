@@ -89,6 +89,8 @@ SNS:
     Switch: true
     #机器人的访问token
     ChannelAccessToken: Qik9O7sP49vCeY/b6zWaDa0......
+    #LineBotAPI地址
+    BotAPILink: https://api.line.me/
 #Wiki链接，支持多个，第一个为主Wiki
 Wiki:
   - 

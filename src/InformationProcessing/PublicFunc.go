@@ -43,6 +43,8 @@ func CommandExtraction(SNSName string, json Struct.WebHookJson, text string) (bo
 			QQSettingsMessageProcessing(json)
 		case "Telegram":
 			TelegramSettingsMessageProcessing(json)
+		case "Line":
+			LineSettingsMessageProcessing(json)
 		}
 		return false, "", "/"
 	}

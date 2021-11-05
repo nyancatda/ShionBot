@@ -1,7 +1,7 @@
 package LineAPI
 
 import (
-	"fmt"
+	"encoding/json"
 	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 )
@@ -14,17 +14,20 @@ var sns_name string = "Telegram"
 //notificationDisabled 是否需要静默发送
 func SendPushMessage(chat_type string, to string, messages string, notificationDisabled bool) {
 	Config := utils.ReadConfig()
-	requestBody := fmt.Sprintf(`{
-		"to": "%s",
-		"messages": [
-		  {
-			"type": "text",
-			"text": "%s"
-		  }
-		],
-		"notificationDisabled": %t
-	  }`, to, messages, notificationDisabled)
-	url := "https://api.line.me/v2/bot/message/push"
+	Json := map[string]interface{}{
+		"to":                   to,
+		"notificationDisabled": notificationDisabled,
+	}
+	JsonMessages := make([]map[string]string, 1)
+	JsonMessages[0] = map[string]string{
+		"type": "text",
+		"text": messages,
+	}
+	Json["messages"] = JsonMessages
+	JsonBody, _ := json.Marshal(Json)
+	requestBody := string(JsonBody)
+
+	url := Config.SNS.Line.BotAPILink + "v2/bot/message/push"
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
 	utils.PostRequestJosnHeader(url, requestBody, Header)
 
@@ -37,17 +40,20 @@ func SendPushMessage(chat_type string, to string, messages string, notificationD
 //notificationDisabled 是否需要静默发送
 func SendReplyMessage(chat_type string, replyToken string, messages string, notificationDisabled bool) {
 	Config := utils.ReadConfig()
-	requestBody := fmt.Sprintf(`{
-		"replyToken": "%s",
-		"messages": [
-		  {
-			"type": "text",
-			"text": "%s"
-		  }
-		],
-		"notificationDisabled": %t
-	  }`, replyToken, messages, notificationDisabled)
-	url := "https://api.line.me/v2/bot/message/reply"
+	Json := map[string]interface{}{
+		"replyToken":           replyToken,
+		"notificationDisabled": notificationDisabled,
+	}
+	JsonMessages := make([]map[string]string, 1)
+	JsonMessages[0] = map[string]string{
+		"type": "text",
+		"text": messages,
+	}
+	Json["messages"] = JsonMessages
+	JsonBody, _ := json.Marshal(Json)
+	requestBody := string(JsonBody)
+
+	url := Config.SNS.Line.BotAPILink + "v2/bot/message/reply"
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
 	utils.PostRequestJosnHeader(url, requestBody, Header)
 
