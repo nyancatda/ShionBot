@@ -21,7 +21,7 @@
 ### mirai-api-http(QQ)
 1. 启用http和webhook
 1. 启用enableVerify，并设置VerifyKey
-1. 将webhook地址设置为http://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>
+1. 将webhook地址设置为http://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>  
   例子:
   ```
   http://127.0.0.1:8000/32eeAme5lwEG0KL
