@@ -7,15 +7,18 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 )
 
-func Command(SNSName string, QQMessagejson Struct.WebHookJson, CommandText string) (string, bool) {
+func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string) (string, bool) {
 	if find := strings.Contains(CommandText, "language"); find {
+		countSplit := strings.SplitN(CommandText, " ", 2)
+		Language := countSplit[1]
+		var UserID int
 		switch SNSName {
 		case "QQ":
-			countSplit := strings.SplitN(CommandText, " ", 2)
-			Language := countSplit[1]
-			UserID := QQMessagejson.Sender.Id
-			return LanguageSettings(strconv.Itoa(UserID), Language)
+			UserID = Messagejson.Sender.Id
+		case "Telegram":
+			UserID = Messagejson.Message.From.Id
 		}
+		return LanguageSettings(SNSName, strconv.Itoa(UserID), Language)
 	}
 	return "", false
 }

@@ -49,16 +49,16 @@ func StringVariable(quantity int, strHaiCoder string, text0 string, text1 string
 	return text
 }
 
-//使用默认语言Account为空即可
-func Message(Account string) *LanguageInfo {
+//使用默认语言参数都为空即可
+func Message(SNSName string, Account string) *LanguageInfo {
 	var language string
 	if Account == "" {
 		Config := utils.ReadConfig()
 		language = Config.Run.Language
 	} else {
 		db := utils.SQLLiteLink()
-		var user Struct.QQUserInfo
-		db.Where("account = ?", Account).Find(&user)
+		var user Struct.UserInfo
+		db.Where("account = ? and sns_name = ?", Account, SNSName).Find(&user)
 		if user.Language != "" {
 			language = user.Language
 		} else {

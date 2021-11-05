@@ -16,7 +16,7 @@ import (
 )
 
 func Error() {
-	fmt.Printf(Language.Message("").MainErrorTips)
+	fmt.Printf(Language.Message("","").MainErrorTips)
 	key := make([]byte, 1)
 	os.Stdin.Read(key)
 	os.Exit(1)
@@ -30,10 +30,10 @@ func CycleGetKey() {
 		time.Sleep(299 * time.Second)
 		_, resp, err := QQAPI.CreateSessionKey()
 		if err != nil {
-			fmt.Println(Language.Message("").UnableApplySession)
+			fmt.Println(Language.Message("","").UnableApplySession)
 			fmt.Println(err)
 		} else if resp.Status != "200 OK" {
-			fmt.Println(Language.Message("").UnableApplySession)
+			fmt.Println(Language.Message("","").UnableApplySession)
 		}
 	}
 }
@@ -48,10 +48,10 @@ func main() {
 	//缓存mirai-api-http Session并启动定时获取进程
 	_, resp, err := QQAPI.CreateSessionKey()
 	if err != nil {
-		fmt.Println(Language.Message("").CannotConnectMirai)
+		fmt.Println(Language.Message("","").CannotConnectMirai)
 		Error()
 	} else if resp.Status != "200 OK" {
-		fmt.Println(Language.Message("").CannotConnectMirai)
+		fmt.Println(Language.Message("","").CannotConnectMirai)
 		Error()
 	}
 	go CycleGetKey()
@@ -60,7 +60,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	Port := Config.Run.WebHookPort
-	fmt.Println(Language.StringVariable(1, Language.Message("").RunOK, Port, ""))
+	fmt.Println(Language.StringVariable(1, Language.Message("","").RunOK, Port, ""))
 	r.POST("/", func(c *gin.Context) {
 		var json Struct.WebHookJson
 		if err := c.ShouldBindJSON(&json); err != nil {
