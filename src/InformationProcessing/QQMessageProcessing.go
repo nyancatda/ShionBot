@@ -56,8 +56,8 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 	switch json.Subject.Kind {
 	case "Group":
 		if json.FromId != utils.ReadConfig().SNS.QQ.BotQQNumber && json.Target == utils.ReadConfig().SNS.QQ.BotQQNumber {
-			go MessagePushAPI.SendNudge(json.FromId, json.Subject.Id, "Group")
-			go MessagePushAPI.SendMessage(sns_name_qq, "GroupAt", json.Subject.Id, HelpText, false, 0, strconv.Itoa(json.FromId), 0)
+			MessagePushAPI.SendNudge(json.FromId, json.Subject.Id, "Group")
+			MessagePushAPI.SendMessage(sns_name_qq, "GroupAt", json.Subject.Id, HelpText, false, 0, strconv.Itoa(json.FromId), 0)
 		}
 	case "Friend":
 		go MessagePushAPI.SendMessage(sns_name_qq, "Friend", json.FromId, HelpText, false, 0, "", 0)
@@ -75,8 +75,8 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 				GroupID := json.Sender.Group.Id
 				quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
 				UserID := json.Sender.Id
-				go MessagePushAPI.SendNudge(UserID, GroupID, "Group")
-				go QQsendGroupWikiInfo(UserID, Command, GroupID, QueryText, quoteID)
+				MessagePushAPI.SendNudge(UserID, GroupID, "Group")
+				QQsendGroupWikiInfo(UserID, Command, GroupID, QueryText, quoteID)
 			}
 		}
 	case "FriendMessage":
@@ -85,7 +85,7 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text.(string))
 			if find {
 				UserID := json.Sender.Id
-				go QQsendFriendWikiInfo(Command, UserID, QueryText)
+				QQsendFriendWikiInfo(Command, UserID, QueryText)
 			}
 		}
 	case "TempMessage":
@@ -95,7 +95,7 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 			if find {
 				UserID := json.Sender.Id
 				GroupID := json.Sender.Group.Id
-				go QQsendTempdWikiInfo(Command, UserID, GroupID, QueryText)
+				QQsendTempdWikiInfo(Command, UserID, GroupID, QueryText)
 			}
 		}
 	case "NudgeEvent":
@@ -114,14 +114,14 @@ func QQSettingsMessageProcessing(json Struct.WebHookJson) {
 		case "GroupMessage":
 			GroupID := json.Sender.Group.Id
 			quoteID := int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64)))
-			go MessagePushAPI.SendMessage(sns_name_qq, "Group", GroupID, Message, true, quoteID, "", 0)
+			MessagePushAPI.SendMessage(sns_name_qq, "Group", GroupID, Message, true, quoteID, "", 0)
 		case "FriendMessage":
 			UserID := json.Sender.Id
-			go MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, Message, false, 0, "", 0)
+			MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, Message, false, 0, "", 0)
 		case "TempMessage":
 			UserID := json.Sender.Id
 			GroupID := json.Sender.Group.Id
-			go MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, Message, false, 0, "", GroupID)
+			MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, Message, false, 0, "", GroupID)
 		}
 	}
 }

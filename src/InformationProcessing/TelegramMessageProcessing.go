@@ -22,15 +22,15 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 		WikiInfo, err := Plugin.GetWikiInfo(sns_name_telegram,UserID, Command, QueryText)
 		if err != nil {
 			WikiLink := MediaWikiAPI.GetWikiLink(Command)
-			go MessagePushAPI.SendMessage(sns_name_telegram, "Default", ChatID, Error(sns_name_telegram,strconv.Itoa(UserID), WikiLink), false, 0, "", 0)
+			MessagePushAPI.SendMessage(sns_name_telegram, "Default", ChatID, Error(sns_name_telegram,strconv.Itoa(UserID), WikiLink), false, 0, "", 0)
 			return
 		}
 		switch json.Message.Chat.Type {
 		case "private":
-			go MessagePushAPI.SendMessage(sns_name_telegram, "Default", ChatID, WikiInfo, false, 0, "", 0)
+			MessagePushAPI.SendMessage(sns_name_telegram, "Default", ChatID, WikiInfo, false, 0, "", 0)
 		case "supergroup":
 			MassageID := json.Message.Message_id
-			go MessagePushAPI.SendMessage(sns_name_telegram, "Group", ChatID, WikiInfo, true, MassageID, "", 0)
+			MessagePushAPI.SendMessage(sns_name_telegram, "Group", ChatID, WikiInfo, true, MassageID, "", 0)
 		}
 	}
 }
