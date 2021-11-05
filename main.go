@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"xyz.nyan/MediaWiki-Bot/src/InformationProcessing"
@@ -22,22 +21,6 @@ func Error() {
 	os.Exit(1)
 }
 
-//定时请求mirai-api-http Session
-func CycleGetKey() {
-	for {
-		timer := time.NewTimer(1 * time.Second)
-		<-timer.C
-		time.Sleep(299 * time.Second)
-		_, resp, err := QQAPI.CreateSessionKey()
-		if err != nil {
-			fmt.Println(Language.Message("", "").UnableApplySession)
-			fmt.Println(err)
-		} else if resp.Status != "200 OK" {
-			fmt.Println(Language.Message("", "").UnableApplySession)
-		}
-	}
-}
-
 func main() {
 	//释放资源文件
 	ReleaseFile.ReleaseFile()
@@ -45,16 +28,10 @@ func main() {
 	//读取配置文件
 	Config := utils.ReadConfig()
 
-	//缓存mirai-api-http Session并启动定时获取进程
-	_, resp, err := QQAPI.CreateSessionKey()
-	if err != nil {
-		fmt.Println(Language.Message("", "").CannotConnectMirai)
-		Error()
-	} else if resp.Status != "200 OK" {
-		fmt.Println(Language.Message("", "").CannotConnectMirai)
-		Error()
+	//判断是否需要初始化QQ部分
+	if Config.SNS.QQ.Switch {
+		QQAPI.StartQQAPI()
 	}
-	go CycleGetKey()
 
 	//启动WebHook接收
 	gin.SetMode(gin.ReleaseMode)
@@ -62,7 +39,7 @@ func main() {
 	Port := Config.Run.WebHookPort
 	fmt.Println(Language.StringVariable(1, Language.Message("", "").RunOK, Port, ""))
 	WebHookKey := Config.Run.WebHookKey
-	r.POST("/" + WebHookKey, func(c *gin.Context) {
+	r.POST("/"+WebHookKey, func(c *gin.Context) {
 		var json Struct.WebHookJson
 		if err := c.ShouldBindJSON(&json); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -23,11 +23,13 @@ type SNS struct {
 	Telegram *Telegram `yaml:"Telegram"`
 }
 type QQ struct {
+	Switch      bool   `yaml:"Switch"`
 	APILink     string `yaml:"APILink"`
 	BotQQNumber int    `yaml:"BotQQNumber"`
 	VerifyKey   string `yaml:"VerifyKey"`
 }
 type Telegram struct {
+	Switch     bool   `yaml:"Switch"`
 	Token      string `yaml:"Token"`
 	BotAPILink string `yaml:"BotAPILink"`
 }

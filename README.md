@@ -69,6 +69,8 @@ Run:
   Language: zh-CN
 SNS:
   QQ:
+    #是否启用QQ机器人部分
+    Switch: true
     #HttpAPI地址
     APILink: http://127.0.0.1:8888
     #机器人QQ号
@@ -76,6 +78,8 @@ SNS:
     #HttpAPI的VerifyKey
     VerifyKey: 5eadce46qw58
   Telegram:
+    #是否启用Telegram机器人部分
+    Switch: true
     #机器人toekn
     Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
     #TelegramAPI地址

@@ -68,6 +68,8 @@ Run:
   Language: zh-CN
 SNS:
   QQ:
+    #是否启用QQ机器人部分
+    Switch: true
     #HttpAPIアドレス
     APILink: http://127.0.0.1:8888
     #ボットのQQアプリ番号
@@ -75,6 +77,8 @@ SNS:
     #HttpAPIのVerifyKey
     VerifyKey: 5eadce46qw58
   Telegram:
+    #是否启用Telegram机器人部分
+    Switch: true
     #机器人toekn
     Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
     #TelegramAPI地址
