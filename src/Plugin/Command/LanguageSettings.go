@@ -24,7 +24,7 @@ func LanguageSettings(SNSName string, UserID string, Language string) (string, b
 				break
 			} else {
 				MessageOK = true
-				Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageModificationFailed, LanguageName, "")
+				Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageModificationFailed, Language, "")
 			}
 		}
 	} else {
@@ -37,7 +37,7 @@ func LanguageSettings(SNSName string, UserID string, Language string) (string, b
 				break
 			} else {
 				MessageOK = true
-				Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageModificationFailed, LanguageName, "")
+				Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageModificationFailed, Language, "")
 			}
 		}
 	}
