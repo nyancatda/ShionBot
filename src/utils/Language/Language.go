@@ -69,3 +69,14 @@ func Message(SNSName string, Account string) *LanguageInfo {
 	Info := ReadLanguage(language)
 	return Info
 }
+
+func DesignateLanguageMessage(Language string) *LanguageInfo {
+	return ReadLanguage(Language)
+}
+
+func DefaultLanguageMessage() *LanguageInfo {
+	Config := utils.ReadConfig()
+	language := Config.Run.Language
+	Info := ReadLanguage(language)
+	return Info
+}

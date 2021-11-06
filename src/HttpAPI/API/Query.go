@@ -15,10 +15,10 @@ func QueryInfo(c *gin.Context) map[string]interface{} {
 	MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
 	WikiName := c.DefaultQuery("wiki_name", MainWikiName)
 	WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-	//language := c.DefaultQuery("language", "zh-CN")
-	WikiInfo, err := Plugin.GetWikiInfo("HttpAPI", "HttpAPI", WikiName, title)
+	language := c.DefaultQuery("language", "zh-CN")
+	WikiInfo, err := Plugin.GetWikiInfo("HttpAPI", "HttpAPI", WikiName, title, language)
 	if err != nil {
-		JsonInfo := JsonProcessing.JsonRoot(500, Language.StringVariable(1, Language.Message("", "").WikiLinkError, WikiLink, ""))
+		JsonInfo := JsonProcessing.JsonRoot(500, Language.StringVariable(1, Language.DefaultLanguageMessage().WikiLinkError, WikiLink, ""))
 		return JsonInfo
 	}
 

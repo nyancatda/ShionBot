@@ -19,7 +19,7 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 	if find {
 		UserID := strconv.Itoa(json.Sender.Id)
 		ChatID := strconv.Itoa(json.Message.Chat.Id)
-		WikiInfo, err := Plugin.GetWikiInfo(sns_name_telegram, UserID, Command, QueryText)
+		WikiInfo, err := Plugin.GetWikiInfo(sns_name_telegram, UserID, Command, QueryText, "")
 		if err != nil {
 			WikiLink := MediaWikiAPI.GetWikiLink(Command)
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", ChatID, Error(sns_name_telegram, UserID, WikiLink), false, "", "", 0)

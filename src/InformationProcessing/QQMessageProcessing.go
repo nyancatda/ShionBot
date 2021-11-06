@@ -18,7 +18,7 @@ var sns_name_qq string = "QQ"
 
 //发送群组消息
 func QQsendGroupWikiInfo(UserID string, WikiName string, GroupID string, QueryText string, quoteID string) {
-	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText)
+	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText,"")
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Group", GroupID, Error(sns_name_qq, UserID, WikiLink), true, quoteID, "", 0)
@@ -29,7 +29,7 @@ func QQsendGroupWikiInfo(UserID string, WikiName string, GroupID string, QueryTe
 
 //发送好友消息
 func QQsendFriendWikiInfo(WikiName string, UserID string, QueryText string) {
-	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText)
+	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText,"")
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", 0)
@@ -40,7 +40,7 @@ func QQsendFriendWikiInfo(WikiName string, UserID string, QueryText string) {
 
 //发送临时会话消息
 func QQsendTempdWikiInfo(WikiName string, UserID string, GroupID int, QueryText string) {
-	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText)
+	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText,"")
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", GroupID)
