@@ -28,3 +28,5 @@ WikiInfoSearch: "The page could not be found, but the following results were fou
 #(redirect[MainPage]->[Mainpage])
 #......
 WikiInfoRedirect: "\n(redirect[{%0}]->[{%1}])\n"
+
+TitleEmpty: "标题为空，无法查询"
