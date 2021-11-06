@@ -1,7 +1,7 @@
 [中文](https://github.com/nyancatda/MediaWiki-Bot) | English | [日本語](README-ja-JP.md)
 # MediaWiki-Bot
-通过聊天软件对MediaWiki进行信息查询的机器人   
-可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram，Line
+A robot that queries MediaWiki via chat software
+Support a variety of languages, cross-platform compatibility, support QQ\Telegram\Line.
 
 Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-http)
 
@@ -13,16 +13,16 @@ Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-htt
 ## 💮 Start  
 1. Download the latest [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases). 
 1. Create [config.yml](#configyml-template) in the program's sibling directory. And follow the template to fill in the information. 
-1. 配置[聊天软件](#聊天软件配置)
+1. Configure [Chat Software](#Chat Software Configuration)
 1. Run the program. 
 
-## 🛠️ 聊天软件配置
-*请至少配置一个聊天软件，否则机器人将无法工作*
+## 🛠️ Chat Software Configuration
+*Please configure at least one, otherwise the robot will not work*
 ### mirai-api-http(QQ)
 1. Enable the http and webhook
 1. Enable the enableVerify and enter your VerifyKey
 1. 将webhook地址设置为http://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>
-  例子:
+  Example:
   ```
   http://127.0.0.1:8000/32eeAme5lwEG0KL
   ```
@@ -48,22 +48,22 @@ adapterSettings:
     - 'http://127.0.0.1:8000/'
 ```
 ### Telegram
-1. 设置Telegram WebHook上报地址为机器人接收地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
-  WebHook地址例子:
+1. 设置Telegram WebHook上报地址为机器人接收地址(https://<IP/URL>:<Port>/<Key>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
+  WebHook address example:
   ```
   https://127.0.0.1:8000/32eeAme5lwEG0KL
   ```
-  *注意，Telegram的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
-1. 如果你的服务器位于中国大陆，你还需要搭建Telegram Bot API的反向代理服务，关于如何搭建，请查看[TelegramBotAPI反向代理服务器搭建](docs/Telegram/ReverseProxyAPI.md)
+  *Warning, Telegram WebHook report address needs' HTTPS ', which may need to do reverse proxy for the address robot receives report*
+1. If your server is located in mainland China, you also need to set up the reverse proxy service of Telegram Bot API. How to set up, please read [Set up the TelegramBotAPI reverse proxy server](docs/Telegram/ReverseProxyAPI.md)
 ### Line
 1. 设置Line Bot WebHook上报地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，可以在[Developers的控制台](https://developers.line.biz/console/)里设置，也可以[使用API设置](https://developers.line.biz/en/reference/messaging-api/#set-webhook-endpoint-url)  
 WebHook地址例子:
 ```
 https://127.0.0.1:8000/32eeAme5lwEG0KL
 ```
-*注意，Line的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
+*Warning, Line WebHook report address needs' HTTPS ', which may need to do reverse proxy for the address robot receives report*
 
-2. 如果你的服务器位于中国大陆，你还需要搭建Line Bot API的反向代理服务，关于如何搭建，请查看[LineBotAPI反向代理服务器搭建](docs/Line/ReverseProxyAPI.md)
+2. If your server is located in mainland China, you also need to set up the reverse proxy service of Line Bot API. How to set up, please read [Set up the LineBotAPI reverse proxy server](docs/Line/ReverseProxyAPI.md)
 
 ## config.yml template
 ```
