@@ -36,6 +36,19 @@ func LanguageList() []string {
 	return LanguageList
 }
 
+func LanguageExist(Language string) bool {
+	files := LanguageList()
+	var Exist bool
+	for _, LanguageName := range files {
+		if LanguageName == Language {
+			Exist = true
+		} else {
+			Exist = false
+		}
+	}
+	return Exist
+}
+
 //替换字符串中的变量位置
 func StringVariable(quantity int, strHaiCoder string, text0 string, text1 string) string {
 	text := ""
@@ -66,6 +79,17 @@ func Message(SNSName string, Account string) *LanguageInfo {
 			language = Config.Run.Language
 		}
 	}
+	Info := ReadLanguage(language)
+	return Info
+}
+
+func DesignateLanguageMessage(Language string) *LanguageInfo {
+	return ReadLanguage(Language)
+}
+
+func DefaultLanguageMessage() *LanguageInfo {
+	Config := utils.ReadConfig()
+	language := Config.Run.Language
 	Info := ReadLanguage(language)
 	return Info
 }

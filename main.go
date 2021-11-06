@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"xyz.nyan/MediaWiki-Bot/src/HttpAPI"
 	"xyz.nyan/MediaWiki-Bot/src/InformationProcessing"
 	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
@@ -15,7 +16,7 @@ import (
 )
 
 func Error() {
-	fmt.Printf(Language.Message("", "").MainErrorTips)
+	fmt.Printf(Language.DefaultLanguageMessage().MainErrorTips)
 	key := make([]byte, 1)
 	os.Stdin.Read(key)
 	os.Exit(1)
@@ -45,7 +46,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	Port := Config.Run.WebHookPort
-	fmt.Println(Language.StringVariable(1, Language.Message("", "").RunOK, Port, ""))
+	fmt.Println(Language.StringVariable(1, Language.DefaultLanguageMessage().RunOK, Port, ""))
 	WebHookKey := Config.Run.WebHookKey
 	r.POST("/"+WebHookKey, func(c *gin.Context) {
 		var json Struct.WebHookJson
@@ -56,5 +57,9 @@ func main() {
 		}
 		InformationProcessing.InformationProcessing(json)
 	})
+
+	//启动API
+	HttpAPI.HttpAPIStart(r)
+
 	r.Run(":" + Port)
 }

@@ -27,3 +27,5 @@ WikiInfoSearch: "ページを見つけなかったが，以下の結果を見つ
 #(再指定[MainPage]->[Mainpage])
 #......
 WikiInfoRedirect: "\n(再指定[{%0}]->[{%1}])\n"
+
+TitleEmpty: "标题为空，无法查询"

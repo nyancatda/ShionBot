@@ -14,4 +14,5 @@ type LanguageInfo struct {
 	GetWikiInfoError             string `yaml:"GetWikiInfoError"`
 	WikiInfoSearch               string `yaml:"WikiInfoSearch"`
 	WikiInfoRedirect             string `yaml:"WikiInfoRedirect"`
+	TitleEmpty                   string `yaml:"TitleEmpty"`
 }

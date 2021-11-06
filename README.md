@@ -69,7 +69,7 @@ https://127.0.0.1:8000/32eeAme5lwEG0KL
 ## config.yml文件模板
 ```
 Run:
-  #指定机器人的WebHook接收的端口
+  #指定机器人的运行端口
   WebHookPort: 8000
   #指定机器人的WebHook密钥(只能使用字母与数字)
   WebHookKey: 32eeAme5lwEG0KL

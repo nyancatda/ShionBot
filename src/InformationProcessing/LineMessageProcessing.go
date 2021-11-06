@@ -19,7 +19,7 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 		switch json.Events[0].Source.Type {
 		case "user":
 			UserID := json.Events[0].Source.UserId
-			WikiInfo, err := Plugin.GetWikiInfo(sns_name_line, UserID, Command, QueryText)
+			WikiInfo, err := Plugin.GetWikiInfo(sns_name_line, UserID, Command, QueryText, "")
 			if err != nil {
 				WikiLink := MediaWikiAPI.GetWikiLink(Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, Error(sns_name_line, UserID, WikiLink), false, "", "", 0)
@@ -30,7 +30,7 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 			UserID := json.Events[0].Source.UserId
 			GroupId := json.Events[0].Source.GroupId
 			QuoteID := json.Events[0].ReplyToken
-			WikiInfo, err := Plugin.GetWikiInfo(sns_name_line, UserID, Command, QueryText)
+			WikiInfo, err := Plugin.GetWikiInfo(sns_name_line, UserID, Command, QueryText, "")
 			if err != nil {
 				WikiLink := MediaWikiAPI.GetWikiLink(Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Group", GroupId, Error(sns_name_line, UserID, WikiLink), true, QuoteID, "", 0)
