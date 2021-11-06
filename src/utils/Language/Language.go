@@ -36,6 +36,19 @@ func LanguageList() []string {
 	return LanguageList
 }
 
+func LanguageExist(Language string) bool {
+	files := LanguageList()
+	var Exist bool
+	for _, LanguageName := range files {
+		if LanguageName == Language {
+			Exist = true
+		} else {
+			Exist = false
+		}
+	}
+	return Exist
+}
+
 //替换字符串中的变量位置
 func StringVariable(quantity int, strHaiCoder string, text0 string, text1 string) string {
 	text := ""
