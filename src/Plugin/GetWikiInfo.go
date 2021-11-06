@@ -7,11 +7,12 @@ import (
 
 	"github.com/antchfx/htmlquery"
 	"xyz.nyan/MediaWiki-Bot/src/MediaWikiAPI"
+	"xyz.nyan/MediaWiki-Bot/src/utils"
 	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
 )
 
 func Error(SNSName string, UserID string, WikiLink string, title string, LanguageMessage *Language.LanguageInfo) string {
-	text := Language.StringVariable(2, LanguageMessage.GetWikiInfoError, WikiLink, title)
+	text := utils.StringVariable(LanguageMessage.GetWikiInfoError, []string{WikiLink, title})
 	return text
 }
 
@@ -39,7 +40,7 @@ func SearchWiki(WikiName string, title string) string {
 func NilProcessing(SNSName string, UserID string, WikiName string, title string, LanguageMessage *Language.LanguageInfo) string {
 	SearchInfo := SearchWiki(WikiName, title)
 	if SearchInfo != "" {
-		Info := Language.StringVariable(2, LanguageMessage.WikiInfoSearch, SearchInfo, WikiName)
+		Info := utils.StringVariable(LanguageMessage.WikiInfoSearch, []string{SearchInfo, WikiName})
 		return Info
 	} else {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
@@ -137,7 +138,7 @@ func GetWikiInfo(SNSName string, UserID string, WikiName string, title string, l
 				log.Println(err)
 			}
 			WikiPageLink := WikiPageInfo.(map[string]interface{})["fullurl"].(string)
-			info := Language.StringVariable(2, LanguageMessage.WikiInfoRedirect, FromTitle, ToTitle)
+			info := utils.StringVariable(LanguageMessage.WikiInfoRedirect, []string{FromTitle, ToTitle})
 			returnText = WikiPageLink + info + PagesExtract.(string)
 		} else {
 			WikiPageInfo, err := QueryWikiInfo(WikiName, title)

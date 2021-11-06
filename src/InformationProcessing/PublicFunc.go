@@ -10,7 +10,7 @@ import (
 
 //Wiki链接错误返回
 func Error(SNSName string, UserID string, WikiLink string) string {
-	return Language.StringVariable(1, Language.Message(SNSName, UserID).WikiLinkError, WikiLink, "")
+	return utils.StringVariable(Language.Message(SNSName, UserID).WikiLinkError, []string{WikiLink})
 }
 
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数

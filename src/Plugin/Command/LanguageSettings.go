@@ -24,20 +24,20 @@ func LanguageSettings(SNSName string, UserID string, CommandText string) (string
 				UserInfos := Struct.UserInfo{SNSName: SNSName, Account: UserID, Language: Language}
 				db.Create(&UserInfos)
 				MessageOK = true
-				Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, Language, "")
+				Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, []string{Language})
 			} else {
 				MessageOK = true
-				Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageModificationFailed, Language, "")
+				Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModificationFailed, []string{Language})
 			}
 		} else {
 			LanguageExist := Languages.LanguageExist(Language)
 			if LanguageExist {
 				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("language", Language)
 				MessageOK = true
-				Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, Language, "")
+				Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, []string{Language})
 			} else {
 				MessageOK = true
-				Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageModificationFailed, Language, "")
+				Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModificationFailed, []string{Language})
 			}
 		}
 	} else {
@@ -48,7 +48,7 @@ func LanguageSettings(SNSName string, UserID string, CommandText string) (string
 				Message = Message + LanguageName + "\n"
 			}
 
-			Message = Languages.StringVariable(1, Languages.Message(SNSName, UserID).LanguageList, Message, "")
+			Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageList, []string{Message})
 
 			MessageOK = true
 		}

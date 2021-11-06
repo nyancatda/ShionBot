@@ -46,7 +46,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	Port := Config.Run.WebHookPort
-	fmt.Println(Language.StringVariable(1, Language.DefaultLanguageMessage().RunOK, Port, ""))
+	fmt.Println(utils.StringVariable(Language.DefaultLanguageMessage().RunOK, []string{Port}))
 	WebHookKey := Config.Run.WebHookKey
 	r.POST("/"+WebHookKey, func(c *gin.Context) {
 		var json Struct.WebHookJson

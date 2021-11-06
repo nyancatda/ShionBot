@@ -17,7 +17,7 @@ func QueryInfo(c *gin.Context) map[string]interface{} {
 	WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
 	language := c.DefaultQuery("language", "zh-CN")
 	if !Language.LanguageExist(language) {
-		JsonInfo := JsonProcessing.JsonRoot(5000, Language.StringVariable(1, Language.DefaultLanguageMessage().LanguageModificationFailed, language, ""))
+		JsonInfo := JsonProcessing.JsonRoot(5000, utils.StringVariable(Language.DefaultLanguageMessage().LanguageModificationFailed, []string{language}))
 		return JsonInfo
 	}
 	if title == "" {
@@ -27,7 +27,7 @@ func QueryInfo(c *gin.Context) map[string]interface{} {
 
 	WikiInfo, err := Plugin.GetWikiInfo("HttpAPI", "HttpAPI", WikiName, title, language)
 	if err != nil {
-		JsonInfo := JsonProcessing.JsonRoot(5000, Language.StringVariable(1, Language.DefaultLanguageMessage().WikiLinkError, WikiLink, ""))
+		JsonInfo := JsonProcessing.JsonRoot(5000, utils.StringVariable(Language.DefaultLanguageMessage().WikiLinkError, []string{WikiLink}))
 		return JsonInfo
 	}
 

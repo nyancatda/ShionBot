@@ -49,19 +49,6 @@ func LanguageExist(Language string) bool {
 	return Exist
 }
 
-//替换字符串中的变量位置
-func StringVariable(quantity int, strHaiCoder string, text0 string, text1 string) string {
-	text := ""
-	switch quantity {
-	case 1:
-		text = strings.Replace(strHaiCoder, "{%0}", text0, 1)
-	case 2:
-		text = strings.Replace(strHaiCoder, "{%0}", text0, 1)
-		text = strings.Replace(text, "{%1}", text1, 1)
-	}
-	return text
-}
-
 //使用默认语言参数都为空即可
 func Message(SNSName string, Account string) *LanguageInfo {
 	var language string
