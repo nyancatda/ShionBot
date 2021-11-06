@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"xyz.nyan/MediaWiki-Bot/src/HttpAPI"
 	"xyz.nyan/MediaWiki-Bot/src/InformationProcessing"
 	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
@@ -56,5 +57,9 @@ func main() {
 		}
 		InformationProcessing.InformationProcessing(json)
 	})
+
+	//启动API
+	HttpAPI.HttpAPIStart(r)
+
 	r.Run(":" + Port)
 }
