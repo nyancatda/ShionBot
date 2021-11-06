@@ -19,9 +19,7 @@ func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string)
 	}
 
 	if find := strings.Contains(CommandText, "language"); find {
-		countSplit := strings.SplitN(CommandText, " ", 2)
-		Language := countSplit[1]
-		return LanguageSettings(SNSName, UserID, Language)
+		return LanguageSettings(SNSName, UserID, CommandText)
 	}
 	if find := strings.Contains(CommandText, "help"); find {
 		return Help(SNSName, UserID)

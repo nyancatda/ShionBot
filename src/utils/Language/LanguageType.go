@@ -15,4 +15,5 @@ type LanguageInfo struct {
 	WikiInfoSearch               string `yaml:"WikiInfoSearch"`
 	WikiInfoRedirect             string `yaml:"WikiInfoRedirect"`
 	TitleEmpty                   string `yaml:"TitleEmpty"`
+	LanguageList                 string `yaml:"LanguageList"`
 }

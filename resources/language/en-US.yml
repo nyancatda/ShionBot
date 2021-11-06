@@ -29,4 +29,10 @@ WikiInfoSearch: "The page could not be found, but the following results were fou
 #......
 WikiInfoRedirect: "\n(redirect[{%0}]->[{%1}])\n"
 
+#目前可用语言有:
+#en-US
+#ja-JP
+#zh-CN
+LanguageList: "目前可用语言有:\n{%0}"
+
 TitleEmpty: "标题为空，无法查询"

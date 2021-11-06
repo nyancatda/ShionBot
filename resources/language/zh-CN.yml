@@ -28,4 +28,10 @@ WikiInfoSearch: "没有找到页面，但是找到了以下结果\n{%0}请使用
 #......
 WikiInfoRedirect: "\n(重定向[{%0}]->[{%1}])\n"
 
+#目前可用语言有:
+#en-US
+#ja-JP
+#zh-CN
+LanguageList: "目前可用语言有:\n{%0}"
+
 TitleEmpty: "标题为空，无法查询"
