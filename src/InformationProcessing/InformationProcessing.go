@@ -12,9 +12,11 @@ func InformationProcessing(json Struct.WebHookJson) {
 
 	if json.Update_id != 0 {
 		go TelegramMessageProcessing(json)
+		return
 	}
 
 	if json.Destination != "" {
 		go LineMessageProcessing(json)
+		return
 	}
 }

@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/antchfx/htmlquery v1.2.4
+	github.com/bsdlp/discord-interactions-go v0.0.0-20201227083222-a2ba84473ce8
 	github.com/gin-gonic/gin v1.7.4
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/sqlite v1.2.3

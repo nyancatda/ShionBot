@@ -55,8 +55,12 @@ func main() {
 			fmt.Println(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
+
 		InformationProcessing.InformationProcessing(json)
 	})
+
+	//启动Discord部分
+	InformationProcessing.DiscordWebHook(r)
 
 	//启动API
 	HttpAPI.HttpAPIStart(r)
