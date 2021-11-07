@@ -60,7 +60,9 @@ func main() {
 	})
 
 	//启动Discord部分
-	InformationProcessing.DiscordWebHook(r)
+	if Config.SNS.Discord.Switch {
+		InformationProcessing.DiscordWebHook(r)
+	}
 
 	//启动API
 	HttpAPI.HttpAPIStart(r)

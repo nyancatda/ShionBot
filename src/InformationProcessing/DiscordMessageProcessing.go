@@ -5,17 +5,19 @@ import (
 	"crypto/ed25519"
 	"encoding/hex"
 	"encoding/json"
-	"github.com/bsdlp/discord-interactions-go/interactions"
+	"fmt"
 	"io"
 	"io/ioutil"
 
-	"github.com/gin-gonic/gin"
+	"github.com/bsdlp/discord-interactions-go/interactions"
+
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 )
 
-func DiscordWebHookVerify(c *gin.Context, key ed25519.PublicKey) bool {
-	var msg bytes.Buffer
+func DiscordAutographVerify(c *gin.Context, key ed25519.PublicKey) bool {
 	signature := c.GetHeader("X-Signature-Ed25519")
 	if signature == "" {
 		return false
@@ -31,9 +33,10 @@ func DiscordWebHookVerify(c *gin.Context, key ed25519.PublicKey) bool {
 	if timestamp == "" {
 		return false
 	}
-	msg.WriteString(timestamp)
 
+	var msg bytes.Buffer
 	var body bytes.Buffer
+	msg.WriteString(timestamp)
 
 	defer func() {
 		c.Request.Body = ioutil.NopCloser(&body)
@@ -47,39 +50,39 @@ func DiscordWebHookVerify(c *gin.Context, key ed25519.PublicKey) bool {
 	return ed25519.Verify(key, msg.Bytes(), sig)
 }
 
-func DiscordWebHook(r *gin.Engine) {
-	Config := utils.ReadConfig()
-	WebHookKey := Config.Run.WebHookKey
-	r.POST("/discord/"+WebHookKey, func(c *gin.Context) {
-		var data interactions.Data
-		if err := c.ShouldBindJSON(&data); err != nil {
-			return
-		}
-		if data.Token == "" {
-			return
-		}
+func DiscordWebHookVerify(c *gin.Context) (bool, int, map[string]interface{}) {
+	var JsonData map[string]interface{}
+	hexEncodedDiscordPubkey := utils.ReadConfig().SNS.Discord.PublicKey
+	discordPubkey, err := hex.DecodeString(hexEncodedDiscordPubkey)
+	if err != nil {
+		return false, 500, JsonData
+	}
 
-		var JsonData map[string]interface{}
-		hexEncodedDiscordPubkey := "93669706bd5f8aa9d0d6598228b83830f1c8f0a4061f4e655a89f9a9fb137b9c"
-		discordPubkey, err := hex.DecodeString(hexEncodedDiscordPubkey)
-		if err != nil {
-			return
+	verified := DiscordAutographVerify(c, ed25519.PublicKey(discordPubkey))
+	if !verified {
+		JsonData = map[string]interface{}{
+			"type": 0,
 		}
+		return false, 401, JsonData
+	}
 
-		verified := DiscordWebHookVerify(c, ed25519.PublicKey(discordPubkey))
-		if !verified {
-			JsonData = map[string]interface{}{
-				"type": 1,
-			}
-			c.JSONP(401, JsonData)
-			return
-		}
+	var data interactions.Data
+	bodyBytes, _ := ioutil.ReadAll(c.Request.Body)
 
-		if data.Type == interactions.Ping {
-			JsonData = map[string]interface{}{
-				"type": 1,
-			}
-			return
+	buf := make([]byte, 1024)
+	c.Request.Body.Read(buf)
+	json.Unmarshal(bodyBytes, &data)
+
+	c.Request.Body.Close()
+	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+
+	if data.Token == "" {
+		return false, 402, JsonData
+	}
+
+	if data.Type == interactions.Ping {
+		JsonData = map[string]interface{}{
+			"type": 1,
 		}
 
 		response := &interactions.InteractionResponse{
@@ -92,14 +95,32 @@ func DiscordWebHook(r *gin.Engine) {
 		var responsePayload bytes.Buffer
 		err = json.NewEncoder(&responsePayload).Encode(response)
 		if err != nil {
-			return
+			fmt.Println(err)
 		}
 
-		_, err = http.Post(data.ResponseURL(), "application/json", &responsePayload)
+		url := fmt.Sprintf(utils.ReadConfig().SNS.Discord.BotAPILink+"api/v8/interactions/%s/%s/callback", data.ID, data.Token)
+		_, err := http.Post(url, "application/json", &responsePayload)
 		if err != nil {
-			return
+			fmt.Println(err)
 		}
 
-		c.JSONP(200, JsonData)
+		return true, 200, JsonData
+	}
+	return false, 200, JsonData
+}
+
+func DiscordWebHook(r *gin.Engine) {
+	Config := utils.ReadConfig()
+	WebHookKey := Config.Run.WebHookKey
+	r.POST("/discord/"+WebHookKey, func(c *gin.Context) {
+		//初始化WebHook验证函数
+		if Bool, code, JsonData := DiscordWebHookVerify(c); Bool {
+			buf := make([]byte, 1024)
+			n, _ := c.Request.Body.Read(buf)
+			fmt.Println(string(buf[0:n]))
+			c.JSONP(code, JsonData)
+		} else {
+			c.JSONP(code, JsonData)
+		}
 	})
 }
