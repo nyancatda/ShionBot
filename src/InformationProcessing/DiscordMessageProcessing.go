@@ -17,6 +17,27 @@ import (
 	"xyz.nyan/MediaWiki-Bot/src/utils"
 )
 
+func DiscordWebHookConfirmationRequest(data interactions.Data) {
+	response := &interactions.InteractionResponse{
+		Type: interactions.ChannelMessage,
+		Data: &interactions.InteractionApplicationCommandCallbackData{
+			Content: "got your message kid",
+		},
+	}
+
+	var responsePayload bytes.Buffer
+	err := json.NewEncoder(&responsePayload).Encode(response)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	url := fmt.Sprintf(utils.ReadConfig().SNS.Discord.BotAPILink+"api/v8/interactions/%s/%s/callback", data.ID, data.Token)
+	_, err = http.Post(url, "application/json", &responsePayload)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 func DiscordAutographVerify(c *gin.Context, key ed25519.PublicKey) bool {
 	signature := c.GetHeader("X-Signature-Ed25519")
 	if signature == "" {
@@ -85,24 +106,7 @@ func DiscordWebHookVerify(c *gin.Context) (bool, int, map[string]interface{}) {
 			"type": 1,
 		}
 
-		response := &interactions.InteractionResponse{
-			Type: interactions.ChannelMessage,
-			Data: &interactions.InteractionApplicationCommandCallbackData{
-				Content: "got your message kid",
-			},
-		}
-
-		var responsePayload bytes.Buffer
-		err = json.NewEncoder(&responsePayload).Encode(response)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		url := fmt.Sprintf(utils.ReadConfig().SNS.Discord.BotAPILink+"api/v8/interactions/%s/%s/callback", data.ID, data.Token)
-		_, err := http.Post(url, "application/json", &responsePayload)
-		if err != nil {
-			fmt.Println(err)
-		}
+		go DiscordWebHookConfirmationRequest(data)
 
 		return true, 200, JsonData
 	}
