@@ -101,23 +101,22 @@ func DiscordWebHookVerify(c *gin.Context) (bool, int, map[string]interface{}) {
 		return false, 402, JsonData
 	}
 
+	JsonData = map[string]interface{}{
+		"type": 1,
+	}
+	go DiscordWebHookConfirmationRequest(data)
 	if data.Type == interactions.Ping {
-		JsonData = map[string]interface{}{
-			"type": 1,
-		}
-
-		go DiscordWebHookConfirmationRequest(data)
-
 		return true, 200, JsonData
 	}
-	return false, 200, JsonData
+
+	return true, 200, JsonData
 }
 
 func DiscordWebHook(r *gin.Engine) {
 	Config := utils.ReadConfig()
 	WebHookKey := Config.Run.WebHookKey
 	r.POST("/discord/"+WebHookKey, func(c *gin.Context) {
-		//初始化WebHook验证函数
+		//WebHook验证
 		if Bool, code, JsonData := DiscordWebHookVerify(c); Bool {
 			buf := make([]byte, 1024)
 			n, _ := c.Request.Body.Read(buf)

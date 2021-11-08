@@ -1,3 +1,5 @@
+*此分支暂停开发，Discord的API绝对是个失败的设计，他令我感到恶心，如果后续有改善的话，也许会重新启动此分支*
+
 中文 | [English](docs/README-en-US.md) | [日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
 通过聊天软件对MediaWiki进行信息查询的机器人  
