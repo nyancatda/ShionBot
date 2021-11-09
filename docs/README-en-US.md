@@ -21,7 +21,7 @@ Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-htt
 ### mirai-api-http(QQ)
 1. Enable the http and webhook
 1. Enable the enableVerify and enter your VerifyKey
-1. 将webhook地址设置为http://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>
+1. Set the webhook address as http://<IP/URL>:<Port>/<Robot Key>
   Example:
   ```
   http://127.0.0.1:8000/32eeAme5lwEG0KL
@@ -48,7 +48,7 @@ adapterSettings:
     - 'http://127.0.0.1:8000/'
 ```
 ### Telegram
-1. 设置Telegram WebHook上报地址为机器人接收地址(https://<IP/URL>:<Port>/<Key>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
+1. Set the Telegram WebHook report address as the robot receving address (https://<IP/URL>:<Port>/<Key>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
   WebHook address example:
   ```
   https://127.0.0.1:8000/32eeAme5lwEG0KL
