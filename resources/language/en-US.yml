@@ -33,6 +33,6 @@ WikiInfoRedirect: "\n(redirect[{%0}]->[{%1}])\n"
 #en-US
 #ja-JP
 #zh-CN
-LanguageList: "目前可用语言有:\n{%0}"
+LanguageList: "Currently available language:\n{%0}"
 
-TitleEmpty: "标题为空，无法查询"
+TitleEmpty: "The title is empty and cannot be queried"
