@@ -1,9 +1,9 @@
 [中文](ReverseProxyAPI.md) | English | [日本語](ReverseProxyAPI-ja-JP.md)
-# TelegramBotAPI反向代理服务器搭建
-*本篇教程将告诉你如何使用CloudFlare Workers搭建一个自己的TelegramBotAPI反向代理服务器*
-1. 前往[CloudFlare Workers](https://workers.cloudflare.com/)官网，注册一个账号，并新建一个Worker
-2. 在脚本中写入以下代码  
-`<Bot API Token>`:你的机器人token
+# Set up a TelegramBotAPI reverse proxy server
+*This tutorial will show you how to use CloudFlare Workers to build your own TelegramBotAPI reverse proxy server*
+1. Go to [CloudFlare Workers](https://workers.cloudflare.com/), register an account and create a new Worker
+2. Enter the following code in the script  
+`<Bot API Token>`:Robot token
 ```
 const whitelist = ["/bot<Bot API Token>"];
 const tg_host = "api.telegram.org";
@@ -36,5 +36,5 @@ async function handleRequest(request) {
     return result;
 }
 ```
-3. 点击保存并部署
-4. 在将配置文件中的`BotAPILink`修改为这个Worker的地址即可
+3. Save and deploy
+4. Modify the `BotAPILink` in the configuration to this Worker‘s address
