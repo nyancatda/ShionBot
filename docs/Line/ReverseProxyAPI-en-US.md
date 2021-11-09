@@ -1,9 +1,9 @@
 [中文](ReverseProxyAPI.md) | English | [日本語](ReverseProxyAPI-ja-JP.md)
-# LineBotAPI反向代理服务器搭建
-*本篇教程将告诉你如何使用CloudFlare Workers搭建一个自己的LineBotAPI反向代理服务器*  
-*如果你懒得搭建，可以使用我已经搭建好的服务，地址：https://linebotapi.h123hh.workers.dev/*
-1. 前往[CloudFlare Workers](https://workers.cloudflare.com/)官网，注册一个账号，并新建一个Worker
-2. 在脚本中写入以下代码  
+# Set up a LineBotAPI reverse proxy server
+*This tutorial will show you how to use CloudFlare Workers to build your own LineBotAPI reverse proxy server*  
+*If you don’t want to build, you can use the service I built, URL：https://linebotapi.h123hh.workers.dev/*
+1. Go to [CloudFlare Workers](https://workers.cloudflare.com/), register an account and create a new worker
+2. Enter the following code in the script  
 ```
 const whitelist = ["/v2/bot"];
 const tg_host = "api.line.me";
@@ -36,5 +36,5 @@ async function handleRequest(request) {
     return result;
 }
 ```
-3. 点击保存并部署
-4. 在将配置文件中的`BotAPILink`修改为这个Worker的地址即可
+3. Save and deploy
+4. Modify the `BotAPILink` in the configuration to this Worker‘s address
