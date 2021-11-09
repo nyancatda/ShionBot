@@ -56,8 +56,8 @@ adapterSettings:
   *Warning, Telegram WebHook report address needs' HTTPS ', which may need to do reverse proxy for the address robot receives report*
 1. If your server is located in mainland China, you also need to set up the reverse proxy service of Telegram Bot API. How to set up, please read [Set up the TelegramBotAPI reverse proxy server](docs/Telegram/ReverseProxyAPI.md)
 ### Line
-1. 设置Line Bot WebHook上报地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，可以在[Developers的控制台](https://developers.line.biz/console/)里设置，也可以[使用API设置](https://developers.line.biz/en/reference/messaging-api/#set-webhook-endpoint-url)  
-WebHook地址例子:
+1. Set the Line Bot WebHook report as (https://<IP/URL>:<Port>/<Key>), you can set it in [Developers Console](https://developers.line.biz/console/) or [Set API](https://developers.line.biz/en/reference/messaging-api/#set-webhook-endpoint-url)  
+WebHook address example:
 ```
 https://127.0.0.1:8000/32eeAme5lwEG0KL
 ```
@@ -70,27 +70,27 @@ https://127.0.0.1:8000/32eeAme5lwEG0KL
 Run:
   #Specify Webhook receiving port
   WebHookPort: 8000
-  #指定机器人的WebHook密钥(只能使用字母与数字)
+  #Robot WebHook Key (only letter and number)
   WebHookKey: 32eeAme5lwEG0KL
   #Language
   #Chinese:zh-CN,English:en-US,Japanese:ja-JP
   Language: zh-CN
 SNS:
   QQ:
-    #是否启用QQ机器人部分
+    #Whether to enable the QQ robot function
     Switch: true
     #HttpAPI address
     APILink: http://127.0.0.1:8888
-    #The robot QQ number
+    #QQ number of the robot
     BotQQNumber: 1000000000
     #HttpAPI‘s VerifyKey
     VerifyKey: 5eadce46qw58
   Telegram:
-    #是否启用Telegram机器人部分
+    #Whether to enable thr Telegram robot function
     Switch: true
-    #机器人toekn
+    #Robot toekn
     Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
-    #TelegramAPI地址
+    #TelegramAPI address
     BotAPILink: https://api.telegram.org/
 #Wiki urls. Multiple URLs can be added. The first one is the default Wiki
 Wiki:
@@ -105,7 +105,7 @@ Wiki:
 ```
 
 ## 🔣 Command
-0. 帮助
+0. Help
 ```
 /help
 ```
