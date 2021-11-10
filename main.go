@@ -55,7 +55,7 @@ func main() {
 			fmt.Println(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		InformationProcessing.InformationProcessing(json)
+		InformationProcessing.InformationProcessing(c,json)
 	})
 
 	//启动API

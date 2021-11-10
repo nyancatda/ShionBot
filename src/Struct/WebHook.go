@@ -16,6 +16,10 @@ type WebHookJson struct {
 	//Line
 	Destination string   `json:"destination"`
 	Events      []Events `json:"events"`
+
+	//KaiHeila WebHookVerify
+	S int `json:"s"`
+	D D   `json:"d"`
 }
 
 //QQ
@@ -83,4 +87,12 @@ type Source struct {
 	Type    string `json:"type"`
 	GroupId string `json:"groupId"`
 	UserId  string `json:"userId"`
+}
+
+//KaiHeila WebHookVerify
+type D struct {
+	Type         int    `json:"type"`
+	Channel_type string `json:"channel_type"`
+	Challenge    string `json:"challenge"`
+	Verify_token string `json:"verify_token"`
 }
