@@ -1,6 +1,6 @@
 [中文](https://github.com/nyancatda/MediaWiki-Bot) | English | [日本語](README-ja-JP.md)
 # MediaWiki-Bot
-A robot that queries MediaWiki via chat software
+A robot that queries MediaWiki via SNS
 Support a variety of languages, cross-platform compatibility, support QQ\Telegram\Line.
 
 Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-http)
@@ -13,10 +13,10 @@ Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-htt
 ## 💮 Start  
 1. Download the latest [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases). 
 1. Create [config.yml](#configyml-template) in the program's sibling directory. And follow the template to fill in the information. 
-1. Configure [Chat Software](#Chat Software Configuration)
+1. Configure [SNS](#%EF%B8%8F-SNS-Configuration)
 1. Run the program. 
 
-## 🛠️ Chat Software Configuration
+## 🛠️ SNS Configuration
 *Please configure at least one, otherwise the robot will not work*
 ### mirai-api-http(QQ)
 1. Enable the http and webhook
