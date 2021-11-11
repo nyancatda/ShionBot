@@ -42,6 +42,7 @@ func LanguageExist(Language string) bool {
 	for _, LanguageName := range files {
 		if LanguageName == Language {
 			Exist = true
+			return Exist
 		} else {
 			Exist = false
 		}
