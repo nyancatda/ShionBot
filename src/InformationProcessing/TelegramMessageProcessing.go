@@ -17,7 +17,7 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 	text := json.Message.Text
 	find, QueryText, Command := CommandExtraction(sns_name_telegram, json, text)
 	if find {
-		UserID := strconv.Itoa(json.Sender.Id)
+		UserID := strconv.Itoa(json.Message.From.Id)
 		ChatID := strconv.Itoa(json.Message.Chat.Id)
 		WikiInfo, err := Plugin.GetWikiInfo(sns_name_telegram, UserID, Command, QueryText, "")
 		if err != nil {
