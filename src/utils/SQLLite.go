@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"xyz.nyan/MediaWiki-Bot/src/Struct"
 )
 
 func SQLLiteLink() *gorm.DB {
@@ -12,5 +13,6 @@ func SQLLiteLink() *gorm.DB {
 	if err != nil {
 		log.Println(err)
 	}
+	db.AutoMigrate(&Struct.UserInfo{})
 	return db
 }

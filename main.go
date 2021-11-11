@@ -30,8 +30,6 @@ func main() {
 	_, err := os.Stat("./data")
 	if err != nil {
 		os.MkdirAll("./data", 0777)
-		db := utils.SQLLiteLink()
-		db.AutoMigrate(&Struct.UserInfo{})
 	}
 
 	//读取配置文件
