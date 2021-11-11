@@ -16,6 +16,8 @@ func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string)
 		UserID = strconv.Itoa(Messagejson.Message.From.Id)
 	case "Line":
 		UserID = Messagejson.Events[0].Source.UserId
+	case "KaiHeiLa":
+		UserID = Messagejson.D.Author_id
 	}
 
 	if find := strings.Contains(CommandText, "language"); find {

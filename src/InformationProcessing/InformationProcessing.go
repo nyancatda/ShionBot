@@ -1,10 +1,11 @@
 package InformationProcessing
 
 import (
+	"github.com/gin-gonic/gin"
 	"xyz.nyan/MediaWiki-Bot/src/Struct"
 )
 
-func InformationProcessing(json Struct.WebHookJson) {
+func InformationProcessing(c *gin.Context, json Struct.WebHookJson) {
 	if json.Type != "" {
 		go QQMessageProcessing(json)
 		return
@@ -16,5 +17,12 @@ func InformationProcessing(json Struct.WebHookJson) {
 
 	if json.Destination != "" {
 		go LineMessageProcessing(json)
+	}
+
+	if json.D.Challenge != "" {
+		KaiHeiLaWebHookVerifyProcessing(c, json)
+	}
+	if json.D.Content != "" {
+		go KaiHeiLaMessageProcessing(json)
 	}
 }

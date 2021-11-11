@@ -7,7 +7,7 @@ import (
 
 //日志输出
 //SNSName 聊天软件名字
-//Type 消息类型，可选 Friend,Group,Stranger
+//Type 消息类型，可选 Friend,Group,Stranger,Channel
 //target 消息接收者
 //text 消息主体
 func Log(SNSName string, Type string, target string, text string) {

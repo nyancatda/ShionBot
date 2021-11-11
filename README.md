@@ -1,7 +1,7 @@
 中文 | [English](docs/README-en-US.md) | [日本語](docs/README-ja-JP.md)
 # MediaWiki-Bot
 通过聊天软件对MediaWiki进行信息查询的机器人  
-可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram，Line
+可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram，Line,KaiHeiLa
 
 基于Gin和[mirai-api-http](https://github.com/project-mirai/mirai-api-http)制作
 
@@ -65,6 +65,17 @@ https://127.0.0.1:8000/32eeAme5lwEG0KL
 *注意，Line的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
 
 2. 如果你的服务器位于中国大陆，你还需要搭建Line Bot API的反向代理服务，关于如何搭建，请查看[LineBotAPI反向代理服务器搭建](docs/Line/ReverseProxyAPI.md)
+### KaiHeiLa
+1. 设置WebHook地址为机器人接收地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)  
+WebHook地址例子:
+```
+https://127.0.0.1:8000/32eeAme5lwEG0KL
+```
+2. 给予机器人以下权限:
+* 查看文字、语音频道
+* 发布消息
+* 提及@全体成员  
+权限代码为`137216`
 
 ## config.yml文件模板
 ```
@@ -100,6 +111,11 @@ SNS:
     ChannelAccessToken: Qik9O7sP49vCeY/b6zWaDa0......
     #LineBotAPI地址
     BotAPILink: https://api.line.me/
+  KaiHeiLa:
+    #是否启用KaiHeiLa机器人部分
+    Switch: true
+    #机器人的token
+    Token: 5/SYT1Jxy=/mSkjHYtjsqq/2JY==
 #Wiki链接，支持多个，第一个为主Wiki
 Wiki:
   - 

@@ -22,6 +22,7 @@ type SNS struct {
 	QQ       *QQ       `yaml:"QQ"`
 	Telegram *Telegram `yaml:"Telegram"`
 	Line     *Line     `yaml:"Line"`
+	KaiHeiLa *KaiHeiLa `yaml:"KaiHeiLa"`
 }
 type QQ struct {
 	Switch      bool   `yaml:"Switch"`
@@ -38,6 +39,10 @@ type Line struct {
 	Switch             bool   `yaml:"Switch"`
 	ChannelAccessToken string `yaml:"ChannelAccessToken"`
 	BotAPILink         string `yaml:"BotAPILink"`
+}
+type KaiHeiLa struct {
+	Switch bool   `yaml:"Switch"`
+	Token  string `yaml:"Token"`
 }
 
 func ReadConfig() *Config {

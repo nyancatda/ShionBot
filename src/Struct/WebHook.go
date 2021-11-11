@@ -16,6 +16,11 @@ type WebHookJson struct {
 	//Line
 	Destination string   `json:"destination"`
 	Events      []Events `json:"events"`
+
+	//KaiHeila
+	S  int `json:"s"`
+	D  D   `json:"d"`
+	Sn int `json:"sn"`
 }
 
 //QQ
@@ -83,4 +88,48 @@ type Source struct {
 	Type    string `json:"type"`
 	GroupId string `json:"groupId"`
 	UserId  string `json:"userId"`
+}
+
+//KaiHeila WebHookVerify
+type D struct {
+	Type          int    `json:"type"`
+	Channel_type  string `json:"channel_type"`
+	Target_id     string `json:"target_id"`
+	Author_id     string `json:"author_id"`
+	Content       string `json:"content"`
+	Extra         Extra  `json:"extra"`
+	Msg_id        string `json:"msg_id"`
+	Msg_timestamp int    `json:"msg_timestamp"`
+	Nonce         string `json:"nonce"`
+	From_type     int    `json:"from_type"`
+	Challenge     string `json:"challenge"`
+	Verify_token  string `json:"verify_token"`
+}
+type Extra struct {
+	Type             int           `json:"type"`
+	Code             string        `json:"code"`
+	Guild_id         string        `json:"guild_id"`
+	Channel_name     string        `json:"channel_name"`
+	Mention          []interface{} `json:"mention"`
+	Mention_all      bool          `json:"mention_all"`
+	Mention_roles    []interface{} `json:"mention_roles"`
+	Mention_here     bool          `json:"mention_here"`
+	Author           Author        `json:"author"`
+	Nonce            string        `json:"nonce"`
+	Last_msg_content string        `json:"last_msg_content"`
+}
+type Author struct {
+	Id           string        `json:"id"`
+	Username     string        `json:"username"`
+	Identify_num string        `json:"identify_num"`
+	Online       bool          `json:"online"`
+	Os           string        `json:"os"`
+	Status       int           `json:"status"`
+	Avatar       string        `json:"avatar"`
+	Vip_avatar   string        `json:"vip_avatar"`
+	Banner       string        `json:"banner"`
+	Nickname     string        `json:"nickname"`
+	Roles        []interface{} `json:"roles"`
+	Is_vip       bool          `json:"is_vip"`
+	Bot          bool          `json:"bot"`
 }
