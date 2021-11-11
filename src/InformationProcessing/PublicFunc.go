@@ -45,6 +45,8 @@ func CommandExtraction(SNSName string, json Struct.WebHookJson, text string) (bo
 			TelegramSettingsMessageProcessing(json)
 		case "Line":
 			LineSettingsMessageProcessing(json)
+		case "KaiHeiLa":
+			KaiHeiLaSettingsMessageProcessing(json)
 		}
 		return false, "", "/"
 	}
