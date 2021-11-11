@@ -3,6 +3,7 @@ package MessagePushAPI
 import (
 	"strconv"
 
+	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/KaiHeiLaAPI"
 	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/LineAPI"
 	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/TelegramAPI"
@@ -58,6 +59,13 @@ func SendMessage(SNSName string, ChatType string, target string, text string, qu
 			}
 		default:
 			LineAPI.SendPushMessage(ChatType, target, text, false)
+		}
+	case "KaiHeiLa":
+		switch ChatType {
+		case "Group":
+			KaiHeiLaAPI.SendChannelMessage("Channel", 1, target, text, quote, quoteID)
+		case "Friend":
+			KaiHeiLaAPI.SendDirectMessage(ChatType, 1, target, text, quote, quoteID)
 		}
 	}
 }

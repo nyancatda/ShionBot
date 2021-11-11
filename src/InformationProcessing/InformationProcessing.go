@@ -22,4 +22,7 @@ func InformationProcessing(c *gin.Context, json Struct.WebHookJson) {
 	if json.D.Challenge != "" {
 		KaiHeiLaWebHookVerifyProcessing(c, json)
 	}
+	if json.D.Content != "" {
+		go KaiHeiLaMessageProcessing(json)
+	}
 }
