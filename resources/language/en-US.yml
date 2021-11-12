@@ -29,7 +29,7 @@ WikiInfoSearch: "The page could not be found, but the following results were fou
 #......
 WikiInfoRedirect: "\n(redirect[{%0}]->[{%1}])\n"
 
-#目前可用语言有:
+#Currently available languages: 
 #en-US
 #ja-JP
 #zh-CN
