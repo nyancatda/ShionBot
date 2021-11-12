@@ -48,7 +48,7 @@ adapterSettings:
     - 'http://127.0.0.1:8000/'
 ```
 ### Telegram
-1. Set the Telegram WebHook report address as the robot receving address (https://<IP/URL>:<Port>/<Key>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
+1. Set the Telegram WebHook report address as the robot receving address (https://<IP/URL>:<Port>/<Key>). For details, please refer to the [official documentation](https://core.telegram.org/bots/api#setwebhook)
   WebHook address example:
   ```
   https://127.0.0.1:8000/32eeAme5lwEG0KL
