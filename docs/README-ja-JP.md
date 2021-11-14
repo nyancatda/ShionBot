@@ -1,7 +1,7 @@
 [中文](https://github.com/nyancatda/MediaWiki-Bot) | [English](README-en-US.md) | 日本語
 # MediaWiki-Bot
-通过聊天软件对MediaWiki进行信息查询的机器人  
-可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram，Line
+チャットソフトでMediaWikiを使って検索するボット  
+MediaWikiで作られたページに検索できる 多言語可能、プラットフォームを跨る、QQ、テルグラム、LINEで使う可能
 
 Ginと[mirai-api-http](https://github.com/project-mirai/mirai-api-http)に基づいて作られた
 
@@ -13,16 +13,16 @@ Ginと[mirai-api-http](https://github.com/project-mirai/mirai-api-http)に基づ
 ## 💮 スタートアップ
 1. [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)から最新バージョンの構築をダウンロードする
 1. プログラムの同じディレクトリで[config.yml](#configyml%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88)を作成して、それからテンプレートにしたがってメッセージを入力する
-1. 配置[聊天软件](#聊天软件配置)
+1. [チャットソフト]のコンフィグ(#チャットソフトのコンフィグ)
 1. プログラムを実行する
 
-## 🛠️ 聊天软件配置
-*请至少配置一个聊天软件，否则机器人将无法工作*
+## 🛠️ チャットソフトのコンフィグ
+*最低一つのチャットソフトを設定してください そうしないと、ボットは実行できない*
 ### mirai-api-http(QQ)
 1. httpとwebhookを起動する
 1. enableVerifyを起動してから、VerifyKeyを設定する
-1. 将webhook地址设置为http://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>
-  例子:
+1. webhookアドレスは http://<ボットIP/URL>:<指定されたボットの実行ポート1>/<指定されたボットのパスワード> に設定して
+  例:
   ```
   http://127.0.0.1:8000/32eeAme5lwEG0KL
   ```
@@ -47,37 +47,37 @@ adapterSettings:
     destinations: 
     - 'http://127.0.0.1:8000/'
 ```
-### Telegram
-1. 设置Telegram WebHook上报地址为机器人接收地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，具体请查看[官方文档](https://core.telegram.org/bots/api#setwebhook)
-  WebHook地址例子:
+### テルグラム
+1. テルグラム WebHookのアップロードするアドレスはボットの受信アドレスに設定して(https://<ボットIP/URL>:<指定されたボットの実行ポート>/<指定されたボットのパスワード>)，詳しいのは[公式ファイル](https://core.telegram.org/bots/api#setwebhook)を見てください
+  WebHookアドレスの例:
   ```
   https://127.0.0.1:8000/32eeAme5lwEG0KL
   ```
-  *注意，Telegram的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
-1. 如果你的服务器位于中国大陆，你还需要搭建Telegram Bot API的反向代理服务，关于如何搭建，请查看[TelegramBotAPI反向代理服务器搭建](docs/Telegram/ReverseProxyAPI.md)
+  *注意:LineのWebHookアップロードアドレスは`https`が必要なので、ボットのアップロードしたアドレスを逆方向プロキシする可能性もある*
+1. もしあなたのサーバは中国にいたら、Telegram Bot APIの逆方向プロキシを構築するも必要 どうやって構築できることに関して、これを見てください[TelegramBotAPIプロキシするサーバの構築](docs/Telegram/ReverseProxyAPI.md)
 ### Line
-1. 设置Line Bot WebHook上报地址(https://<机器人IP/URL地址>:<指定的机器人运行端口>/<指定的机器人密钥>)，可以在[Developers的控制台](https://developers.line.biz/console/)里设置，也可以[使用API设置](https://developers.line.biz/en/reference/messaging-api/#set-webhook-endpoint-url)  
-WebHook地址例子:
+1. Line Bot WebHookのアップロードするアドレスを設定して(https://<ボットIP/URL>:<設定されたボットの実行ポート>/<設定されたボットのパスワード>)、[Developersのコンソール](https://developers.line.biz/console/)で設定できる それに、[APIを使う設定](https://developers.line.biz/en/reference/messaging-api/#set-webhook-endpoint-url)  も使ってもいい
+WebHookアドレス例:
 ```
 https://127.0.0.1:8000/32eeAme5lwEG0KL
 ```
-*注意，Line的WebHook上报地址需要`https`，这可能需要需要对机器人接收上报的地址做反向代理*
+*注意:LineのWebHookアップロードアドレスは`https`が必要なので、ボットのアップロードしたアドレスを逆方向プロキシする可能性もある*
 
-2. 如果你的服务器位于中国大陆，你还需要搭建Line Bot API的反向代理服务，关于如何搭建，请查看[LineBotAPI反向代理服务器搭建](docs/Line/ReverseProxyAPI.md)
+2. もしあなたのサーバは中国にいたら、Telegram Bot APIの逆方向プロキシを構築するも必要 どうやって構築できることに関して、これを見てください[LineBotAPIのプロキシするサーバの構築](docs/Line/ReverseProxyAPI.md)
 
 ## config.ymlファイルテンプレート
 ```
 Run:
   #指定されたボットのWebHookが受信ボット
   WebHookPort: 8000
-  #指定机器人的WebHook密钥(只能使用字母与数字)
+  #指定されたWebHookのパスワード(ローマ字と数字だけ使える)
   WebHookKey: 32eeAme5lwEG0KL
   #ボットの言語を選ぶ
   #中国語:zh-CN,英語:en-US,日本語ja-JP
   Language: zh-CN
 SNS:
   QQ:
-    #是否启用QQ机器人部分
+    #QQボット部分をONにするか
     Switch: true
     #HttpAPIアドレス
     APILink: http://127.0.0.1:8888
@@ -85,12 +85,12 @@ SNS:
     BotQQNumber: 1000000000
     #HttpAPIのVerifyKey
     VerifyKey: 5eadce46qw58
-  Telegram:
-    #是否启用Telegram机器人部分
+  テルグラム:
+    #テルグラムボット部分をONにするか
     Switch: true
-    #机器人toekn
+    #ボットtoekn
     Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
-    #TelegramAPI地址
+    #TelegramAPIアドレス
     BotAPILink: https://api.telegram.org/
 #Wikiアドレス 複数、一番目が優先のWiki
 Wiki:
@@ -105,7 +105,7 @@ Wiki:
 ```
 
 ## 🔣 コマンド
-0. 帮助
+0. ヘルプ
 ```
 /help
 ```
