@@ -9,7 +9,7 @@ Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-htt
 *The code is terrible. Functions and variables are used casually. I'm sorry if it makes you uncomfortable. *
 
 ## How to ues
-使用说明请前往[官网](https://shion-bot-docs.vercel.app/)查看
+使用说明请前往[官网](https://shionbot.xyz/)查看
 
 ## 🌐 Multi-language
 Adaptation progress: 
