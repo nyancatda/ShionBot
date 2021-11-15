@@ -1,5 +1,5 @@
-[中文](https://github.com/nyancatda/MediaWiki-Bot) | [English](README-en-US.md) | 日本語
-# MediaWiki-Bot
+[中文](https://github.com/nyancatda/ShionBot) | [English](README-en-US.md) | 日本語
+# ShionBot
 チャットソフトでMediaWikiを使って検索するボット  
 MediaWikiで作られたページに検索できる 多言語可能、プラットフォームを跨る、QQ、テルグラム、LINEで使う可能
 
@@ -11,7 +11,7 @@ Ginと[mirai-api-http](https://github.com/project-mirai/mirai-api-http)に基づ
 ## 使い方
 
 ## 💮 スタートアップ
-1. [Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)から最新バージョンの構築をダウンロードする
+1. [Releases](https://github.com/nyancatda/ShionBot/releases)から最新バージョンの構築をダウンロードする
 1. プログラムの同じディレクトリで[config.yml](#configyml%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88)を作成して、それからテンプレートにしたがってメッセージを入力する
 1. [チャットソフト]のコンフィグ(#チャットソフトのコンフィグ)
 1. プログラムを実行する

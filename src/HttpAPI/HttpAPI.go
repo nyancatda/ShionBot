@@ -2,7 +2,7 @@ package HttpAPI
 
 import (
 	"github.com/gin-gonic/gin"
-	"xyz.nyan/MediaWiki-Bot/src/HttpAPI/API"
+	"xyz.nyan/ShionBot/src/HttpAPI/API"
 )
 
 var APIName string

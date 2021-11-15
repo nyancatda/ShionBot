@@ -1,5 +1,5 @@
 中文 | [English](docs/README-en-US.md) | [日本語](docs/README-ja-JP.md)
-# MediaWiki-Bot
+# ShionBot
 通过聊天软件对MediaWiki进行信息查询的机器人  
 可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram，Line，KaiHeiLa
 
@@ -11,7 +11,7 @@
 ## 如何使用
 
 ## 💮 启动  
-1. 从[Releases](https://github.com/nyancatda/MediaWiki-Bot/releases)下载最新构建
+1. 从[Releases](https://github.com/nyancatda/ShionBot/releases)下载最新构建
 1. 在程序同级目录创建[config.yml](#configyml%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF)，并按照模板填写信息
 1. 配置[聊天软件](#%EF%B8%8F-聊天软件配置)
 1. 运行程序

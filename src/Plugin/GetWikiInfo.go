@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	"github.com/antchfx/htmlquery"
-	"xyz.nyan/MediaWiki-Bot/src/MediaWikiAPI"
-	"xyz.nyan/MediaWiki-Bot/src/utils"
-	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	"xyz.nyan/ShionBot/src/MediaWikiAPI"
+	"xyz.nyan/ShionBot/src/utils"
+	"xyz.nyan/ShionBot/src/utils/Language"
 )
 
 func Error(SNSName string, UserID string, WikiLink string, title string, LanguageMessage *Language.LanguageInfo) string {

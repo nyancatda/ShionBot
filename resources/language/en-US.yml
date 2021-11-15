@@ -14,7 +14,7 @@ Nudge: "Nudge"
 #Unable to access https://zh.moegirl.org.cn, please contact the administrator
 WikiLinkError: "Unable to access{%0}, please contact the administrator "
 
-HelpText: "Please go to https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 for instructions"
+HelpText: "Please go to https://github.com/nyancatda/ShionBot#%E5%91%BD%E4%BB%A4 for instructions"
 
 #Can't find [Mainpage] in [https://zh.moegirl.org.cn], please check that the input is correct
 GetWikiInfoError: "Can't find [{%1}] in [{%0}], please check that the input is correct"

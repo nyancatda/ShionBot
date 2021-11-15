@@ -1,14 +1,15 @@
 package InformationProcessing
 
 import (
-	"github.com/gin-gonic/gin"
 	"strings"
 
-	"xyz.nyan/MediaWiki-Bot/src/MediaWikiAPI"
-	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI"
-	"xyz.nyan/MediaWiki-Bot/src/Plugin"
-	"xyz.nyan/MediaWiki-Bot/src/Plugin/Command"
-	"xyz.nyan/MediaWiki-Bot/src/Struct"
+	"github.com/gin-gonic/gin"
+
+	"xyz.nyan/ShionBot/src/MediaWikiAPI"
+	"xyz.nyan/ShionBot/src/MessagePushAPI"
+	"xyz.nyan/ShionBot/src/Plugin"
+	"xyz.nyan/ShionBot/src/Plugin/Command"
+	"xyz.nyan/ShionBot/src/Struct"
 )
 
 var sns_name_kaiheila string = "KaiHeiLa"

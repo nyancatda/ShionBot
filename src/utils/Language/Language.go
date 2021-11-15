@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"gopkg.in/yaml.v2"
-	"xyz.nyan/MediaWiki-Bot/src/Struct"
-	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/ShionBot/src/Struct"
+	"xyz.nyan/ShionBot/src/utils"
 )
 
 func ReadLanguage(Language string) *LanguageInfo {

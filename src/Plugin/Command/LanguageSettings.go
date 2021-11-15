@@ -3,9 +3,9 @@ package Command
 import (
 	"strings"
 
-	"xyz.nyan/MediaWiki-Bot/src/Struct"
-	"xyz.nyan/MediaWiki-Bot/src/utils"
-	Languages "xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	"xyz.nyan/ShionBot/src/Struct"
+	"xyz.nyan/ShionBot/src/utils"
+	Languages "xyz.nyan/ShionBot/src/utils/Language"
 )
 
 func LanguageSettings(SNSName string, UserID string, CommandText string) (string, bool) {

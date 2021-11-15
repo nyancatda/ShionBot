@@ -13,7 +13,7 @@ Nudge: "ナデナデ"
 #https://zh.moegirl.org.cnにアクセスできない，管理者に連絡してください
 WikiLinkError: "{%0}にアクセスできない，管理者に連絡してください"
 
-HelpText: "使い方は https://github.com/nyancatda/MediaWiki-Bot#%E5%91%BD%E4%BB%A4 で調べてください"
+HelpText: "使い方は https://github.com/nyancatda/ShionBot#%E5%91%BD%E4%BB%A4 で調べてください"
 
 #[https://zh.moegirl.org.cn]には[Mainpage]が見つけられなかった，入力は正しいかどうかチェックしてください
 GetWikiInfoError: "[{%0}]には[{%1}]が見つけられなかった，入力は正しいかどうかチェックしてください"

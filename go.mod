@@ -1,4 +1,4 @@
-module xyz.nyan/MediaWiki-Bot
+module xyz.nyan/ShionBot
 
 go 1.17
 

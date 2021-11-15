@@ -3,9 +3,9 @@ package InformationProcessing
 import (
 	"strings"
 
-	"xyz.nyan/MediaWiki-Bot/src/Struct"
-	"xyz.nyan/MediaWiki-Bot/src/utils"
-	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	"xyz.nyan/ShionBot/src/Struct"
+	"xyz.nyan/ShionBot/src/utils"
+	"xyz.nyan/ShionBot/src/utils/Language"
 )
 
 //Wiki链接错误返回

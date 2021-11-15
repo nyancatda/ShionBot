@@ -3,10 +3,10 @@ package MessagePushAPI
 import (
 	"strconv"
 
-	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/KaiHeiLaAPI"
-	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/LineAPI"
-	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/QQAPI"
-	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/TelegramAPI"
+	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/KaiHeiLaAPI"
+	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/LineAPI"
+	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
+	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/TelegramAPI"
 )
 
 //发送消息

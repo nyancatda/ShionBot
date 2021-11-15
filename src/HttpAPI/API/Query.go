@@ -2,11 +2,11 @@ package API
 
 import (
 	"github.com/gin-gonic/gin"
-	"xyz.nyan/MediaWiki-Bot/src/HttpAPI/JsonProcessing"
-	"xyz.nyan/MediaWiki-Bot/src/MediaWikiAPI"
-	"xyz.nyan/MediaWiki-Bot/src/Plugin"
-	"xyz.nyan/MediaWiki-Bot/src/utils"
-	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	"xyz.nyan/ShionBot/src/HttpAPI/JsonProcessing"
+	"xyz.nyan/ShionBot/src/MediaWikiAPI"
+	"xyz.nyan/ShionBot/src/Plugin"
+	"xyz.nyan/ShionBot/src/utils"
+	"xyz.nyan/ShionBot/src/utils/Language"
 )
 
 func QueryInfo(c *gin.Context) map[string]interface{} {

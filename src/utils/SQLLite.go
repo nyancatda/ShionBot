@@ -5,7 +5,7 @@ import (
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"xyz.nyan/MediaWiki-Bot/src/Struct"
+	"xyz.nyan/ShionBot/src/Struct"
 )
 
 func SQLLiteLink() *gorm.DB {

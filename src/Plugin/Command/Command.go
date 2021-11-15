@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"xyz.nyan/MediaWiki-Bot/src/Struct"
+	"xyz.nyan/ShionBot/src/Struct"
 )
 
 func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string) (string, bool) {

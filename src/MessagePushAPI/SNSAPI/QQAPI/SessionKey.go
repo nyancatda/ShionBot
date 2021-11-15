@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/ShionBot/src/utils"
 )
 
 type verifyJson struct {

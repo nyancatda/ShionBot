@@ -1,7 +1,7 @@
 package Command
 
 import (
-	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
+	"xyz.nyan/ShionBot/src/utils/Language"
 )
 
 func Help(SNSName string, UserID string) (string, bool) {

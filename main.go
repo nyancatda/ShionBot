@@ -6,13 +6,13 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"xyz.nyan/MediaWiki-Bot/src/HttpAPI"
-	"xyz.nyan/MediaWiki-Bot/src/InformationProcessing"
-	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI/QQAPI"
-	"xyz.nyan/MediaWiki-Bot/src/Struct"
-	"xyz.nyan/MediaWiki-Bot/src/utils"
-	"xyz.nyan/MediaWiki-Bot/src/utils/Language"
-	"xyz.nyan/MediaWiki-Bot/src/utils/ReleaseFile"
+	"xyz.nyan/ShionBot/src/HttpAPI"
+	"xyz.nyan/ShionBot/src/InformationProcessing"
+	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
+	"xyz.nyan/ShionBot/src/Struct"
+	"xyz.nyan/ShionBot/src/utils"
+	"xyz.nyan/ShionBot/src/utils/Language"
+	"xyz.nyan/ShionBot/src/utils/ReleaseFile"
 )
 
 func Error() {
@@ -53,7 +53,7 @@ func main() {
 			fmt.Println(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		InformationProcessing.InformationProcessing(c,json)
+		InformationProcessing.InformationProcessing(c, json)
 	})
 
 	//启动API

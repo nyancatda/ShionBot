@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"xyz.nyan/MediaWiki-Bot/src/MessagePushAPI/SNSAPI"
-	"xyz.nyan/MediaWiki-Bot/src/utils"
+	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI"
+	"xyz.nyan/ShionBot/src/utils"
 )
 
 var sns_name string = "KaiHeiLa"
