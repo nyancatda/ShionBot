@@ -1,8 +1,8 @@
 [中文](https://github.com/nyancatda/ShionBot) | English | [日本語](README-ja-JP.md)
-<center>
-   <img width="160" src="https://shionbot.xyz/img/logo.png" alt="logo"></br>
+<div align="center">
+   <img width="160" src="https://shionbot.xyz/img/logo.png" alt="logo">
    <h1>ShionBot</h1>
-</center>
+</div>
 ----
 A robot that queries MediaWiki via SNS
 Support a variety of languages, cross-platform compatibility, support QQ\Telegram\Line.
