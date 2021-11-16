@@ -13,7 +13,7 @@ Nudge: "戳一戳"
 #无法访问https://zh.moegirl.org.cn，请联系管理员
 WikiLinkError: "无法访问{%0}，请联系管理员"
 
-HelpText: "使用说明请前往 https://github.com/nyancatda/ShionBot#%E5%91%BD%E4%BB%A4 查看"
+HelpText: "使用说明请前往 https://shionbot.xyz/Command/ 查看"
 
 #在[https://zh.moegirl.org.cn]中找不到[Mainpage]哦，请检查输入是否正确
 GetWikiInfoError: "在[{%0}]中找不到[{%1}]哦，请检查输入是否正确"
