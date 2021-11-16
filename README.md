@@ -1,5 +1,9 @@
 中文 | [English](docs/README-en-US.md) | [日本語](docs/README-ja-JP.md)
-# ShionBot
+<center>
+   <img width="160" src="https://shionbot.xyz/img/logo.png" alt="logo"></br>
+   <h1>ShionBot</h1>
+</center>
+----
 通过聊天软件对MediaWiki进行信息查询的机器人  
 可以对使用聊天软件对MediaWiki搭建的站点进行信息查询，支持多种语言，跨平台兼容，支持QQ，Telegram，Line，KaiHeiLa
 

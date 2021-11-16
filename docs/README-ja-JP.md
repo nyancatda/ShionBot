@@ -1,5 +1,9 @@
 [中文](https://github.com/nyancatda/ShionBot) | [English](README-en-US.md) | 日本語
-# ShionBot
+<center>
+   <img width="160" src="https://shionbot.xyz/img/logo.png" alt="logo"></br>
+   <h1>ShionBot</h1>
+</center>
+----
 チャットソフトでMediaWikiを使って検索するボット  
 MediaWikiで作られたページに検索できる 多言語可能、プラットフォームを跨る、QQ、テルグラム、LINEで使う可能
 
