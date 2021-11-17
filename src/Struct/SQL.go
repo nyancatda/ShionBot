@@ -5,4 +5,5 @@ type UserInfo struct {
 	SNSName  string `gorm:"sns_name"`
 	Account  string `gorm:"type:varchar(255);not null;index:account"`
 	Language string `gorm:"type:varchar(255);index:language"`
+	WikiInfo string `gorm:"type:varchar(255);index:wikiinfo"`
 }

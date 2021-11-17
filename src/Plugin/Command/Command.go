@@ -26,5 +26,8 @@ func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string)
 	if find := strings.Contains(CommandText, "help"); find {
 		return Help(SNSName, UserID)
 	}
+	if find := strings.Contains(CommandText, "addwiki"); find {
+		return AddWiki(SNSName, UserID, CommandText)
+	}
 	return "", false
 }
