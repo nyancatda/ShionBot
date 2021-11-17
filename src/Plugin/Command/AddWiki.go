@@ -15,8 +15,8 @@ func AddWiki(SNSName string, UserID string, CommandText string) (string, bool) {
 	if find := strings.Contains(CommandText, " "); find {
 		CommandParameter := strings.SplitN(CommandText, " ", 3)
 		if len(CommandParameter) != 3 {
+			Message = "/addwiki指令使用方法请前往 https://shionbot.xyz/Command/#addwiki 查看"
 			MessageOK = true
-			Message = "添加失败，参数不足"
 			return Message, MessageOK
 		}
 		NewWikiName := CommandParameter[1]
@@ -70,6 +70,11 @@ func AddWiki(SNSName string, UserID string, CommandText string) (string, bool) {
 				MessageOK = true
 				Message = "已成功添加Wiki " + NewWikiName + ":" + NewWikiLink
 			}
+		}
+	} else {
+		if CommandText == "addwiki" {
+			Message = "/addwiki指令使用方法请前往 https://shionbot.xyz/Command/#addwiki 查看"
+			MessageOK = true
 		}
 	}
 
