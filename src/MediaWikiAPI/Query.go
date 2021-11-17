@@ -74,3 +74,14 @@ func QueryRevisions(WikiName string, title string) (map[string]interface{}, erro
 	json.Unmarshal([]byte(body), &info)
 	return info, err
 }
+
+//查询网站的全部系统信息
+//WikiLink Wiki链接
+func QuerySiteinfoGeneral(WikiLink string) (map[string]interface{}, error) {
+	url := WikiLink + "/api.php?action=query&meta=siteinfo&siprop=general&format=json"
+	body, err := utils.HttpRequest(url)
+
+	info := make(map[string]interface{})
+	json.Unmarshal([]byte(body), &info)
+	return info, err
+}

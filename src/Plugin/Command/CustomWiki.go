@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"strings"
 
+	"xyz.nyan/ShionBot/src/MediaWikiAPI"
 	"xyz.nyan/ShionBot/src/Struct"
 	"xyz.nyan/ShionBot/src/utils"
 )
 
-func AddWiki(SNSName string, UserID string, CommandText string) (string, bool) {
+func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 	var MessageOK bool
 	var Message string
 
@@ -21,6 +22,18 @@ func AddWiki(SNSName string, UserID string, CommandText string) (string, bool) {
 		}
 		NewWikiName := CommandParameter[1]
 		NewWikiLink := CommandParameter[2]
+
+		WikiSiteinfo, err := MediaWikiAPI.QuerySiteinfoGeneral("http://"+NewWikiLink)
+		if err != nil {
+			Message = "添加失败，这不是一个有效的MediaWiki站点"
+			MessageOK = true
+			return Message, MessageOK
+		}
+		if _, ok := WikiSiteinfo["query"].(map[string]interface{})["general"].(map[string]interface{})["sitename"]; !ok {
+			Message = "添加失败，这不是一个有效的MediaWiki站点"
+			MessageOK = true
+			return Message, MessageOK
+		}
 
 		db := utils.SQLLiteLink()
 		var user Struct.UserInfo
