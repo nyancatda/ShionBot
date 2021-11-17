@@ -35,7 +35,7 @@ func AddWiki(SNSName string, UserID string, CommandText string) (string, bool) {
 			UserInfos := Struct.UserInfo{SNSName: SNSName, Account: UserID, WikiInfo: string(WikiInfo)}
 			db.Create(&UserInfos)
 			MessageOK = true
-			Message = "已成功添加Wiki " + NewWikiName + ":" + NewWikiLink
+			Message = "已成功添加Wiki " + NewWikiName + " URL: " + NewWikiLink
 		} else {
 			if user.WikiInfo == "" {
 				WikiInfoData := make([]map[string]string, 1)
@@ -46,7 +46,7 @@ func AddWiki(SNSName string, UserID string, CommandText string) (string, bool) {
 				WikiInfo, _ := json.Marshal(WikiInfoData)
 				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
 				MessageOK = true
-				Message = "已成功添加Wiki " + NewWikiName + ":" + NewWikiLink
+				Message = "已成功添加Wiki " + NewWikiName + " URL: " + NewWikiLink
 			} else {
 				OldWikiInfoData := user.WikiInfo
 				WikiInfoData := []interface{}{}
@@ -68,7 +68,7 @@ func AddWiki(SNSName string, UserID string, CommandText string) (string, bool) {
 				WikiInfo, _ := json.Marshal(WikiInfoData)
 				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
 				MessageOK = true
-				Message = "已成功添加Wiki " + NewWikiName + ":" + NewWikiLink
+				Message = "已成功添加Wiki " + NewWikiName + " URL: " + NewWikiLink
 			}
 		}
 	} else {
