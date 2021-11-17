@@ -7,6 +7,7 @@ import (
 	"xyz.nyan/ShionBot/src/MediaWikiAPI"
 	"xyz.nyan/ShionBot/src/Struct"
 	"xyz.nyan/ShionBot/src/utils"
+	"xyz.nyan/ShionBot/src/utils/Language"
 )
 
 func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
@@ -16,21 +17,21 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 	if find := strings.Contains(CommandText, " "); find {
 		CommandParameter := strings.SplitN(CommandText, " ", 3)
 		if len(CommandParameter) != 3 {
-			Message = "/addwiki指令使用方法请前往 https://shionbot.xyz/Command/#addwiki 查看"
+			Message = Language.Message(SNSName, UserID).WikiAddHelp
 			MessageOK = true
 			return Message, MessageOK
 		}
 		NewWikiName := CommandParameter[1]
 		NewWikiLink := CommandParameter[2]
 
-		WikiSiteinfo, err := MediaWikiAPI.QuerySiteinfoGeneral("http://"+NewWikiLink)
+		WikiSiteinfo, err := MediaWikiAPI.QuerySiteinfoGeneral("http://" + NewWikiLink)
 		if err != nil {
-			Message = "添加失败，这不是一个有效的MediaWiki站点"
+			Message = Language.Message(SNSName, UserID).WikiAddFailed
 			MessageOK = true
 			return Message, MessageOK
 		}
 		if _, ok := WikiSiteinfo["query"].(map[string]interface{})["general"].(map[string]interface{})["sitename"]; !ok {
-			Message = "添加失败，这不是一个有效的MediaWiki站点"
+			Message = Language.Message(SNSName, UserID).WikiAddFailed
 			MessageOK = true
 			return Message, MessageOK
 		}
@@ -48,7 +49,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 			UserInfos := Struct.UserInfo{SNSName: SNSName, Account: UserID, WikiInfo: string(WikiInfo)}
 			db.Create(&UserInfos)
 			MessageOK = true
-			Message = "已成功添加Wiki " + NewWikiName + " URL: " + NewWikiLink
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiAddSucceeded, []string{NewWikiName, NewWikiLink})
 		} else {
 			if user.WikiInfo == "" {
 				WikiInfoData := make([]map[string]string, 1)
@@ -59,7 +60,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 				WikiInfo, _ := json.Marshal(WikiInfoData)
 				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
 				MessageOK = true
-				Message = "已成功添加Wiki " + NewWikiName + " URL: " + NewWikiLink
+				Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiAddSucceeded, []string{NewWikiName, NewWikiLink})
 			} else {
 				OldWikiInfoData := user.WikiInfo
 				WikiInfoData := []interface{}{}
@@ -69,7 +70,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 					OldWikiName := value.(map[string]interface{})["WikiName"]
 					if OldWikiName == NewWikiName {
 						MessageOK = true
-						Message = "添加失败，" + NewWikiName + "已经被添加过了"
+						Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiAddRepeat, []string{NewWikiName})
 						return Message, MessageOK
 					}
 				}
@@ -81,12 +82,12 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 				WikiInfo, _ := json.Marshal(WikiInfoData)
 				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
 				MessageOK = true
-				Message = "已成功添加Wiki " + NewWikiName + " URL: " + NewWikiLink
+				Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiAddSucceeded, []string{NewWikiName, NewWikiLink})
 			}
 		}
 	} else {
-		if CommandText == "addwiki" {
-			Message = "/addwiki指令使用方法请前往 https://shionbot.xyz/Command/#addwiki 查看"
+		if CommandText == "wikiadd" {
+			Message = Language.Message(SNSName, UserID).WikiAddHelp
 			MessageOK = true
 		}
 	}

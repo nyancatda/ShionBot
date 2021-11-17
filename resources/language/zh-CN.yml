@@ -37,3 +37,10 @@ LanguageList: "目前可用语言有:\n{%0}"
 TitleEmpty: "标题为空，无法查询"
 
 ContainsIllegalWords: "返回信息中存在非法内容，已被过滤器拦截"
+
+WikiAddHelp: "/wikiadd指令使用方法请前往 https://shionbot.xyz/Command/#wikiadd 查看"
+WikiAddFailed: "添加失败，这不是一个有效的MediaWiki站点"
+#添加失败，[mg]已经被添加过了
+WikiAddRepeat: "添加失败，[{%0}]已经被添加过了"
+#已成功添加Wiki[mg]，URL:https://zh.moegirl.org.cn
+WikiAddSucceeded: "已成功添加Wiki[{%0}]，URL:{%1}"
