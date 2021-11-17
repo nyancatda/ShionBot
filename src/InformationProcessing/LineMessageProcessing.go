@@ -5,7 +5,7 @@ import (
 
 	"xyz.nyan/ShionBot/src/MediaWikiAPI"
 	"xyz.nyan/ShionBot/src/MessagePushAPI"
-	"xyz.nyan/ShionBot/src/Plugin"
+	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
 	"xyz.nyan/ShionBot/src/Plugin/Command"
 	"xyz.nyan/ShionBot/src/Struct"
 )
@@ -19,9 +19,9 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 		switch json.Events[0].Source.Type {
 		case "user":
 			UserID := json.Events[0].Source.UserId
-			WikiInfo, err := Plugin.GetWikiInfo(sns_name_line, UserID, Command, QueryText, "")
+			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := MediaWikiAPI.GetWikiLink(Command)
+				WikiLink := MediaWikiAPI.GetWikiLink(sns_name_line, json, Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, Error(sns_name_line, UserID, WikiLink), false, "", "", 0)
 				return
 			}
@@ -30,9 +30,9 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 			UserID := json.Events[0].Source.UserId
 			GroupId := json.Events[0].Source.GroupId
 			QuoteID := json.Events[0].ReplyToken
-			WikiInfo, err := Plugin.GetWikiInfo(sns_name_line, UserID, Command, QueryText, "")
+			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := MediaWikiAPI.GetWikiLink(Command)
+				WikiLink := MediaWikiAPI.GetWikiLink(sns_name_line, json, Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Group", UserID, GroupId, Error(sns_name_line, UserID, WikiLink), true, QuoteID, "", 0)
 				return
 			}

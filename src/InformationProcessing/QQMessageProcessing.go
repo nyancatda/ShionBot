@@ -7,7 +7,7 @@ import (
 
 	"xyz.nyan/ShionBot/src/MediaWikiAPI"
 	"xyz.nyan/ShionBot/src/MessagePushAPI"
-	"xyz.nyan/ShionBot/src/Plugin"
+	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
 	"xyz.nyan/ShionBot/src/Plugin/Command"
 	"xyz.nyan/ShionBot/src/Struct"
 	"xyz.nyan/ShionBot/src/utils"
@@ -17,10 +17,10 @@ import (
 var sns_name_qq string = "QQ"
 
 //发送群组消息
-func QQsendGroupWikiInfo(UserID string, WikiName string, GroupID string, QueryText string, quoteID string) {
-	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText, "")
+func QQsendGroupWikiInfo(json Struct.WebHookJson, UserID string, WikiName string, GroupID string, QueryText string, quoteID string) {
+	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		WikiLink := MediaWikiAPI.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Group", UserID, GroupID, Error(sns_name_qq, UserID, WikiLink), true, quoteID, "", 0)
 		return
 	}
@@ -28,10 +28,10 @@ func QQsendGroupWikiInfo(UserID string, WikiName string, GroupID string, QueryTe
 }
 
 //发送好友消息
-func QQsendFriendWikiInfo(WikiName string, UserID string, QueryText string) {
-	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText, "")
+func QQsendFriendWikiInfo(json Struct.WebHookJson, WikiName string, UserID string, QueryText string) {
+	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		WikiLink := MediaWikiAPI.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", 0)
 		return
 	}
@@ -39,10 +39,10 @@ func QQsendFriendWikiInfo(WikiName string, UserID string, QueryText string) {
 }
 
 //发送临时会话消息
-func QQsendTempdWikiInfo(WikiName string, UserID string, GroupID int, QueryText string) {
-	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText, "")
+func QQsendTempdWikiInfo(json Struct.WebHookJson, WikiName string, UserID string, GroupID int, QueryText string) {
+	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
+		WikiLink := MediaWikiAPI.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", GroupID)
 		return
 	}
@@ -76,7 +76,7 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 				quoteID := strconv.Itoa(int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64))))
 				UserID := strconv.Itoa(json.Sender.Id)
 				MessagePushAPI.SendNudge(json.Sender.Id, json.Sender.Group.Id, "Group")
-				QQsendGroupWikiInfo(UserID, Command, GroupID, QueryText, quoteID)
+				QQsendGroupWikiInfo(json, UserID, Command, GroupID, QueryText, quoteID)
 			}
 		}
 	case "FriendMessage":
@@ -85,7 +85,7 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text.(string))
 			if find {
 				UserID := strconv.Itoa(json.Sender.Id)
-				QQsendFriendWikiInfo(Command, UserID, QueryText)
+				QQsendFriendWikiInfo(json, Command, UserID, QueryText)
 			}
 		}
 	case "TempMessage":
@@ -95,7 +95,7 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 			if find {
 				UserID := strconv.Itoa(json.Sender.Id)
 				GroupID := json.Sender.Group.Id
-				QQsendTempdWikiInfo(Command, UserID, GroupID, QueryText)
+				QQsendTempdWikiInfo(json, Command, UserID, GroupID, QueryText)
 			}
 		}
 	case "NudgeEvent":

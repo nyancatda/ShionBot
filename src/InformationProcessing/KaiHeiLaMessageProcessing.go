@@ -7,8 +7,8 @@ import (
 
 	"xyz.nyan/ShionBot/src/MediaWikiAPI"
 	"xyz.nyan/ShionBot/src/MessagePushAPI"
-	"xyz.nyan/ShionBot/src/Plugin"
 	"xyz.nyan/ShionBot/src/Plugin/Command"
+	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
 	"xyz.nyan/ShionBot/src/Struct"
 )
 
@@ -30,9 +30,9 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 		switch json.D.Channel_type {
 		case "PERSON":
 			ChatID := json.D.Author_id
-			WikiInfo, err := Plugin.GetWikiInfo(sns_name_kaiheila, UserID, Command, QueryText, "")
+			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := MediaWikiAPI.GetWikiLink(Command)
+				WikiLink := MediaWikiAPI.GetWikiLink(sns_name_kaiheila, json, Command)
 				MessagePushAPI.SendMessage(sns_name_kaiheila, "Friend", UserID, ChatID, Error(sns_name_kaiheila, UserID, WikiLink), false, "", "", 0)
 				return
 			}
@@ -40,9 +40,9 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 		case "GROUP":
 			MassageID := json.D.Msg_id
 			ChatID := json.D.Target_id
-			WikiInfo, err := Plugin.GetWikiInfo(sns_name_kaiheila, UserID, Command, QueryText, "")
+			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := MediaWikiAPI.GetWikiLink(Command)
+				WikiLink := MediaWikiAPI.GetWikiLink(sns_name_kaiheila, json, Command)
 				MessagePushAPI.SendMessage(sns_name_kaiheila, "Group", UserID, ChatID, Error(sns_name_kaiheila, UserID, WikiLink), false, "", "", 0)
 				return
 			}

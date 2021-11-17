@@ -3,14 +3,32 @@ package MediaWikiAPI
 
 import (
 	"encoding/json"
-
 	"strconv"
 
+	"xyz.nyan/ShionBot/src/Plugin"
+	"xyz.nyan/ShionBot/src/Struct"
 	"xyz.nyan/ShionBot/src/utils"
 )
 
-//从配置文件读取Wiki名字对应的Wiki链接
-func GetWikiLink(WikiName string) string {
+//读取Wiki名字对应的Wiki链接
+func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string) string {
+	//获取用户配置
+	db := utils.SQLLiteLink()
+	var user Struct.UserInfo
+	UserID := Plugin.GetSNSUserID(SNSName, Messagejson)
+	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
+	if user.Account == UserID {
+		WikiInfo := user.WikiInfo
+		WikiInfoData := []interface{}{}
+		json.Unmarshal([]byte(WikiInfo), &WikiInfoData)
+		for _, value := range WikiInfoData {
+			WikiInfoName := value.(map[string]interface{})["WikiName"].(string)
+			if WikiName == WikiInfoName {
+				return "https://" + value.(map[string]interface{})["WikiLink"].(string)
+			}
+		}
+	}
+
 	Config := utils.ReadConfig()
 	var ConfigWikiName string
 	for one := range Config.Wiki.([]interface{}) {
@@ -23,10 +41,12 @@ func GetWikiLink(WikiName string) string {
 }
 
 //查询页面信息，返回带URL
+//SNSName 聊天软件名字
+//Messagejson 消息json
 //WikiName 需要查询的Wiki名字
 //title 需要查询的页面标题
-func QueryInfoUrl(WikiName string, title string) (map[string]interface{}, error) {
-	WikiLink := GetWikiLink(WikiName)
+func QueryInfoUrl(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) (map[string]interface{}, error) {
+	WikiLink := GetWikiLink(SNSName, Messagejson, WikiName)
 	url := WikiLink + "/api.php?action=query&prop=info&inprop=url&format=json&titles=" + title
 	body, err := utils.HttpRequest(url)
 
@@ -36,10 +56,12 @@ func QueryInfoUrl(WikiName string, title string) (map[string]interface{}, error)
 }
 
 //查询页面重定向信息
+//SNSName 聊天软件名字
+//Messagejson 消息json
 //WikiName 需要查询的Wiki名字
 //title 需要查询的页面标题
-func QueryRedirects(WikiName string, title string) (map[string]interface{}, error) {
-	WikiLink := GetWikiLink(WikiName)
+func QueryRedirects(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) (map[string]interface{}, error) {
+	WikiLink := GetWikiLink(SNSName, Messagejson, WikiName)
 	url := WikiLink + "/api.php?action=query&prop=redirects&format=json&titles=" + title
 	body, err := utils.HttpRequest(url)
 
@@ -49,11 +71,13 @@ func QueryRedirects(WikiName string, title string) (map[string]interface{}, erro
 }
 
 //查询页面内容提取物
+//SNSName 聊天软件名字
+//Messagejson 消息json
 //WikiName 需要查询的Wiki名字
 //exchars 返回的字数
 //title 需要查询的页面标题
-func QueryExtracts(WikiName string, exchars int, title string) (map[string]interface{}, error) {
-	WikiLink := GetWikiLink(WikiName)
+func QueryExtracts(SNSName string, Messagejson Struct.WebHookJson, WikiName string, exchars int, title string) (map[string]interface{}, error) {
+	WikiLink := GetWikiLink(SNSName, Messagejson, WikiName)
 	url := WikiLink + "/api.php?action=query&prop=extracts&exchars=" + strconv.Itoa(exchars) + "&explaintext=true&format=json&titles=" + title
 	body, err := utils.HttpRequest(url)
 
@@ -63,10 +87,12 @@ func QueryExtracts(WikiName string, exchars int, title string) (map[string]inter
 }
 
 //查询页面修订信息
+//SNSName 聊天软件名字
+//Messagejson 消息json
 //WikiName 需要查询的Wiki名字
 //title 需要查询的页面标题
-func QueryRevisions(WikiName string, title string) (map[string]interface{}, error) {
-	WikiLink := GetWikiLink(WikiName)
+func QueryRevisions(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) (map[string]interface{}, error) {
+	WikiLink := GetWikiLink(SNSName, Messagejson, WikiName)
 	url := WikiLink + "/api.php?action=query&prop=revisions&format=json&titles=" + title
 	body, err := utils.HttpRequest(url)
 

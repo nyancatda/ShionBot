@@ -6,8 +6,8 @@ import (
 
 	"xyz.nyan/ShionBot/src/MediaWikiAPI"
 	"xyz.nyan/ShionBot/src/MessagePushAPI"
-	"xyz.nyan/ShionBot/src/Plugin"
 	"xyz.nyan/ShionBot/src/Plugin/Command"
+	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
 	"xyz.nyan/ShionBot/src/Struct"
 )
 
@@ -19,9 +19,9 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 	if find {
 		UserID := strconv.Itoa(json.Message.From.Id)
 		ChatID := strconv.Itoa(json.Message.Chat.Id)
-		WikiInfo, err := Plugin.GetWikiInfo(sns_name_telegram, UserID, Command, QueryText, "")
+		WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_telegram, json, UserID, Command, QueryText, "")
 		if err != nil {
-			WikiLink := MediaWikiAPI.GetWikiLink(Command)
+			WikiLink := MediaWikiAPI.GetWikiLink(sns_name_telegram, json, Command)
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, Error(sns_name_telegram, UserID, WikiLink), false, "", "", 0)
 			return
 		}

@@ -24,7 +24,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 		NewWikiName := CommandParameter[1]
 		NewWikiLink := CommandParameter[2]
 
-		WikiSiteinfo, err := MediaWikiAPI.QuerySiteinfoGeneral("http://" + NewWikiLink)
+		WikiSiteinfo, err := MediaWikiAPI.QuerySiteinfoGeneral("https://" + NewWikiLink)
 		if err != nil {
 			Message = Language.Message(SNSName, UserID).WikiAddFailed
 			MessageOK = true

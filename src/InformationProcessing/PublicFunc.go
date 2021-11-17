@@ -3,7 +3,7 @@ package InformationProcessing
 import (
 	"strings"
 
-	"xyz.nyan/ShionBot/src/Plugin"
+	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
 	"xyz.nyan/ShionBot/src/Struct"
 	"xyz.nyan/ShionBot/src/utils"
 	"xyz.nyan/ShionBot/src/utils/Language"
@@ -17,7 +17,7 @@ func Error(SNSName string, UserID string, WikiLink string) string {
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数
 func CommandExtraction(SNSName string, json Struct.WebHookJson, text string) (bool, string, string) {
 	if find := strings.Contains(text, ":"); find {
-		if Plugin.WikiNameExist(text) {
+		if GetWikiInfo.WikiNameExist(text, SNSName, json) {
 			countSplit := strings.SplitN(text, ":", 2)
 			Command := countSplit[0]
 			Text := countSplit[1]
@@ -26,7 +26,7 @@ func CommandExtraction(SNSName string, json Struct.WebHookJson, text string) (bo
 	} else if find := strings.Contains(text, "[["); find {
 		if find := strings.Contains(text, "]]"); find {
 			//获取主Wiki名字
-			MainWikiName := Plugin.GeiMainWikiName()
+			MainWikiName := GetWikiInfo.GeiMainWikiName(SNSName, json)
 
 			trimStr := strings.Trim(text, "[")
 			Text := strings.Trim(trimStr, "]")
