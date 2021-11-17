@@ -16,6 +16,26 @@ func Error(SNSName string, UserID string, WikiLink string, title string, Languag
 	return text
 }
 
+//判断Wiki名字是否存在
+func WikiNameExist(WikiName string) bool {
+	Config := utils.ReadConfig()
+	var ConfigWikiName string
+	for one := range Config.Wiki.([]interface{}) {
+		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
+		if find := strings.Contains(WikiName, ConfigWikiName); find {
+			return true
+		}
+	}
+	return false
+}
+
+//获取主Wiki名字
+func GeiMainWikiName() string {
+	Config := utils.ReadConfig()
+	MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
+	return MainWikiName
+}
+
 //搜索wiki
 func SearchWiki(WikiName string, title string) string {
 	SearchInfo, _ := MediaWikiAPI.Opensearch(WikiName, title)
