@@ -3,7 +3,7 @@
    <img width="160" src="https://shionbot.xyz/img/logo.png" alt="logo">
    <h1>ShionBot</h1>
 </div>
-A robot that queries MediaWiki via SNS
+A robot that queries MediaWiki via Chat Software
 Support a variety of languages, cross-platform compatibility, support QQ\Telegram\Line.
 
 Based on Gin snd [mirai-api-http](https://github.com/project-mirai/mirai-api-http)
