@@ -7,18 +7,25 @@ import (
 	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/LineAPI"
 	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/TelegramAPI"
+	"xyz.nyan/ShionBot/src/utils/Language"
+	"xyz.nyan/ShionBot/src/utils/ViolationWordFilter"
 )
 
 //发送消息
 //SNSName 聊天软件
 //ChatType 聊天类型(Default,Friend,Group,GroupAt,Temp)
+//UserID 接收消息的用户ID(仅用于判断用户)
 //target 接受的聊天的ID
 //text 消息文本
 //quote 是否需要回复
 //quoteID 回复的消息ID(不需要时为空即可)
 //AtID (可选)需要@的人的ID
 //group (可选)临时会话群号
-func SendMessage(SNSName string, ChatType string, target string, text string, quote bool, quoteID string, AtID string, group int) {
+func SendMessage(SNSName string, ChatType string, UserID string, target string, text string, quote bool, quoteID string, AtID string, group int) {
+	if !ViolationWordFilter.ViolationWordFilter(text) {
+		text = Language.Message(SNSName, UserID).ContainsIllegalWords
+	}
+
 	switch SNSName {
 	case "QQ":
 		targets, _ := strconv.Atoi(target)

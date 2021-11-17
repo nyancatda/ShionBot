@@ -22,10 +22,10 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 			WikiInfo, err := Plugin.GetWikiInfo(sns_name_line, UserID, Command, QueryText, "")
 			if err != nil {
 				WikiLink := MediaWikiAPI.GetWikiLink(Command)
-				MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, Error(sns_name_line, UserID, WikiLink), false, "", "", 0)
+				MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, Error(sns_name_line, UserID, WikiLink), false, "", "", 0)
 				return
 			}
-			MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, WikiInfo, false, "", "", 0)
+			MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, WikiInfo, false, "", "", 0)
 		case "group":
 			UserID := json.Events[0].Source.UserId
 			GroupId := json.Events[0].Source.GroupId
@@ -33,10 +33,10 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 			WikiInfo, err := Plugin.GetWikiInfo(sns_name_line, UserID, Command, QueryText, "")
 			if err != nil {
 				WikiLink := MediaWikiAPI.GetWikiLink(Command)
-				MessagePushAPI.SendMessage(sns_name_line, "Group", GroupId, Error(sns_name_line, UserID, WikiLink), true, QuoteID, "", 0)
+				MessagePushAPI.SendMessage(sns_name_line, "Group", UserID, GroupId, Error(sns_name_line, UserID, WikiLink), true, QuoteID, "", 0)
 				return
 			}
-			MessagePushAPI.SendMessage(sns_name_line, "Group", GroupId, WikiInfo, true, QuoteID, "", 0)
+			MessagePushAPI.SendMessage(sns_name_line, "Group", UserID, GroupId, WikiInfo, true, QuoteID, "", 0)
 		}
 	}
 }
@@ -51,11 +51,12 @@ func LineSettingsMessageProcessing(json Struct.WebHookJson) {
 		switch json.Events[0].Source.Type {
 		case "user":
 			UserID := json.Events[0].Source.UserId
-			MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, Message, false, "", "", 0)
+			MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, Message, false, "", "", 0)
 		case "group":
+			UserID := json.Events[0].Source.UserId
 			GroupId := json.Events[0].Source.GroupId
 			QuoteID := json.Events[0].ReplyToken
-			MessagePushAPI.SendMessage(sns_name_line, "Group", GroupId, Message, true, QuoteID, "", 0)
+			MessagePushAPI.SendMessage(sns_name_line, "Group", UserID, GroupId, Message, true, QuoteID, "", 0)
 		}
 	}
 }

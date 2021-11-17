@@ -21,10 +21,10 @@ func QQsendGroupWikiInfo(UserID string, WikiName string, GroupID string, QueryTe
 	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText, "")
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessagePushAPI.SendMessage(sns_name_qq, "Group", GroupID, Error(sns_name_qq, UserID, WikiLink), true, quoteID, "", 0)
+		MessagePushAPI.SendMessage(sns_name_qq, "Group", UserID, GroupID, Error(sns_name_qq, UserID, WikiLink), true, quoteID, "", 0)
 		return
 	}
-	MessagePushAPI.SendMessage(sns_name_qq, "Group", GroupID, WikiInfo, true, quoteID, "", 0)
+	MessagePushAPI.SendMessage(sns_name_qq, "Group", UserID, GroupID, WikiInfo, true, quoteID, "", 0)
 }
 
 //发送好友消息
@@ -32,10 +32,10 @@ func QQsendFriendWikiInfo(WikiName string, UserID string, QueryText string) {
 	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText, "")
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", 0)
+		MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", 0)
 		return
 	}
-	MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, WikiInfo, false, "", "", 0)
+	MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, UserID, WikiInfo, false, "", "", 0)
 }
 
 //发送临时会话消息
@@ -43,10 +43,10 @@ func QQsendTempdWikiInfo(WikiName string, UserID string, GroupID int, QueryText 
 	WikiInfo, err := Plugin.GetWikiInfo(sns_name_qq, UserID, WikiName, QueryText, "")
 	if err != nil {
 		WikiLink := MediaWikiAPI.GetWikiLink(WikiName)
-		MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", GroupID)
+		MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", GroupID)
 		return
 	}
-	MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, WikiInfo, false, "", "", GroupID)
+	MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, UserID, WikiInfo, false, "", "", GroupID)
 }
 
 //戳一戳消息处理
@@ -57,10 +57,10 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 	case "Group":
 		if json.FromId != utils.ReadConfig().SNS.QQ.BotQQNumber && json.Target == utils.ReadConfig().SNS.QQ.BotQQNumber {
 			MessagePushAPI.SendNudge(json.FromId, json.Subject.Id, "Group")
-			MessagePushAPI.SendMessage(sns_name_qq, "GroupAt", strconv.Itoa(json.Subject.Id), HelpText, false, "", strconv.Itoa(json.FromId), 0)
+			MessagePushAPI.SendMessage(sns_name_qq, "GroupAt", strconv.Itoa(UserID), strconv.Itoa(json.Subject.Id), HelpText, false, "", strconv.Itoa(json.FromId), 0)
 		}
 	case "Friend":
-		go MessagePushAPI.SendMessage(sns_name_qq, "Friend", strconv.Itoa(UserID), HelpText, false, "", "", 0)
+		go MessagePushAPI.SendMessage(sns_name_qq, "Friend", strconv.Itoa(UserID), strconv.Itoa(UserID), HelpText, false, "", "", 0)
 	}
 }
 
@@ -110,18 +110,19 @@ func QQSettingsMessageProcessing(json Struct.WebHookJson) {
 	Text := countSplit[1]
 	Message, Bool := Command.Command(sns_name_qq, json, Text)
 	if Bool {
+		UserID := strconv.Itoa(json.Sender.Id)
 		switch json.Type {
 		case "GroupMessage":
 			GroupID := strconv.Itoa(json.Sender.Group.Id)
 			quoteID := strconv.Itoa(int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64))))
-			MessagePushAPI.SendMessage(sns_name_qq, "Group", GroupID, Message, true, quoteID, "", 0)
+			MessagePushAPI.SendMessage(sns_name_qq, "Group", UserID, GroupID, Message, true, quoteID, "", 0)
 		case "FriendMessage":
 			UserID := strconv.Itoa(json.Sender.Id)
-			MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, Message, false, "", "", 0)
+			MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, UserID, Message, false, "", "", 0)
 		case "TempMessage":
 			UserID := strconv.Itoa(json.Sender.Id)
 			GroupID := json.Sender.Group.Id
-			MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, Message, false, "", "", GroupID)
+			MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, UserID, Message, false, "", "", GroupID)
 		}
 	}
 }

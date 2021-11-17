@@ -35,3 +35,5 @@ WikiInfoRedirect: "\n(再指定[{%0}]->[{%1}])\n"
 LanguageList: "今使える言語:\n{%0}"
 
 TitleEmpty: "テーマはないので、検索できない"
+
+ContainsIllegalWords: "返回信息中存在非法内容，已被过滤器拦截"

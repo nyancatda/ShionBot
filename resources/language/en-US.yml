@@ -29,10 +29,12 @@ WikiInfoSearch: "The page could not be found, but the following results were fou
 #......
 WikiInfoRedirect: "\n(redirect[{%0}]->[{%1}])\n"
 
-#Currently available languages: 
+#Currently available languages:
 #en-US
 #ja-JP
 #zh-CN
 LanguageList: "Currently available language:\n{%0}"
 
 TitleEmpty: "The title is empty and cannot be queried"
+
+ContainsIllegalWords: "返回信息中存在非法内容，已被过滤器拦截"

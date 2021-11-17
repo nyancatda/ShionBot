@@ -16,4 +16,5 @@ type LanguageInfo struct {
 	WikiInfoRedirect             string `yaml:"WikiInfoRedirect"`
 	TitleEmpty                   string `yaml:"TitleEmpty"`
 	LanguageList                 string `yaml:"LanguageList"`
+	ContainsIllegalWords         string `yaml:"ContainsIllegalWords"`
 }
