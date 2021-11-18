@@ -28,6 +28,9 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 		switch json.Message.Chat.Type {
 		case "private":
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, WikiInfo, false, "", "", 0)
+		case "group":
+			MassageID := strconv.Itoa(json.Message.Message_id)
+			MessagePushAPI.SendMessage(sns_name_telegram, "Group", UserID, ChatID, WikiInfo, true, MassageID, "", 0)
 		case "supergroup":
 			MassageID := strconv.Itoa(json.Message.Message_id)
 			MessagePushAPI.SendMessage(sns_name_telegram, "Group", UserID, ChatID, WikiInfo, true, MassageID, "", 0)
@@ -47,6 +50,9 @@ func TelegramSettingsMessageProcessing(json Struct.WebHookJson) {
 		switch json.Message.Chat.Type {
 		case "private":
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, Message, false, "", "", 0)
+		case "group":
+			MassageID := strconv.Itoa(json.Message.Message_id)
+			MessagePushAPI.SendMessage(sns_name_telegram, "Group", UserID, ChatID, Message, true, MassageID, "", 0)
 		case "supergroup":
 			MassageID := strconv.Itoa(json.Message.Message_id)
 			MessagePushAPI.SendMessage(sns_name_telegram, "Group", UserID, ChatID, Message, true, MassageID, "", 0)

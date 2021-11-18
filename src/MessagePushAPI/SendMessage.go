@@ -49,6 +49,9 @@ func SendMessage(SNSName string, ChatType string, UserID string, target string, 
 		case "GroupAt":
 			text = "@" + AtID + " " + text
 			TelegramAPI.SendMessage("Group", targets, text, true, false, 0, false)
+		case "Group":
+			quoteIDs, _ := strconv.Atoi(quoteID)
+			TelegramAPI.SendMessage("Group", targets, text, true, false, quoteIDs, quote)
 		default:
 			quoteIDs, _ := strconv.Atoi(quoteID)
 			TelegramAPI.SendMessage("Friend", targets, text, true, false, quoteIDs, quote)
