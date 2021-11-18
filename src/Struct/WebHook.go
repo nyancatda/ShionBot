@@ -2,12 +2,12 @@ package Struct
 
 type WebHookJson struct {
 	//QQ
-	Type         string        `json:"type"`
-	Sender       Sender        `json:"sender"`
-	FromId       int           `json:"fromId"`
-	Target       int           `json:"target"`
-	MessageChain []interface{} `json:"messageChain"`
-	Subject      Subject       `json:"subject"`
+	Type         string         `json:"type"`
+	Sender       Sender         `json:"sender"`
+	FromId       int            `json:"fromId"`
+	Target       int            `json:"target"`
+	MessageChain []MessageChain `json:"messageChain"`
+	Subject      Subject        `json:"subject"`
 
 	//Telegram
 	Update_id int     `json:"update_id"`
@@ -39,6 +39,12 @@ type Sender struct {
 type Group struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
+}
+type MessageChain struct {
+	Type string `json:"type"`
+	Id   int    `json:"id"`
+	Time int    `json:"time"`
+	Text string `json:"text"`
 }
 type Subject struct {
 	Id   int    `json:"id"`

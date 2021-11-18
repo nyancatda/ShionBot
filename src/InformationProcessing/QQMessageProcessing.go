@@ -1,14 +1,13 @@
 package InformationProcessing
 
 import (
-	"math"
 	"strconv"
 	"strings"
 
 	"xyz.nyan/ShionBot/src/MediaWikiAPI"
 	"xyz.nyan/ShionBot/src/MessagePushAPI"
-	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
 	"xyz.nyan/ShionBot/src/Plugin/Command"
+	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
 	"xyz.nyan/ShionBot/src/Struct"
 	"xyz.nyan/ShionBot/src/utils"
 	"xyz.nyan/ShionBot/src/utils/Language"
@@ -68,30 +67,40 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 func QQMessageProcessing(json Struct.WebHookJson) {
 	switch json.Type {
 	case "GroupMessage":
-		if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
-			text := json.MessageChain[1].(map[string]interface{})["text"]
-			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text.(string))
+		//不处理非正常消息
+		if len(json.MessageChain) < 2 {
+			return
+		}
+		if json.MessageChain[1].Type == "Plain" {
+			text := json.MessageChain[1].Text
+			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
 			if find {
 				GroupID := strconv.Itoa(json.Sender.Group.Id)
-				quoteID := strconv.Itoa(int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64))))
+				quoteID := strconv.Itoa(json.MessageChain[0].Id)
 				UserID := strconv.Itoa(json.Sender.Id)
 				MessagePushAPI.SendNudge(json.Sender.Id, json.Sender.Group.Id, "Group")
 				QQsendGroupWikiInfo(json, UserID, Command, GroupID, QueryText, quoteID)
 			}
 		}
 	case "FriendMessage":
-		if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
-			text := json.MessageChain[1].(map[string]interface{})["text"]
-			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text.(string))
+		if len(json.MessageChain) < 2 {
+			return
+		}
+		if json.MessageChain[1].Type == "Plain" {
+			text := json.MessageChain[1].Text
+			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
 			if find {
 				UserID := strconv.Itoa(json.Sender.Id)
 				QQsendFriendWikiInfo(json, Command, UserID, QueryText)
 			}
 		}
 	case "TempMessage":
-		if json.MessageChain[1].(map[string]interface{})["type"] == "Plain" {
-			text := json.MessageChain[1].(map[string]interface{})["text"]
-			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text.(string))
+		if len(json.MessageChain) < 2 {
+			return
+		}
+		if json.MessageChain[1].Type == "Plain" {
+			text := json.MessageChain[1].Text
+			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
 			if find {
 				UserID := strconv.Itoa(json.Sender.Id)
 				GroupID := json.Sender.Group.Id
@@ -105,8 +114,8 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 
 //设置消息返回
 func QQSettingsMessageProcessing(json Struct.WebHookJson) {
-	text := json.MessageChain[1].(map[string]interface{})["text"]
-	countSplit := strings.Split(text.(string), "/")
+	text := json.MessageChain[1].Text
+	countSplit := strings.Split(text, "/")
 	Text := countSplit[1]
 	Message, Bool := Command.Command(sns_name_qq, json, Text)
 	if Bool {
@@ -114,7 +123,7 @@ func QQSettingsMessageProcessing(json Struct.WebHookJson) {
 		switch json.Type {
 		case "GroupMessage":
 			GroupID := strconv.Itoa(json.Sender.Group.Id)
-			quoteID := strconv.Itoa(int(math.Floor(json.MessageChain[0].(map[string]interface{})["id"].(float64))))
+			quoteID := strconv.Itoa(json.MessageChain[0].Id)
 			MessagePushAPI.SendMessage(sns_name_qq, "Group", UserID, GroupID, Message, true, quoteID, "", 0)
 		case "FriendMessage":
 			UserID := strconv.Itoa(json.Sender.Id)
