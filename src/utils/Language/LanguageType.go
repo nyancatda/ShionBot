@@ -17,8 +17,11 @@ type LanguageInfo struct {
 	TitleEmpty                   string `yaml:"TitleEmpty"`
 	LanguageList                 string `yaml:"LanguageList"`
 	ContainsIllegalWords         string `yaml:"ContainsIllegalWords"`
-	WikiAddHelp                  string `yaml:"WikiAddHelp"`
+	CommandHelp                  string `yaml:"CommandHelp"`
 	WikiAddFailed                string `yaml:"WikiAddFailed"`
 	WikiAddRepeat                string `yaml:"WikiAddRepeat"`
 	WikiAddSucceeded             string `yaml:"WikiAddSucceeded"`
+	WikiUpdateFailed             string `yaml:"WikiUpdateFailed"`
+	WikiUpdateFailedNothingness  string `yaml:"WikiUpdateFailedNothingness"`
+	WikiUpdateSucceeded          string `yaml:"WikiUpdateSucceeded"`
 }

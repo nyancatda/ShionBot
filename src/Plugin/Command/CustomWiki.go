@@ -17,7 +17,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 	if find := strings.Contains(CommandText, " "); find {
 		CommandParameter := strings.SplitN(CommandText, " ", 3)
 		if len(CommandParameter) != 3 {
-			Message = Language.Message(SNSName, UserID).WikiAddHelp
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).CommandHelp, []string{"/wikiadd", "#wikiadd"})
 			MessageOK = true
 			return Message, MessageOK
 		}
@@ -87,7 +87,75 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 		}
 	} else {
 		if CommandText == "wikiadd" {
-			Message = Language.Message(SNSName, UserID).WikiAddHelp
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).CommandHelp, []string{"/wikiadd", "#wikiadd"})
+			MessageOK = true
+		}
+	}
+
+	return Message, MessageOK
+}
+
+func WikiUpdate(SNSName string, UserID string, CommandText string) (string, bool) {
+	var MessageOK bool
+	var Message string
+
+	if find := strings.Contains(CommandText, " "); find {
+		CommandParameter := strings.SplitN(CommandText, " ", 3)
+		if len(CommandParameter) != 3 {
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).CommandHelp, []string{"/wikiupdate", "#wikiupdate"})
+			MessageOK = true
+			return Message, MessageOK
+		}
+		NewWikiName := CommandParameter[1]
+		NewWikiLink := CommandParameter[2]
+
+		WikiSiteinfo, err := MediaWikiAPI.QuerySiteinfoGeneral("https://" + NewWikiLink)
+		if err != nil {
+			Message = Language.Message(SNSName, UserID).WikiUpdateFailed
+			MessageOK = true
+			return Message, MessageOK
+		}
+		if _, ok := WikiSiteinfo["query"].(map[string]interface{})["general"].(map[string]interface{})["sitename"]; !ok {
+			Message = Language.Message(SNSName, UserID).WikiUpdateFailed
+			MessageOK = true
+			return Message, MessageOK
+		}
+
+		db := utils.SQLLiteLink()
+		var user Struct.UserInfo
+		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
+		if user.Account != UserID {
+			MessageOK = true
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiUpdateFailedNothingness, []string{NewWikiName})
+		} else {
+			if user.WikiInfo == "" {
+				MessageOK = true
+				Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiUpdateFailedNothingness, []string{NewWikiName})
+			} else {
+				OldWikiInfoData := user.WikiInfo
+				WikiInfoData := []interface{}{}
+				json.Unmarshal([]byte(OldWikiInfoData), &WikiInfoData)
+				//检查是否存在
+				i := 0
+				for _, value := range WikiInfoData {
+					OldWikiName := value.(map[string]interface{})["WikiName"]
+					if OldWikiName == NewWikiName {
+						WikiInfoData[i] = map[string]string{
+							"WikiName": NewWikiName,
+							"WikiLink": NewWikiLink,
+						}
+					}
+					i = i + 1
+				}
+				WikiInfo, _ := json.Marshal(WikiInfoData)
+				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
+				MessageOK = true
+				Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiUpdateSucceeded, []string{NewWikiName, NewWikiLink})
+			}
+		}
+	} else {
+		if CommandText == "wikiupdate" {
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).CommandHelp, []string{"/wikiupdate", "#wikiupdate"})
 			MessageOK = true
 		}
 	}
