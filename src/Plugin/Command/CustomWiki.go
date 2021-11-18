@@ -137,6 +137,7 @@ func WikiUpdate(SNSName string, UserID string, CommandText string) (string, bool
 				json.Unmarshal([]byte(OldWikiInfoData), &WikiInfoData)
 				//检查是否存在
 				i := 0
+				Existence := false
 				for _, value := range WikiInfoData {
 					OldWikiName := value.(map[string]interface{})["WikiName"]
 					if OldWikiName == NewWikiName {
@@ -144,8 +145,14 @@ func WikiUpdate(SNSName string, UserID string, CommandText string) (string, bool
 							"WikiName": NewWikiName,
 							"WikiLink": NewWikiLink,
 						}
+						Existence = true
 					}
 					i = i + 1
+				}
+				if !Existence {
+					MessageOK = true
+					Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiUpdateFailedNothingness, []string{NewWikiName})
+					return Message, MessageOK
 				}
 				WikiInfo, _ := json.Marshal(WikiInfoData)
 				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
