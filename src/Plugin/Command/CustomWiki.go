@@ -162,3 +162,62 @@ func WikiUpdate(SNSName string, UserID string, CommandText string) (string, bool
 
 	return Message, MessageOK
 }
+
+func WikiDelete(SNSName string, UserID string, CommandText string) (string, bool) {
+	var MessageOK bool
+	var Message string
+
+	if find := strings.Contains(CommandText, " "); find {
+		CommandParameter := strings.SplitN(CommandText, " ", 3)
+		if len(CommandParameter) != 2 {
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).CommandHelp, []string{"/wikidelete", "#wikidelete"})
+			MessageOK = true
+			return Message, MessageOK
+		}
+		NewWikiName := CommandParameter[1]
+
+		db := utils.SQLLiteLink()
+		var user Struct.UserInfo
+		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
+		if user.Account != UserID {
+			MessageOK = true
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiDeleteFailedNothingness, []string{NewWikiName})
+		} else {
+			if user.WikiInfo == "" {
+				MessageOK = true
+				Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiDeleteFailedNothingness, []string{NewWikiName})
+			} else {
+				OldWikiInfoData := user.WikiInfo
+				WikiInfoData := []interface{}{}
+				json.Unmarshal([]byte(OldWikiInfoData), &WikiInfoData)
+				//检查是否存在
+				i := 0
+				Existence := false
+				for _, value := range WikiInfoData {
+					OldWikiName := value.(map[string]interface{})["WikiName"]
+					if OldWikiName == NewWikiName {
+						WikiInfoData = append(WikiInfoData[:0], WikiInfoData[0+1:]...)
+						Existence = true
+					}
+					i = i + 1
+				}
+				if !Existence {
+					MessageOK = true
+					Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiDeleteFailedNothingness, []string{NewWikiName})
+					return Message, MessageOK
+				}
+				WikiInfo, _ := json.Marshal(WikiInfoData)
+				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
+				MessageOK = true
+				Message = utils.StringVariable(Language.Message(SNSName, UserID).WikiDeleteSucceeded, []string{NewWikiName})
+			}
+		}
+	} else {
+		if CommandText == "wikidelete" {
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).CommandHelp, []string{"/wikidelete", "#wikidelete"})
+			MessageOK = true
+		}
+	}
+
+	return Message, MessageOK
+}
