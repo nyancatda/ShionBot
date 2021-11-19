@@ -32,6 +32,9 @@ func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) 
 				UserWikiInfo = UserWikiInfo + "[[" + value.(map[string]interface{})["WikiName"].(string) + "]]" + " " + value.(map[string]interface{})["WikiLink"].(string) + "\n"
 			}
 			UserWikiInfo = strings.TrimRight(UserWikiInfo, "\n")
+			if user.WikiInfo == "[]" {
+				UserWikiInfo = Language.Message(SNSName, UserID).UserInfoNotCustomWiki
+			}
 		} else {
 			UserWikiInfo = Language.Message(SNSName, UserID).UserInfoNotCustomWiki
 		}
