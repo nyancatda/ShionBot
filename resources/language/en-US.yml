@@ -51,10 +51,18 @@ WikiAddSucceeded: "已成功添加Wiki[[{%0}]]，URL:{%1}"
 WikiUpdateFailed: "更新失败，这不是一个有效的MediaWiki站点"
 #更新失败，你没有添加Wiki[[mg]]
 WikiUpdateFailedNothingness: "更新失败，你没有添加Wiki[[{%0}]]"
-#"已成功修改Wiki[[{mg}]]，新的为URL:zh.moegirl.org.cn"
+#"已成功修改Wiki[[mg]]，新的为URL:zh.moegirl.org.cn"
 WikiUpdateSucceeded: "已成功修改Wiki[[{%0}]]，新的为URL:{%1}"
 
 #删除失败，你没有添加Wiki[[mg]]
 WikiDeleteFailedNothingness: "删除失败，你没有添加Wiki[[{%0}]]"
-#"已成功删除Wiki[[{mg}]]
+#"已成功删除Wiki[[mg]]
 WikiDeleteSucceeded: "已成功删除Wiki[[{%0}]]"
+
+#用户ID:1012140043
+#所属平台:QQ
+#使用语言:zh-CN
+#自定义Wiki:
+#[[mg]] zh.moegirl.org.cn
+UserInfo: "用户ID:{%0}\n所属平台:{%1}\n使用语言:{%2}\n自定义Wiki:\n{%3}"
+UserInfoNotCustomWiki: "没有添加自定义Wiki"

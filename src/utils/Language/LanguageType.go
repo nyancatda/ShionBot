@@ -26,4 +26,6 @@ type LanguageInfo struct {
 	WikiUpdateSucceeded          string `yaml:"WikiUpdateSucceeded"`
 	WikiDeleteFailedNothingness  string `yaml:"WikiDeleteFailedNothingness"`
 	WikiDeleteSucceeded          string `yaml:"WikiDeleteSucceeded"`
+	UserInfo                     string `yaml:"UserInfo"`
+	UserInfoNotCustomWiki        string `yaml:"UserInfoNotCustomWiki"`
 }
