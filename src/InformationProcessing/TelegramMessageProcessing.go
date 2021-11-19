@@ -41,7 +41,7 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 //设置消息返回
 func TelegramSettingsMessageProcessing(json Struct.WebHookJson) {
 	text := json.Message.Text
-	countSplit := strings.Split(text, "/")
+	countSplit := strings.SplitN(text, "/", 2)
 	Text := countSplit[1]
 	Message, Bool := Command.Command(sns_name_telegram, json, Text)
 	if Bool {

@@ -115,7 +115,7 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 //设置消息返回
 func QQSettingsMessageProcessing(json Struct.WebHookJson) {
 	text := json.MessageChain[1].Text
-	countSplit := strings.Split(text, "/")
+	countSplit := strings.SplitN(text, "/", 2)
 	Text := countSplit[1]
 	Message, Bool := Command.Command(sns_name_qq, json, Text)
 	if Bool {

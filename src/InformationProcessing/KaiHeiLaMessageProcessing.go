@@ -54,7 +54,7 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 //设置消息返回
 func KaiHeiLaSettingsMessageProcessing(json Struct.WebHookJson) {
 	text := json.D.Content
-	countSplit := strings.Split(text, "/")
+	countSplit := strings.SplitN(text, "/", 2)
 	Text := countSplit[1]
 	Message, Bool := Command.Command(sns_name_kaiheila, json, Text)
 	if Bool {
