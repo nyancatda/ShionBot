@@ -65,7 +65,8 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 
 //消息处理
 func QQMessageProcessing(json Struct.WebHookJson) {
-	switch json.Type {
+	ChatType := json.Type
+	switch ChatType {
 	case "GroupMessage":
 		//不处理非正常消息
 		if len(json.MessageChain) < 2 {
@@ -73,11 +74,12 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 		}
 		if json.MessageChain[1].Type == "Plain" {
 			text := json.MessageChain[1].Text
+			UserID := strconv.Itoa(json.Sender.Id)
 			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
 			if find {
 				GroupID := strconv.Itoa(json.Sender.Group.Id)
 				quoteID := strconv.Itoa(json.MessageChain[0].Id)
-				UserID := strconv.Itoa(json.Sender.Id)
+				Log(sns_name_qq, ChatType, UserID, text)
 				MessagePushAPI.SendNudge(json.Sender.Id, json.Sender.Group.Id, "Group")
 				QQsendGroupWikiInfo(json, UserID, Command, GroupID, QueryText, quoteID)
 			}
@@ -88,9 +90,10 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 		}
 		if json.MessageChain[1].Type == "Plain" {
 			text := json.MessageChain[1].Text
+			UserID := strconv.Itoa(json.Sender.Id)
 			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
 			if find {
-				UserID := strconv.Itoa(json.Sender.Id)
+				Log(sns_name_qq, ChatType, UserID, text)
 				QQsendFriendWikiInfo(json, Command, UserID, QueryText)
 			}
 		}
@@ -100,14 +103,18 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 		}
 		if json.MessageChain[1].Type == "Plain" {
 			text := json.MessageChain[1].Text
+			UserID := strconv.Itoa(json.Sender.Id)
 			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
 			if find {
-				UserID := strconv.Itoa(json.Sender.Id)
 				GroupID := json.Sender.Group.Id
+				Log(sns_name_qq, ChatType, UserID, text)
 				QQsendTempdWikiInfo(json, Command, UserID, GroupID, QueryText)
 			}
 		}
 	case "NudgeEvent":
+		text := Language.DefaultLanguageMessage().Nudge
+		UserID := strconv.Itoa(json.FromId)
+		Log(sns_name_qq, ChatType, UserID, text)
 		QQNudgeEventMessageProcessing(json)
 	}
 }
@@ -120,7 +127,9 @@ func QQSettingsMessageProcessing(json Struct.WebHookJson) {
 	Message, Bool := Command.Command(sns_name_qq, json, Text)
 	if Bool {
 		UserID := strconv.Itoa(json.Sender.Id)
-		switch json.Type {
+		ChatType := json.Type
+		Log(sns_name_qq, ChatType, UserID, text)
+		switch ChatType {
 		case "GroupMessage":
 			GroupID := strconv.Itoa(json.Sender.Group.Id)
 			quoteID := strconv.Itoa(json.MessageChain[0].Id)

@@ -16,9 +16,11 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 	text := json.Events[0].Message.Text
 	find, QueryText, Command := CommandExtraction(sns_name_line, json, text)
 	if find {
-		switch json.Events[0].Source.Type {
+		UserID := json.Events[0].Source.UserId
+		ChatType := json.Events[0].Source.Type
+		Log(sns_name_line, ChatType, UserID, text)
+		switch ChatType {
 		case "user":
-			UserID := json.Events[0].Source.UserId
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
 			if err != nil {
 				WikiLink := MediaWikiAPI.GetWikiLink(sns_name_line, json, Command)
@@ -27,7 +29,6 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 			}
 			MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, WikiInfo, false, "", "", 0)
 		case "group":
-			UserID := json.Events[0].Source.UserId
 			GroupId := json.Events[0].Source.GroupId
 			QuoteID := json.Events[0].ReplyToken
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
@@ -48,12 +49,13 @@ func LineSettingsMessageProcessing(json Struct.WebHookJson) {
 	Text := countSplit[1]
 	Message, Bool := Command.Command(sns_name_line, json, Text)
 	if Bool {
-		switch json.Events[0].Source.Type {
+		ChatType := json.Events[0].Source.Type
+		UserID := json.Events[0].Source.UserId
+		Log(sns_name_line, ChatType, UserID, text)
+		switch ChatType {
 		case "user":
-			UserID := json.Events[0].Source.UserId
 			MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, Message, false, "", "", 0)
 		case "group":
-			UserID := json.Events[0].Source.UserId
 			GroupId := json.Events[0].Source.GroupId
 			QuoteID := json.Events[0].ReplyToken
 			MessagePushAPI.SendMessage(sns_name_line, "Group", UserID, GroupId, Message, true, QuoteID, "", 0)

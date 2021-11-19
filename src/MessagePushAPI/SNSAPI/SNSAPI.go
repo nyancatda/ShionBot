@@ -15,7 +15,7 @@ func Log(SNSName string, Type string, target string, text string) {
 	timestamp := time.Now().Unix()
 	tm := time.Unix(timestamp, 0)
 
-	LogText := "[" + tm.Format("2006-01-02 03:04:05") + "] [" + SNSName + "] [" + Type + "] " + target + " -> " + text
+	LogText := "[" + tm.Format("2006-01-02 03:04:05") + "] [" + SNSName + "] [" + Type + "] " + target + " <- " + text
 	fmt.Println(LogText)
 
 	utils.LogWrite(LogText)

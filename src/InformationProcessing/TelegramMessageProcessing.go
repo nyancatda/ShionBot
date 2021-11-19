@@ -17,7 +17,9 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 	text := json.Message.Text
 	find, QueryText, Command := CommandExtraction(sns_name_telegram, json, text)
 	if find {
+		ChatType := json.Message.Chat.Type
 		UserID := strconv.Itoa(json.Message.From.Id)
+		Log(sns_name_telegram, ChatType, UserID, text)
 		ChatID := strconv.Itoa(json.Message.Chat.Id)
 		WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_telegram, json, UserID, Command, QueryText, "")
 		if err != nil {
@@ -25,7 +27,7 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, Error(sns_name_telegram, UserID, WikiLink), false, "", "", 0)
 			return
 		}
-		switch json.Message.Chat.Type {
+		switch ChatType {
 		case "private":
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, WikiInfo, false, "", "", 0)
 		case "group":
@@ -46,7 +48,9 @@ func TelegramSettingsMessageProcessing(json Struct.WebHookJson) {
 	Message, Bool := Command.Command(sns_name_telegram, json, Text)
 	if Bool {
 		ChatID := strconv.Itoa(json.Message.Chat.Id)
+		ChatType := json.Message.Chat.Type
 		UserID := strconv.Itoa(json.Message.From.Id)
+		Log(sns_name_telegram, ChatType, UserID, text)
 		switch json.Message.Chat.Type {
 		case "private":
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, Message, false, "", "", 0)

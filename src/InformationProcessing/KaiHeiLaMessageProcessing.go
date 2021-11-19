@@ -27,7 +27,9 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 	find, QueryText, Command := CommandExtraction(sns_name_kaiheila, json, text)
 	if find {
 		UserID := json.D.Author_id
-		switch json.D.Channel_type {
+		ChatType := json.D.Channel_type
+		Log(sns_name_kaiheila, ChatType, UserID, text)
+		switch ChatType {
 		case "PERSON":
 			ChatID := json.D.Author_id
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
@@ -59,7 +61,9 @@ func KaiHeiLaSettingsMessageProcessing(json Struct.WebHookJson) {
 	Message, Bool := Command.Command(sns_name_kaiheila, json, Text)
 	if Bool {
 		UserID := json.D.Author_id
-		switch json.D.Channel_type {
+		ChatType := json.D.Channel_type
+		Log(sns_name_kaiheila, ChatType, UserID, text)
+		switch ChatType {
 		case "PERSON":
 			ChatID := json.D.Author_id
 			MessagePushAPI.SendMessage(sns_name_kaiheila, "Friend", UserID, ChatID, Message, false, "", "", 0)
