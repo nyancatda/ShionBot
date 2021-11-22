@@ -1,3 +1,7 @@
+#语言文件由 NyanCatda <https://github.com/nyancatda> 提供
+LanguageCode: "zh-CN"
+LanguageName: "中文"
+
 #语言已更改为zh-CN
 LanguageModifiedSuccessfully: "语言已更改为{%0}"
 #zh-CN语言不存在
@@ -58,10 +62,15 @@ WikiDeleteFailedNothingness: "删除失败，你没有添加Wiki[[{%0}]]"
 #"已成功删除Wiki[[mg]]
 WikiDeleteSucceeded: "已成功删除Wiki[[{%0}]]"
 
-#用户ID:1012140043
-#所属平台:QQ
+#用户ID:100000000
+#所属平台:Telegram
 #使用语言:zh-CN
 #自定义Wiki:
 #[[mg]] zh.moegirl.org.cn
 UserInfo: "用户ID:{%0}\n所属平台:{%1}\n使用语言:{%2}\n自定义Wiki:\n{%3}"
 UserInfoNotCustomWiki: "没有添加自定义Wiki"
+
+#不存在ID为 100000000 的 Telegram 用户，请检查输入是否正确
+ImportDataNull: "不存在ID为 {%0} 的 {%1} 用户，请检查输入是否正确"
+#已成功将 100000000 的数据导入你的账户
+ImportDataSucceeded: "已成功将 {%0} 的数据导入你的账户"

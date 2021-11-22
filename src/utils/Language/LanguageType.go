@@ -1,6 +1,8 @@
 package Language
 
 type LanguageInfo struct {
+	LanguageCode                 string `yaml:"LanguageCode"`
+	LanguageName                 string `yaml:"LanguageName"`
 	LanguageModifiedSuccessfully string `yaml:"LanguageModifiedSuccessfully"`
 	LanguageModificationFailed   string `yaml:"LanguageModificationFailed"`
 	MainErrorTips                string `yaml:"MainErrorTips"`
@@ -28,4 +30,6 @@ type LanguageInfo struct {
 	WikiDeleteSucceeded          string `yaml:"WikiDeleteSucceeded"`
 	UserInfo                     string `yaml:"UserInfo"`
 	UserInfoNotCustomWiki        string `yaml:"UserInfoNotCustomWiki"`
+	ImportDataNull               string `yaml:"ImportDataNull"`
+	ImportDataSucceeded          string `yaml:"ImportDataSucceeded"`
 }

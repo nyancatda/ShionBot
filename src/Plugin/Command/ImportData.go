@@ -28,7 +28,7 @@ func ImportData(SNSName string, UserID string, CommandText string) (string, bool
 		db.Where("account = ? and sns_name = ?", ImportUserID, ImportSNS).Find(&ImportSource)
 		var ImportUserInfos Struct.UserInfo
 		if ImportSource.Account != ImportUserID {
-			Message = "不存在ID为 " + ImportUserID + " 的 " + ImportSNS + " 用户，请检查输入是否正确"
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).ImportDataNull, []string{ImportUserID, ImportSNS})
 			MessageOK = true
 			return Message, MessageOK
 		} else {
@@ -39,11 +39,11 @@ func ImportData(SNSName string, UserID string, CommandText string) (string, bool
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
 			db.Create(&ImportUserInfos)
-			Message = "已成功将 " + ImportUserID + " 的数据导入你的账户"
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).ImportDataSucceeded, []string{ImportUserID})
 			MessageOK = true
 		} else {
 			db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Updates(ImportUserInfos)
-			Message = "已成功将 " + ImportUserID + " 的数据导入你的账户"
+			Message = utils.StringVariable(Language.Message(SNSName, UserID).ImportDataSucceeded, []string{ImportUserID})
 			MessageOK = true
 		}
 	} else {
