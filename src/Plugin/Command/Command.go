@@ -28,5 +28,8 @@ func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string)
 	if find := strings.Contains(CommandText, "userinfo"); find {
 		return UserInfo(SNSName, UserID, CommandText)
 	}
+	if find := strings.Contains(CommandText, "importdata"); find {
+		return ImportData(SNSName, UserID, CommandText)
+	}
 	return "", false
 }
