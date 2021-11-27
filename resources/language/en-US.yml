@@ -40,37 +40,37 @@ LanguageList: "Currently available language:\n{%0}"
 
 TitleEmpty: "The title is empty and cannot be queried"
 
-ContainsIllegalWords: "返回信息中存在非法内容，已被过滤器拦截"
+ContainsIllegalWords: "Invalid information exists in the returned message and has been blocked by the filter"
 
-#/wikiadd指令使用方法请前往 https://shionbot.xyz/Command/#wikiadd 查看
-CommandHelp: "{%0}指令使用方法请前往 {%1} 查看"
+#the usage of command /wikiadd please go to https://shionbot.xyz/Command/#wikiadd
+CommandHelp: "The usage of command {%0} please go to {%1}"
 
-WikiAddFailed: "添加失败，这不是一个有效的MediaWiki站点"
-#添加失败，[[mg]]已经被添加过了
-WikiAddRepeat: "添加失败，[[{%0}]]已经被添加过了"
-#已成功添加Wiki[[mg]]，URL:zh.moegirl.org.cn
-WikiAddSucceeded: "已成功添加Wiki[[{%0}]]，URL:{%1}"
+WikiAddFailed: "Add failed, this is not a valid MediaWiki site"
+#Add failed, [[mg]]has already been added
+WikiAddRepeat: "Add failed, [[{%0}]] has already been added"
+#Sucessfully added Wiki [[mg]], URL:zh.moegirl.org.cn
+WikiAddSucceeded: "Sucessfully added Wiki [[{%0}]], URL:{%1}"
 
-WikiUpdateFailed: "更新失败，这不是一个有效的MediaWiki站点"
-#更新失败，你没有添加Wiki[[mg]]
-WikiUpdateFailedNothingness: "更新失败，你没有添加Wiki[[{%0}]]"
-#"已成功修改Wiki[[mg]]，新的为URL:zh.moegirl.org.cn"
-WikiUpdateSucceeded: "已成功修改Wiki[[{%0}]]，新的为URL:{%1}"
+WikiUpdateFailed: "Update failed, this is not a valid MediaWiki site"
+#Update failed, you didn't add Wiki [[mg]]
+WikiUpdateFailedNothingness: "Update failed, you didn't add Wiki [[{%0}]]"
+#"Sucessfully updated Wiki [[mg]], the new URL:zh.moegirl.org.cn"
+WikiUpdateSucceeded: "Sucessfully updated Wiki [[{%0}]], the new URL:{%1}"
 
-#删除失败，你没有添加Wiki[[mg]]
-WikiDeleteFailedNothingness: "删除失败，你没有添加Wiki[[{%0}]]"
-#"已成功删除Wiki[[mg]]
-WikiDeleteSucceeded: "已成功删除Wiki[[{%0}]]"
+#Delete failed, you didn't add Wiki [[mg]]
+WikiDeleteFailedNothingness: "Delete failed, you didn't add Wiki [[{%0}]]"
+#"Sucessfully deleted Wiki [[mg]]
+WikiDeleteSucceeded: "Sucessfully deleted Wiki [[{%0}]]"
 
-#用户ID:100000000
-#所属平台:Telegram
-#使用语言:zh-CN
-#自定义Wiki:
+#User ID:100000000
+#Platform: Telegram
+#Language: zh-CN
+#Custom Wiki: 
 #[[mg]] zh.moegirl.org.cn
-UserInfo: "用户ID:{%0}\n所属平台:{%1}\n使用语言:{%2}\n自定义Wiki:\n{%3}"
-UserInfoNotCustomWiki: "没有添加自定义Wiki"
+UserInfo: "User ID: {%0}\nPlatform: {%1}\nLanguage: {%2}\nCustom Wiki: \n{%3}"
+UserInfoNotCustomWiki: "There is no custom Wiki"
 
-#不存在ID为 100000000 的 Telegram 用户，请检查输入是否正确
-ImportDataNull: "不存在ID为 {%0} 的 {%1} 用户，请检查输入是否正确"
-#已成功将 100000000 的数据导入你的账户
-ImportDataSucceeded: "已成功将 {%0} 的数据导入你的账户"
+#The Telegram user ID 100000000 does not exist, Please check whether the input is correct
+ImportDataNull: "The {%1} user ID {%0} does not exist, Please check whether the input is correct"
+#Sucessfully inport the data of user 100000000 to your account
+ImportDataSucceeded: "Sucessfully inport the data of user {%0} to your account"
