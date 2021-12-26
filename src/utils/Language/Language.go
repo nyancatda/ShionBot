@@ -54,7 +54,7 @@ func LanguageExist(Language string) bool {
 func Message(SNSName string, Account string) *LanguageInfo {
 	var language string
 	if Account == "" {
-		Config := utils.ReadConfig()
+		Config := utils.GetConfig
 		language = Config.Run.Language
 	} else {
 		db := utils.SQLLiteLink()
@@ -63,7 +63,7 @@ func Message(SNSName string, Account string) *LanguageInfo {
 		if user.Language != "" {
 			language = user.Language
 		} else {
-			Config := utils.ReadConfig()
+			Config := utils.GetConfig
 			language = Config.Run.Language
 		}
 	}
@@ -76,7 +76,7 @@ func DesignateLanguageMessage(Language string) *LanguageInfo {
 }
 
 func DefaultLanguageMessage() *LanguageInfo {
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	language := Config.Run.Language
 	Info := ReadLanguage(language)
 	return Info

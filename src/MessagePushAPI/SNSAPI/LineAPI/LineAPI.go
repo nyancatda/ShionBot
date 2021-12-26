@@ -14,7 +14,7 @@ var sns_name string = "Telegram"
 //messages 消息内容
 //notificationDisabled 是否需要静默发送
 func SendPushMessage(chat_type string, to string, messages string, notificationDisabled bool) {
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	Json := map[string]interface{}{
 		"to":                   to,
 		"notificationDisabled": notificationDisabled,
@@ -40,7 +40,7 @@ func SendPushMessage(chat_type string, to string, messages string, notificationD
 //messages 消息内容
 //notificationDisabled 是否需要静默发送
 func SendReplyMessage(chat_type string, replyToken string, messages string, notificationDisabled bool) {
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	Json := map[string]interface{}{
 		"replyToken":           replyToken,
 		"notificationDisabled": notificationDisabled,

@@ -54,7 +54,7 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 	HelpText := Language.Message(sns_name_qq, strconv.Itoa(UserID)).HelpText
 	switch json.Subject.Kind {
 	case "Group":
-		if json.FromId != utils.ReadConfig().SNS.QQ.BotQQNumber && json.Target == utils.ReadConfig().SNS.QQ.BotQQNumber {
+		if json.FromId != utils.GetConfig.SNS.QQ.BotQQNumber && json.Target == utils.GetConfig.SNS.QQ.BotQQNumber {
 			MessagePushAPI.SendNudge(json.FromId, json.Subject.Id, "Group")
 			MessagePushAPI.SendMessage(sns_name_qq, "GroupAt", strconv.Itoa(UserID), strconv.Itoa(json.Subject.Id), HelpText, false, "", strconv.Itoa(json.FromId), 0)
 		}

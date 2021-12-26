@@ -45,20 +45,28 @@ type KaiHeiLa struct {
 	Token  string `yaml:"Token"`
 }
 
-func ReadConfig() *Config {
-	content, err := ioutil.ReadFile("./config.yml")
+var (
+	GetConfig  *Config
+	ConfigPath string
+)
+
+//加载配置文件
+func LoadConfig() error {
+	//检查配置文件是否存在
+	_, err := os.Lstat(ConfigPath)
 	if err != nil {
-		panic(err)
+		return err
+	}
+
+	content, err := ioutil.ReadFile(ConfigPath)
+	if err != nil {
+		return err
 	}
 	newStu := &Config{}
 	err = yaml.Unmarshal(content, &newStu)
 	if err != nil {
-		panic(err)
+		return err
 	}
-	return newStu
-}
-
-func CheckConfigFile() bool {
-	_, err := os.Lstat("./config.yml")
-	return os.IsNotExist(err)
+	GetConfig = newStu
+	return nil
 }

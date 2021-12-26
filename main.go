@@ -32,8 +32,13 @@ func main() {
 		os.MkdirAll("./data", 0777)
 	}
 
-	//读取配置文件
-	Config := utils.ReadConfig()
+	//加载配置文件
+	if err := utils.LoadConfig(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	Config := utils.GetConfig
 
 	//判断是否需要初始化QQ部分
 	if Config.SNS.QQ.Switch {

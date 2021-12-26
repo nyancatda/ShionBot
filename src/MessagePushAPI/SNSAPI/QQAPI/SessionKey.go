@@ -18,7 +18,7 @@ func CreateSessionKey() (string, *http.Response, error) {
 	//释放旧的SessionKey
 	bytes, _ := ioutil.ReadFile("data/SessionKey")
 	OldSessionKey := string(bytes)
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	requestBody := fmt.Sprintf(`{
 		"verifyKey": "%s",
 		"qq": %d
@@ -27,7 +27,7 @@ func CreateSessionKey() (string, *http.Response, error) {
 	utils.PostRequestJosn(url, requestBody)
 
 	var SessionKey string
-	Config = utils.ReadConfig()
+	Config = utils.GetConfig
 	requestBody = fmt.Sprintf(`{
 		"verifyKey": "%s"
 	}`, Config.SNS.QQ.VerifyKey)

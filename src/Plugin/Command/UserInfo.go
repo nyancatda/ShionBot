@@ -43,7 +43,7 @@ func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) 
 		if user.Language != "" {
 			UserLanguage = user.Language
 		} else {
-			Config := utils.ReadConfig()
+			Config := utils.GetConfig
 			UserLanguage = Config.Run.Language
 		}
 

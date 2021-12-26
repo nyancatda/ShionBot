@@ -18,7 +18,7 @@ var sns_name string = "Telegram"
 //reply_to_message_id 需要回复消息的ID
 //allow_sending_without_reply 没有找到需要回复的消息时，是否发送
 func SendMessage(chat_type string, chat_id int, text string, disable_web_page_preview bool, disable_notification bool, reply_to_message_id int, allow_sending_without_reply bool) {
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	requestBody := fmt.Sprintf(`{
 		"chat_id": %d,
 		"text": "%s",

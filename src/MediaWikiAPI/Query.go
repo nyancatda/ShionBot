@@ -29,7 +29,7 @@ func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string
 		}
 	}
 
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	var ConfigWikiName string
 	for one := range Config.Wiki.([]interface{}) {
 		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)

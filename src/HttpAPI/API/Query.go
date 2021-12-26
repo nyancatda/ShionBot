@@ -12,7 +12,7 @@ import (
 
 func QueryInfo(c *gin.Context) map[string]interface{} {
 	title := c.DefaultQuery("title", "")
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
 	WikiName := c.DefaultQuery("wiki_name", MainWikiName)
 	var Messagejson Struct.WebHookJson

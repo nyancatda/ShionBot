@@ -38,7 +38,7 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
 		}
 	}
 
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	var ConfigWikiName string
 	for one := range Config.Wiki.([]interface{}) {
 		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
@@ -66,7 +66,7 @@ func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 		}
 	}
 
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
 	return MainWikiName
 }

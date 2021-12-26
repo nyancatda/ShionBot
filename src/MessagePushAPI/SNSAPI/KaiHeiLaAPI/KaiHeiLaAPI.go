@@ -19,7 +19,7 @@ var APILink string = "https://www.kaiheila.cn/"
 //quote 是否需要回复
 //quoteID 回复ID
 func SendDirectMessage(chat_type string, Type int, target_id string, content string, quote bool, quoteID string) {
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	var Json map[string]interface{}
 	if quote {
 		Json = map[string]interface{}{
@@ -53,7 +53,7 @@ func SendDirectMessage(chat_type string, Type int, target_id string, content str
 //quote 是否需要回复
 //quoteID 回复ID
 func SendChannelMessage(chat_type string, Type int, target_id string, content string, quote bool, quoteID string) {
-	Config := utils.ReadConfig()
+	Config := utils.GetConfig
 	var Json map[string]interface{}
 	if quote {
 		Json = map[string]interface{}{
