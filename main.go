@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -23,6 +24,10 @@ func Error() {
 }
 
 func main() {
+	//参数解析
+	ConfigPath := flag.String("config", "./config.yml", "指定配置文件路径")
+	flag.Parse()
+
 	//释放资源文件
 	ReleaseFile.ReleaseFile()
 
@@ -32,6 +37,8 @@ func main() {
 		os.MkdirAll("./data", 0777)
 	}
 
+	//设置配置文件路径
+	utils.ConfigPath = *ConfigPath
 	//加载配置文件
 	if err := utils.LoadConfig(); err != nil {
 		fmt.Println(err)
