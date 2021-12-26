@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"xyz.nyan/ShionBot/src/Plugin"
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Plugin"
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
 )
 
 //读取Wiki名字对应的Wiki链接

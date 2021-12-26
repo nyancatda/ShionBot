@@ -3,8 +3,8 @@ package LineAPI
 import (
 	"encoding/json"
 
-	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI"
-	"xyz.nyan/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
+	"github.com/nyancatda/ShionBot/src/utils"
 )
 
 var sns_name string = "Telegram"

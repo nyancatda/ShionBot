@@ -3,8 +3,8 @@ package Command
 import (
 	"strings"
 
-	"xyz.nyan/ShionBot/src/Plugin"
-	"xyz.nyan/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/Plugin"
+	"github.com/nyancatda/ShionBot/src/Struct"
 )
 
 func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string) (string, bool) {

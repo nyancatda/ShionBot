@@ -7,11 +7,11 @@ import (
 	"strings"
 
 	"github.com/antchfx/htmlquery"
-	"xyz.nyan/ShionBot/src/MediaWikiAPI"
-	"xyz.nyan/ShionBot/src/Plugin"
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
-	"xyz.nyan/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
+	"github.com/nyancatda/ShionBot/src/Plugin"
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/utils/Language"
 )
 
 func Error(SNSName string, UserID string, WikiLink string, title string, LanguageMessage *Language.LanguageInfo) string {

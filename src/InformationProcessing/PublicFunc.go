@@ -1,14 +1,14 @@
 package InformationProcessing
 
 import (
-	"strings"
 	"fmt"
+	"strings"
 	"time"
 
-	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
-	"xyz.nyan/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/Plugin/GetWikiInfo"
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/utils/Language"
 )
 
 //Wiki链接错误返回

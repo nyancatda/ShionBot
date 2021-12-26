@@ -3,12 +3,12 @@ package MessagePushAPI
 import (
 	"strconv"
 
-	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/KaiHeiLaAPI"
-	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/LineAPI"
-	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
-	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/TelegramAPI"
-	"xyz.nyan/ShionBot/src/utils/Language"
-	"xyz.nyan/ShionBot/src/utils/ViolationWordFilter"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/KaiHeiLaAPI"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/LineAPI"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/TelegramAPI"
+	"github.com/nyancatda/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/utils/ViolationWordFilter"
 )
 
 //发送消息

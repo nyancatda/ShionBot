@@ -3,8 +3,8 @@ package MediaWikiAPI
 import (
 	"encoding/json"
 
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
 )
 
 //使用开放搜索协议搜索wiki(最多返回10条)

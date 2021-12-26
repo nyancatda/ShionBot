@@ -3,7 +3,8 @@ package SNSAPI
 import (
 	"fmt"
 	"time"
-	"xyz.nyan/ShionBot/src/utils"
+
+	"github.com/nyancatda/ShionBot/src/utils"
 )
 
 //日志输出

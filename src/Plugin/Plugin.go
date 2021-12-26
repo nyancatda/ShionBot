@@ -3,7 +3,7 @@ package Plugin
 import (
 	"strconv"
 
-	"xyz.nyan/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/Struct"
 )
 
 func GetSNSUserID(SNSName string, Messagejson Struct.WebHookJson) string {

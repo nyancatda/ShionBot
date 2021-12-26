@@ -1,4 +1,4 @@
-module xyz.nyan/ShionBot
+module github.com/nyancatda/ShionBot
 
 go 1.17
 

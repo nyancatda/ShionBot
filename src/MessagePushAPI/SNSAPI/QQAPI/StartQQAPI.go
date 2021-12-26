@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"xyz.nyan/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/utils/Language"
 )
 
 //定时请求mirai-api-http Session

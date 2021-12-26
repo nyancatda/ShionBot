@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"strings"
 
-	"xyz.nyan/ShionBot/src/MediaWikiAPI"
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
-	"xyz.nyan/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/utils/Language"
 )
 
 func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {

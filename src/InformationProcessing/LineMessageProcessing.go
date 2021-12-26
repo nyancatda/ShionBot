@@ -3,11 +3,11 @@ package InformationProcessing
 import (
 	"strings"
 
-	"xyz.nyan/ShionBot/src/MediaWikiAPI"
-	"xyz.nyan/ShionBot/src/MessagePushAPI"
-	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
-	"xyz.nyan/ShionBot/src/Plugin/Command"
-	"xyz.nyan/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI"
+	"github.com/nyancatda/ShionBot/src/Plugin/Command"
+	"github.com/nyancatda/ShionBot/src/Plugin/GetWikiInfo"
+	"github.com/nyancatda/ShionBot/src/Struct"
 )
 
 var sns_name_line string = "Line"

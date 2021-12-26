@@ -4,13 +4,13 @@ import (
 	"strconv"
 	"strings"
 
-	"xyz.nyan/ShionBot/src/MediaWikiAPI"
-	"xyz.nyan/ShionBot/src/MessagePushAPI"
-	"xyz.nyan/ShionBot/src/Plugin/Command"
-	"xyz.nyan/ShionBot/src/Plugin/GetWikiInfo"
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
-	"xyz.nyan/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI"
+	"github.com/nyancatda/ShionBot/src/Plugin/Command"
+	"github.com/nyancatda/ShionBot/src/Plugin/GetWikiInfo"
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/utils/Language"
 )
 
 var sns_name_qq string = "QQ"

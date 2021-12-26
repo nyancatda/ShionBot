@@ -2,7 +2,7 @@ package InformationProcessing
 
 import (
 	"github.com/gin-gonic/gin"
-	"xyz.nyan/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/Struct"
 )
 
 func InformationProcessing(c *gin.Context, json Struct.WebHookJson) {

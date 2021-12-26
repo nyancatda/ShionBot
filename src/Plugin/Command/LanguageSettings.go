@@ -3,9 +3,9 @@ package Command
 import (
 	"strings"
 
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
-	Languages "xyz.nyan/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
+	Languages "github.com/nyancatda/ShionBot/src/utils/Language"
 )
 
 func LanguageSettings(SNSName string, UserID string, CommandText string) (string, bool) {

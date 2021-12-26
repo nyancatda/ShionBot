@@ -4,9 +4,9 @@ import (
 	"io/ioutil"
 	"strings"
 
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
 	"gopkg.in/yaml.v2"
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
 )
 
 func ReadLanguage(Language string) *LanguageInfo {

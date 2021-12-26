@@ -3,9 +3,9 @@ package utils
 import (
 	"log"
 
+	"github.com/nyancatda/ShionBot/src/Struct"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"xyz.nyan/ShionBot/src/Struct"
 )
 
 func SQLLiteLink() *gorm.DB {

@@ -7,13 +7,13 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"xyz.nyan/ShionBot/src/HttpAPI"
-	"xyz.nyan/ShionBot/src/InformationProcessing"
-	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
-	"xyz.nyan/ShionBot/src/Struct"
-	"xyz.nyan/ShionBot/src/utils"
-	"xyz.nyan/ShionBot/src/utils/Language"
-	"xyz.nyan/ShionBot/src/utils/ReleaseFile"
+	"github.com/nyancatda/ShionBot/src/HttpAPI"
+	"github.com/nyancatda/ShionBot/src/InformationProcessing"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
+	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/utils/ReleaseFile"
 )
 
 func Error() {

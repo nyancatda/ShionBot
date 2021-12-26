@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"xyz.nyan/ShionBot/src/MessagePushAPI/SNSAPI"
-	"xyz.nyan/ShionBot/src/utils"
-	"xyz.nyan/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
+	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/utils/Language"
 )
 
 type returnJson struct {
