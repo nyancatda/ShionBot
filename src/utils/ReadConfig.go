@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 04:14:10
- * @LastEditTime: 2021-12-31 11:24:45
+ * @LastEditTime: 2021-12-31 11:26:16
  * @LastEditors: NyanCatda
  * @Description: 读取配置文件
  * @FilePath: \ShionBot\src\utils\ReadConfig.go
@@ -9,8 +9,10 @@
 package utils
 
 import (
+	"errors"
 	"io/ioutil"
 	"os"
+	"reflect"
 
 	"gopkg.in/yaml.v2"
 )
@@ -69,5 +71,28 @@ func LoadConfig() error {
 		return err
 	}
 	GetConfig = newStu
+
+	if err := GetConfig.CheckConfig(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+/**
+ * @description: 检查配置文件字段是否为空
+ * @param {*}
+ * @return {error}
+ */
+func (value *Config) CheckConfig() error {
+	val := reflect.ValueOf(value).Elem() //获取字段值
+	typ := reflect.TypeOf(value).Elem()  //获取字段类型
+	//遍历struct中的字段
+	for i := 0; i < typ.NumField(); i++ {
+		//当字段出现空时，输出错误
+		if val.Field(i).IsZero() {
+			return errors.New(typ.Field(i).Name + "字段为空，请按照说明填写配置文件")
+		}
+	}
 	return nil
 }
