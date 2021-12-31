@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nyancatda/ShionBot/src/Plugin/GetWikiInfo"
+	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/utils"
 	"github.com/nyancatda/ShionBot/src/utils/Language"

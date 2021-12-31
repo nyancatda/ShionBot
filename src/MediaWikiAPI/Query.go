@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/nyancatda/ShionBot/src/Plugin"
+	"github.com/nyancatda/ShionBot/src/Modular"
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/utils"
 )
@@ -15,7 +15,7 @@ func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string
 	//获取用户配置
 	db := utils.SQLLiteLink()
 	var user Struct.UserInfo
-	UserID := Plugin.GetSNSUserID(SNSName, Messagejson)
+	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 	if user.Account == UserID {
 		WikiInfo := user.WikiInfo

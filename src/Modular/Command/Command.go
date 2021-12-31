@@ -3,12 +3,12 @@ package Command
 import (
 	"strings"
 
-	"github.com/nyancatda/ShionBot/src/Plugin"
+	"github.com/nyancatda/ShionBot/src/Modular"
 	"github.com/nyancatda/ShionBot/src/Struct"
 )
 
 func Command(SNSName string, Messagejson Struct.WebHookJson, CommandText string) (string, bool) {
-	UserID := Plugin.GetSNSUserID(SNSName, Messagejson)
+	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 
 	if find := strings.Contains(CommandText, "language"); find {
 		return LanguageSettings(SNSName, UserID, CommandText)

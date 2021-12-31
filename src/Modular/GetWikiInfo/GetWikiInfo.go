@@ -8,7 +8,7 @@ import (
 
 	"github.com/antchfx/htmlquery"
 	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
-	"github.com/nyancatda/ShionBot/src/Plugin"
+	"github.com/nyancatda/ShionBot/src/Modular"
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/utils"
 	"github.com/nyancatda/ShionBot/src/utils/Language"
@@ -24,7 +24,7 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
 	//判断用户设置
 	db := utils.SQLLiteLink()
 	var user Struct.UserInfo
-	UserID := Plugin.GetSNSUserID(SNSName, Messagejson)
+	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 	if user.Account == UserID {
 		WikiInfo := user.WikiInfo
@@ -54,7 +54,7 @@ func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 	//获取用户设置
 	db := utils.SQLLiteLink()
 	var user Struct.UserInfo
-	UserID := Plugin.GetSNSUserID(SNSName, Messagejson)
+	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 	if user.Account == UserID {
 		WikiInfo := user.WikiInfo

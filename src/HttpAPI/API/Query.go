@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/nyancatda/ShionBot/src/HttpAPI/JsonProcessing"
 	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
-	"github.com/nyancatda/ShionBot/src/Plugin/GetWikiInfo"
+	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/utils"
 	"github.com/nyancatda/ShionBot/src/utils/Language"

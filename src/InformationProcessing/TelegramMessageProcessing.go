@@ -6,8 +6,8 @@ import (
 
 	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI"
-	"github.com/nyancatda/ShionBot/src/Plugin/Command"
-	"github.com/nyancatda/ShionBot/src/Plugin/GetWikiInfo"
+	"github.com/nyancatda/ShionBot/src/Modular/Command"
+	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
 )
 
