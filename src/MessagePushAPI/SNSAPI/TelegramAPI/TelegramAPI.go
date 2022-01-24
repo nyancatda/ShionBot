@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 13:51:15
- * @LastEditTime: 2022-01-24 20:13:00
+ * @LastEditTime: 2022-01-24 20:21:35
  * @LastEditors: NyanCatda
  * @Description:
  * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\TelegramAPI\TelegramAPI.go
@@ -31,7 +31,9 @@ var (
  * @param {bool} disable_notification 是否需要静默发送
  * @param {int} reply_to_message_id 需要回复消息的ID
  * @param {bool} allow_sending_without_reply 没有找到需要回复的消息时，是否发送
- * @return {*}
+ * @return {[]byte}
+ * @return {*http.Response}
+ * @return {error}
  */
 func SendMessage(chat_type string, chat_id int, text string, disable_web_page_preview bool, disable_notification bool, reply_to_message_id int, allow_sending_without_reply bool) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
