@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 04:14:10
- * @LastEditTime: 2021-12-31 11:26:16
+ * @LastEditTime: 2022-01-24 16:53:59
  * @LastEditors: NyanCatda
  * @Description: 读取配置文件
  * @FilePath: \ShionBot\src\utils\ReadConfig.go
@@ -9,11 +9,14 @@
 package utils
 
 import (
+	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"os"
 	"reflect"
 
+	"github.com/nyancatda/ShionBot/src/Modular"
+	"github.com/nyancatda/ShionBot/src/Struct"
 	"gopkg.in/yaml.v2"
 )
 
@@ -95,4 +98,40 @@ func (value *Config) CheckConfig() error {
 		}
 	}
 	return nil
+}
+
+/**
+ * @description: 读取Wiki名字对应的Wiki链接
+ * @param {string} SNSName 聊天软件名字
+ * @param {Struct.WebHookJson} Messagejson 消息Json
+ * @param {string} WikiName Wiki名字
+ * @return {*}
+ */
+func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string) string {
+	//获取用户配置
+	db := SQLLiteLink()
+	var user Struct.UserInfo
+	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
+	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
+	if user.Account == UserID {
+		WikiInfo := user.WikiInfo
+		WikiInfoData := []interface{}{}
+		json.Unmarshal([]byte(WikiInfo), &WikiInfoData)
+		for _, value := range WikiInfoData {
+			WikiInfoName := value.(map[string]interface{})["WikiName"].(string)
+			if WikiName == WikiInfoName {
+				return "https://" + value.(map[string]interface{})["WikiLink"].(string)
+			}
+		}
+	}
+
+	Config := GetConfig
+	var ConfigWikiName string
+	for one := range Config.Wiki.([]interface{}) {
+		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
+		if ConfigWikiName == WikiName {
+			return Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiLink"].(string)
+		}
+	}
+	return ""
 }

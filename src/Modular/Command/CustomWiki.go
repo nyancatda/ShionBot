@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-17 15:37:34
+ * @LastEditTime: 2022-01-24 18:37:27
+ * @LastEditors: NyanCatda
+ * @Description: Wiki命令操作
+ * @FilePath: \ShionBot\src\Modular\Command\CustomWiki.go
+ */
 package Command
 
 import (
@@ -30,7 +38,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 			MessageOK = true
 			return Message, MessageOK
 		}
-		if _, ok := WikiSiteinfo["query"].(map[string]interface{})["general"].(map[string]interface{})["sitename"]; !ok {
+		if WikiSiteinfo.Query.General.Sitename == "" {
 			Message = Language.Message(SNSName, UserID).WikiAddFailed
 			MessageOK = true
 			return Message, MessageOK
@@ -115,8 +123,8 @@ func WikiUpdate(SNSName string, UserID string, CommandText string) (string, bool
 			MessageOK = true
 			return Message, MessageOK
 		}
-		if _, ok := WikiSiteinfo["query"].(map[string]interface{})["general"].(map[string]interface{})["sitename"]; !ok {
-			Message = Language.Message(SNSName, UserID).WikiUpdateFailed
+		if WikiSiteinfo.Query.General.Sitename == "" {
+			Message = Language.Message(SNSName, UserID).WikiAddFailed
 			MessageOK = true
 			return Message, MessageOK
 		}
