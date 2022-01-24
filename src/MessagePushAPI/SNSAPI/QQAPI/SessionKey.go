@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 13:51:15
- * @LastEditTime: 2022-01-24 19:40:52
+ * @LastEditTime: 2022-01-24 19:50:01
  * @LastEditors: NyanCatda
  * @Description: Session处理API
  * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\QQAPI\SessionKey.go
@@ -14,7 +14,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
@@ -33,7 +33,7 @@ func CreateSessionKey() (string, *http.Response, error) {
 		"qq": %d
 	  }`, OldSessionKey, Config.SNS.QQ.BotQQNumber)
 	url := Config.SNS.QQ.APILink + "/release"
-	Utils.PostRequestJosn(url, requestBody)
+	HttpRequest.PostRequestJson(url, requestBody, []string{})
 
 	var SessionKey string
 	Config = ReadConfig.GetConfig
@@ -41,7 +41,7 @@ func CreateSessionKey() (string, *http.Response, error) {
 		"verifyKey": "%s"
 	}`, Config.SNS.QQ.VerifyKey)
 	url = Config.SNS.QQ.APILink + "/verify"
-	body, resp, http_error := Utils.PostRequestJosn(url, requestBody)
+	body, resp, http_error := HttpRequest.PostRequestJson(url, requestBody, []string{})
 
 	var config verifyJson
 	json.Unmarshal([]byte(body), &config)
@@ -53,7 +53,7 @@ func CreateSessionKey() (string, *http.Response, error) {
 		"qq": %d
 	}`, SessionKey, Config.SNS.QQ.BotQQNumber)
 	url = Config.SNS.QQ.APILink + "/bind"
-	Utils.PostRequestJosn(url, requestBody)
+	HttpRequest.PostRequestJson(url, requestBody, []string{})
 
 	//缓存SessionKey
 	ioutil.WriteFile("data/SessionKey", []byte(SessionKey), 0664)

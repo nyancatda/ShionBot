@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-15 17:23:29
- * @LastEditTime: 2022-01-24 19:39:33
+ * @LastEditTime: 2022-01-24 19:46:49
  * @LastEditors: NyanCatda
  * @Description: KaiHeiLa API
  * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\KaiHeiLaAPI\KaiHeiLaAPI.go
@@ -13,7 +13,7 @@ import (
 	"fmt"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
@@ -49,7 +49,7 @@ func SendDirectMessage(chat_type string, Type int, target_id string, content str
 
 	url := APILink + "api/v3/direct-message/create"
 	Header := []string{"Authorization:Bot " + Config.SNS.KaiHeiLa.Token}
-	Body, _, _ := Utils.PostRequestJosnHeader(url, requestBody, Header)
+	Body, _, _ := HttpRequest.PostRequestJson(url, requestBody, Header)
 	fmt.Println(string(Body))
 
 	SNSAPI.Log(sns_name, chat_type, target_id, content)
@@ -83,7 +83,7 @@ func SendChannelMessage(chat_type string, Type int, target_id string, content st
 
 	url := APILink + "api/v3/message/create"
 	Header := []string{"Authorization:Bot " + Config.SNS.KaiHeiLa.Token}
-	Body, _, _ := Utils.PostRequestJosnHeader(url, requestBody, Header)
+	Body, _, _ := HttpRequest.PostRequestJson(url, requestBody, Header)
 	fmt.Println(string(Body))
 
 	SNSAPI.Log(sns_name, chat_type, target_id, content)

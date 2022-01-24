@@ -13,7 +13,7 @@ import (
 	"strconv"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
@@ -38,7 +38,7 @@ func SendMessage(chat_type string, chat_id int, text string, disable_web_page_pr
 	  }`, chat_id, text, disable_web_page_preview, disable_notification, reply_to_message_id, allow_sending_without_reply)
 
 	url := Config.SNS.Telegram.BotAPILink + "bot" + Config.SNS.Telegram.Token + "/sendMessage"
-	Utils.PostRequestJosn(url, requestBody)
+	HttpRequest.PostRequestJson(url, requestBody, []string{})
 
 	SNSAPI.Log(sns_name, chat_type, strconv.Itoa(chat_id), text)
 }

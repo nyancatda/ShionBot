@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
@@ -37,7 +37,7 @@ func sendError(body []byte, err error, url string, requestBody string) {
 				json.Unmarshal([]byte(requestBody), &result)
 				result["sessionKey"] = SessionKey
 				Body, _ := json.Marshal(result)
-				Utils.PostRequestJosn(url, string(Body))
+				HttpRequest.PostRequestJson(url, string(Body), []string{})
 			}
 		}
 	}
@@ -79,7 +79,7 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 	}
 
 	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
-	body, _, err := Utils.PostRequestJosn(url, requestBody)
+	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
 	sendError(body, err, url, requestBody)
 
 	SNSAPI.Log(sns_name, "Group", strconv.Itoa(target), text)
@@ -108,7 +108,7 @@ func SendGroupAtMessage(target int, text string, AtID int) {
 			]
 		}`, sessionKey, target, AtID, text)
 	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
-	body, _, err := Utils.PostRequestJosn(url, requestBody)
+	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
 	sendError(body, err, url, requestBody)
 
 	SNSAPI.Log(sns_name, "Group", strconv.Itoa(target), text)
@@ -129,7 +129,7 @@ func SendNudge(target int, subject int, kind string) {
 	}`, sessionKey, target, subject, kind)
 
 	url := Config.SNS.QQ.APILink + "/sendNudge"
-	body, _, err := Utils.PostRequestJosn(url, requestBody)
+	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
 	sendError(body, err, url, requestBody)
 
 	SNSAPI.Log(sns_name, kind, strconv.Itoa(subject), Language.DefaultLanguageMessage().Nudge+strconv.Itoa(target))
@@ -171,7 +171,7 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) {
 	}
 
 	url := Config.SNS.QQ.APILink + "/sendFriendMessage"
-	body, _, err := Utils.PostRequestJosn(url, requestBody)
+	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
 	sendError(body, err, url, requestBody)
 
 	SNSAPI.Log(sns_name, "Friend", strconv.Itoa(target), text)
@@ -216,7 +216,7 @@ func SendTempMessage(target int, group int, text string, quote bool, quoteID int
 	}
 
 	url := Config.SNS.QQ.APILink + "/sendTempMessage"
-	body, _, err := Utils.PostRequestJosn(url, requestBody)
+	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
 	sendError(body, err, url, requestBody)
 
 	SNSAPI.Log(sns_name, "Temp", strconv.Itoa(target), text)

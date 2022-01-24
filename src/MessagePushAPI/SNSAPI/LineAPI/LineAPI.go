@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 23:42:17
- * @LastEditTime: 2022-01-24 19:39:42
+ * @LastEditTime: 2022-01-24 19:47:34
  * @LastEditors: NyanCatda
  * @Description: Line API
  * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\LineAPI\LineAPI.go
@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
@@ -39,7 +39,7 @@ func SendPushMessage(chat_type string, to string, messages string, notificationD
 
 	url := Config.SNS.Line.BotAPILink + "v2/bot/message/push"
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
-	Utils.PostRequestJosnHeader(url, requestBody, Header)
+	HttpRequest.PostRequestJson(url, requestBody, Header)
 
 	SNSAPI.Log(sns_name, chat_type, to, messages)
 }
@@ -65,7 +65,7 @@ func SendReplyMessage(chat_type string, replyToken string, messages string, noti
 
 	url := Config.SNS.Line.BotAPILink + "v2/bot/message/reply"
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
-	Utils.PostRequestJosnHeader(url, requestBody, Header)
+	HttpRequest.PostRequestJson(url, requestBody, Header)
 
 	SNSAPI.Log(sns_name, chat_type, replyToken, messages)
 }

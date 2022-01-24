@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-12 16:10:33
- * @LastEditTime: 2022-01-24 19:27:37
+ * @LastEditTime: 2022-01-24 19:46:25
  * @LastEditors: NyanCatda
  * @Description: MediaWiki OpensearchAPI封装
  * @FilePath: \ShionBot\src\MediaWikiAPI\Opensearch.go
@@ -13,7 +13,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 )
 
 /**
@@ -26,7 +26,7 @@ import (
 func Opensearch(WikiLink string, Limit int, title string) ([]interface{}, error) {
 	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=opensearch&limit=" + strconv.Itoa(Limit) + "&redirects=resolve&search=" + title
-	body, err := Utils.HttpRequest(url)
+	body, _, err := HttpRequest.GetRequest(url, []string{})
 
 	var info []interface{}
 	json.Unmarshal([]byte(body), &info)
