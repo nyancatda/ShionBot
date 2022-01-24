@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 var sns_name string = "Telegram"
@@ -14,7 +14,7 @@ var sns_name string = "Telegram"
 //messages 消息内容
 //notificationDisabled 是否需要静默发送
 func SendPushMessage(chat_type string, to string, messages string, notificationDisabled bool) {
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	Json := map[string]interface{}{
 		"to":                   to,
 		"notificationDisabled": notificationDisabled,
@@ -30,7 +30,7 @@ func SendPushMessage(chat_type string, to string, messages string, notificationD
 
 	url := Config.SNS.Line.BotAPILink + "v2/bot/message/push"
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
-	utils.PostRequestJosnHeader(url, requestBody, Header)
+	Utils.PostRequestJosnHeader(url, requestBody, Header)
 
 	SNSAPI.Log(sns_name, chat_type, to, messages)
 }
@@ -40,7 +40,7 @@ func SendPushMessage(chat_type string, to string, messages string, notificationD
 //messages 消息内容
 //notificationDisabled 是否需要静默发送
 func SendReplyMessage(chat_type string, replyToken string, messages string, notificationDisabled bool) {
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	Json := map[string]interface{}{
 		"replyToken":           replyToken,
 		"notificationDisabled": notificationDisabled,
@@ -56,7 +56,7 @@ func SendReplyMessage(chat_type string, replyToken string, messages string, noti
 
 	url := Config.SNS.Line.BotAPILink + "v2/bot/message/reply"
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
-	utils.PostRequestJosnHeader(url, requestBody, Header)
+	Utils.PostRequestJosnHeader(url, requestBody, Header)
 
 	SNSAPI.Log(sns_name, chat_type, replyToken, messages)
 }

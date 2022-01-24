@@ -4,8 +4,8 @@ import (
 	"strings"
 
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/utils"
-	Languages "github.com/nyancatda/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils"
+	Languages "github.com/nyancatda/ShionBot/src/Utils/Language"
 )
 
 func LanguageSettings(SNSName string, UserID string, CommandText string) (string, bool) {
@@ -15,7 +15,7 @@ func LanguageSettings(SNSName string, UserID string, CommandText string) (string
 	if find := strings.Contains(CommandText, " "); find {
 		countSplit := strings.SplitN(CommandText, " ", 2)
 		Language := countSplit[1]
-		db := utils.SQLLiteLink()
+		db := Utils.SQLLiteLink()
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
@@ -24,20 +24,20 @@ func LanguageSettings(SNSName string, UserID string, CommandText string) (string
 				UserInfos := Struct.UserInfo{SNSName: SNSName, Account: UserID, Language: Language}
 				db.Create(&UserInfos)
 				MessageOK = true
-				Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, []string{Language})
+				Message = Utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, []string{Language})
 			} else {
 				MessageOK = true
-				Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModificationFailed, []string{Language})
+				Message = Utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModificationFailed, []string{Language})
 			}
 		} else {
 			LanguageExist := Languages.LanguageExist(Language)
 			if LanguageExist {
 				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("language", Language)
 				MessageOK = true
-				Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, []string{Language})
+				Message = Utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, []string{Language})
 			} else {
 				MessageOK = true
-				Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModificationFailed, []string{Language})
+				Message = Utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModificationFailed, []string{Language})
 			}
 		}
 	} else {
@@ -48,7 +48,7 @@ func LanguageSettings(SNSName string, UserID string, CommandText string) (string
 				Message = Message + LanguageName + "\n"
 			}
 
-			Message = utils.StringVariable(Languages.Message(SNSName, UserID).LanguageList, []string{Message})
+			Message = Utils.StringVariable(Languages.Message(SNSName, UserID).LanguageList, []string{Message})
 
 			MessageOK = true
 		}

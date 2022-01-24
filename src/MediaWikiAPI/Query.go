@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 type QueryInfoUrlJson struct {
@@ -48,7 +48,7 @@ type QueryInfoUrlJson struct {
 func QueryInfoUrl(WikiLink string, title string) (QueryInfoUrlJson, error) {
 	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=query&prop=info&inprop=url&format=json&titles=" + title
-	body, err := utils.HttpRequest(url)
+	body, err := Utils.HttpRequest(url)
 
 	var info QueryInfoUrlJson
 	json.Unmarshal([]byte(body), &info)
@@ -80,7 +80,7 @@ type QueryRedirectsJson struct {
 func QueryRedirects(WikiLink string, title string) (QueryRedirectsJson, error) {
 	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=query&prop=redirects&format=json&titles=" + title
-	body, err := utils.HttpRequest(url)
+	body, err := Utils.HttpRequest(url)
 
 	var info QueryRedirectsJson
 	json.Unmarshal([]byte(body), &info)
@@ -110,7 +110,7 @@ type QueryExtractsJson struct {
 func QueryExtracts(WikiLink string, exchars int, title string) (QueryExtractsJson, error) {
 	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=query&prop=extracts&exchars=" + strconv.Itoa(exchars) + "&explaintext=true&format=json&titles=" + title
-	body, err := utils.HttpRequest(url)
+	body, err := Utils.HttpRequest(url)
 
 	var info QueryExtractsJson
 	json.Unmarshal([]byte(body), &info)
@@ -145,7 +145,7 @@ type QueryRevisionsJson struct {
 func QueryRevisions(WikiLink string, title string) (QueryRevisionsJson, error) {
 	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=query&prop=revisions&format=json&titles=" + title
-	body, err := utils.HttpRequest(url)
+	body, err := Utils.HttpRequest(url)
 
 	var info QueryRevisionsJson
 	json.Unmarshal([]byte(body), &info)
@@ -230,7 +230,7 @@ type QuerySiteinfoGeneralJson struct {
  */
 func QuerySiteinfoGeneral(WikiLink string) (QuerySiteinfoGeneralJson, error) {
 	url := WikiLink + "/api.php?action=query&meta=siteinfo&siprop=general&format=json"
-	body, err := utils.HttpRequest(url)
+	body, err := Utils.HttpRequest(url)
 
 	var info QuerySiteinfoGeneralJson
 	json.Unmarshal([]byte(body), &info)

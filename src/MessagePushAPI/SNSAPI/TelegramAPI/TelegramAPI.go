@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 var sns_name string = "Telegram"
@@ -18,7 +18,7 @@ var sns_name string = "Telegram"
 //reply_to_message_id 需要回复消息的ID
 //allow_sending_without_reply 没有找到需要回复的消息时，是否发送
 func SendMessage(chat_type string, chat_id int, text string, disable_web_page_preview bool, disable_notification bool, reply_to_message_id int, allow_sending_without_reply bool) {
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	requestBody := fmt.Sprintf(`{
 		"chat_id": %d,
 		"text": "%s",
@@ -29,7 +29,7 @@ func SendMessage(chat_type string, chat_id int, text string, disable_web_page_pr
 	  }`, chat_id, text, disable_web_page_preview, disable_notification, reply_to_message_id, allow_sending_without_reply)
 
 	url := Config.SNS.Telegram.BotAPILink + "bot" + Config.SNS.Telegram.Token + "/sendMessage"
-	utils.PostRequestJosn(url, requestBody)
+	Utils.PostRequestJosn(url, requestBody)
 
 	SNSAPI.Log(sns_name, chat_type, strconv.Itoa(chat_id), text)
 }

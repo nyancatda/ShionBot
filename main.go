@@ -11,9 +11,9 @@ import (
 	"github.com/nyancatda/ShionBot/src/InformationProcessing"
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/utils"
-	"github.com/nyancatda/ShionBot/src/utils/Language"
-	"github.com/nyancatda/ShionBot/src/utils/ReleaseFile"
+	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/ReleaseFile"
 )
 
 func Error() {
@@ -38,14 +38,14 @@ func main() {
 	}
 
 	//设置配置文件路径
-	utils.ConfigPath = *ConfigPath
+	Utils.ConfigPath = *ConfigPath
 	//加载配置文件
-	if err := utils.LoadConfig(); err != nil {
+	if err := Utils.LoadConfig(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 
 	//判断是否需要初始化QQ部分
 	if Config.SNS.QQ.Switch {
@@ -56,7 +56,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	Port := Config.Run.WebHookPort
-	fmt.Println(utils.StringVariable(Language.DefaultLanguageMessage().RunOK, []string{Port}))
+	fmt.Println(Utils.StringVariable(Language.DefaultLanguageMessage().RunOK, []string{Port}))
 	WebHookKey := Config.Run.WebHookKey
 	r.POST("/"+WebHookKey, func(c *gin.Context) {
 		var json Struct.WebHookJson

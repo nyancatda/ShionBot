@@ -17,7 +17,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 var sns_name_kaiheila string = "KaiHeiLa"
@@ -42,7 +42,7 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 			ChatID := json.D.Author_id
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := utils.GetWikiLink(sns_name_kaiheila, json, Command)
+				WikiLink := Utils.GetWikiLink(sns_name_kaiheila, json, Command)
 				MessagePushAPI.SendMessage(sns_name_kaiheila, "Friend", UserID, ChatID, Error(sns_name_kaiheila, UserID, WikiLink), false, "", "", 0)
 				return
 			}
@@ -52,7 +52,7 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 			ChatID := json.D.Target_id
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := utils.GetWikiLink(sns_name_kaiheila, json, Command)
+				WikiLink := Utils.GetWikiLink(sns_name_kaiheila, json, Command)
 				MessagePushAPI.SendMessage(sns_name_kaiheila, "Group", UserID, ChatID, Error(sns_name_kaiheila, UserID, WikiLink), false, "", "", 0)
 				return
 			}

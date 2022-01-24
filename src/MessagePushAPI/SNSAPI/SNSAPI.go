@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 //日志输出
@@ -19,5 +19,5 @@ func Log(SNSName string, Type string, target string, text string) {
 	LogText := "[" + tm.Format("2006-01-02 03:04:05") + "] [" + SNSName + "] [" + Type + "] " + target + " <- " + text
 	fmt.Println(LogText)
 
-	utils.LogWrite(LogText)
+	Utils.LogWrite(LogText)
 }

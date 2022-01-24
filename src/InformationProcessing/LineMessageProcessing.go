@@ -15,7 +15,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 var sns_name_line string = "Line"
@@ -31,7 +31,7 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 		case "user":
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := utils.GetWikiLink(sns_name_line, json, Command)
+				WikiLink := Utils.GetWikiLink(sns_name_line, json, Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, Error(sns_name_line, UserID, WikiLink), false, "", "", 0)
 				return
 			}
@@ -41,7 +41,7 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 			QuoteID := json.Events[0].ReplyToken
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := utils.GetWikiLink(sns_name_line, json, Command)
+				WikiLink := Utils.GetWikiLink(sns_name_line, json, Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Group", UserID, GroupId, Error(sns_name_line, UserID, WikiLink), true, QuoteID, "", 0)
 				return
 			}

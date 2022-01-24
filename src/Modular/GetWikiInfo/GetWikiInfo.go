@@ -17,8 +17,8 @@ import (
 	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
 	"github.com/nyancatda/ShionBot/src/Modular"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/utils"
-	"github.com/nyancatda/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/Language"
 )
 
 /**
@@ -31,7 +31,7 @@ import (
  * @return {*}
  */
 func Error(SNSName string, UserID string, WikiLink string, title string, LanguageMessage *Language.LanguageInfo) string {
-	text := utils.StringVariable(LanguageMessage.GetWikiInfoError, []string{WikiLink, title})
+	text := Utils.StringVariable(LanguageMessage.GetWikiInfoError, []string{WikiLink, title})
 	return text
 }
 
@@ -44,7 +44,7 @@ func Error(SNSName string, UserID string, WikiLink string, title string, Languag
  */
 func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJson) bool {
 	//判断用户设置
-	db := utils.SQLLiteLink()
+	db := Utils.SQLLiteLink()
 	var user Struct.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
@@ -60,7 +60,7 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
 		}
 	}
 
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	var ConfigWikiName string
 	for one := range Config.Wiki.([]interface{}) {
 		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
@@ -79,7 +79,7 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
  */
 func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 	//获取用户设置
-	db := utils.SQLLiteLink()
+	db := Utils.SQLLiteLink()
 	var user Struct.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
@@ -93,7 +93,7 @@ func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 		}
 	}
 
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
 	return MainWikiName
 }
@@ -107,7 +107,7 @@ func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
  * @return {*}
  */
 func SearchWiki(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) string {
-	WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
+	WikiLink := Utils.GetWikiLink(SNSName, Messagejson, WikiName)
 	SearchInfo, _ := MediaWikiAPI.Opensearch(WikiLink, 10, title)
 	if len(SearchInfo) != 0 {
 		SearchList := SearchInfo[1].([]interface{})
@@ -139,10 +139,10 @@ func SearchWiki(SNSName string, Messagejson Struct.WebHookJson, WikiName string,
 func NilProcessing(SNSName string, Messagejson Struct.WebHookJson, UserID string, WikiName string, title string, LanguageMessage *Language.LanguageInfo) string {
 	SearchInfo := SearchWiki(SNSName, Messagejson, WikiName, title)
 	if SearchInfo != "" {
-		Info := utils.StringVariable(LanguageMessage.WikiInfoSearch, []string{SearchInfo, WikiName})
+		Info := Utils.StringVariable(LanguageMessage.WikiInfoSearch, []string{SearchInfo, WikiName})
 		return Info
 	} else {
-		WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
+		WikiLink := Utils.GetWikiLink(SNSName, Messagejson, WikiName)
 		return Error(SNSName, UserID, WikiLink, title, LanguageMessage)
 	}
 }
@@ -156,7 +156,7 @@ func NilProcessing(SNSName string, Messagejson Struct.WebHookJson, UserID string
  * @return {*}
  */
 func GetUrlTitle(SNSName string, Messagejson Struct.WebHookJson, WikiName string, PageName string) string {
-	WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
+	WikiLink := Utils.GetWikiLink(SNSName, Messagejson, WikiName)
 	doc, err := htmlquery.LoadURL(WikiLink + "/" + PageName)
 	if err != nil {
 		fmt.Println(err)
@@ -179,7 +179,7 @@ func GetUrlTitle(SNSName string, Messagejson Struct.WebHookJson, WikiName string
  * @return {*}
  */
 func QueryRedirects(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) (whether bool, to string, from string, err error) {
-	WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
+	WikiLink := Utils.GetWikiLink(SNSName, Messagejson, WikiName)
 	info, err := MediaWikiAPI.QueryRedirects(WikiLink, title)
 
 	for _, value := range info.Query.Pages {
@@ -220,7 +220,7 @@ func GetWikiInfo(SNSName string, Messagejson Struct.WebHookJson, UserID string, 
 	var err error
 	RedirectsState, ToTitle, FromTitle, _ := QueryRedirects(SNSName, Messagejson, WikiName, title)
 	var info MediaWikiAPI.QueryExtractsJson
-	WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
+	WikiLink := Utils.GetWikiLink(SNSName, Messagejson, WikiName)
 	if RedirectsState {
 		info, err = MediaWikiAPI.QueryExtracts(WikiLink, 100, ToTitle)
 	} else {
@@ -239,7 +239,7 @@ func GetWikiInfo(SNSName string, Messagejson Struct.WebHookJson, UserID string, 
 	if PageId != "-1" {
 		PagesExtract := info.Query.Pages[PageId].Extract
 
-		WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
+		WikiLink := Utils.GetWikiLink(SNSName, Messagejson, WikiName)
 		WikiPageInfo, err := MediaWikiAPI.QueryInfoUrl(WikiLink, title)
 		var WikiPageLink string
 		for _, Value := range WikiPageInfo.Query.Pages {
@@ -248,7 +248,7 @@ func GetWikiInfo(SNSName string, Messagejson Struct.WebHookJson, UserID string, 
 
 		var returnText string
 		if RedirectsState {
-			info := utils.StringVariable(LanguageMessage.WikiInfoRedirect, []string{FromTitle, ToTitle})
+			info := Utils.StringVariable(LanguageMessage.WikiInfoRedirect, []string{FromTitle, ToTitle})
 			returnText = WikiPageLink + info + PagesExtract
 		} else {
 			returnText = WikiPageLink + "\n[" + title + "]\n" + PagesExtract

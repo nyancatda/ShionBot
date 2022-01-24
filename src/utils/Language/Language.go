@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 	"gopkg.in/yaml.v2"
 )
 
@@ -25,7 +25,7 @@ func ReadLanguage(Language string) *LanguageInfo {
 //获取本地语言列表
 func LanguageList() []string {
 	var LanguageList []string
-	files, _, _ := utils.GetFilesAndDirs("./resources/language/")
+	files, _, _ := Utils.GetFilesAndDirs("./resources/language/")
 	for _, dir := range files {
 		LanguageName := strings.Replace(dir, `\`, "/", 1)
 		LanguageNames := strings.Split(LanguageName, "/")
@@ -54,16 +54,16 @@ func LanguageExist(Language string) bool {
 func Message(SNSName string, Account string) *LanguageInfo {
 	var language string
 	if Account == "" {
-		Config := utils.GetConfig
+		Config := Utils.GetConfig
 		language = Config.Run.Language
 	} else {
-		db := utils.SQLLiteLink()
+		db := Utils.SQLLiteLink()
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", Account, SNSName).Find(&user)
 		if user.Language != "" {
 			language = user.Language
 		} else {
-			Config := utils.GetConfig
+			Config := Utils.GetConfig
 			language = Config.Run.Language
 		}
 	}
@@ -76,7 +76,7 @@ func DesignateLanguageMessage(Language string) *LanguageInfo {
 }
 
 func DefaultLanguageMessage() *LanguageInfo {
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	language := Config.Run.Language
 	Info := ReadLanguage(language)
 	return Info

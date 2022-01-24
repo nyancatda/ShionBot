@@ -7,8 +7,8 @@ import (
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/LineAPI"
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/TelegramAPI"
-	"github.com/nyancatda/ShionBot/src/utils/Language"
-	"github.com/nyancatda/ShionBot/src/utils/ViolationWordFilter"
+	"github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/ViolationWordFilter"
 )
 
 //发送消息

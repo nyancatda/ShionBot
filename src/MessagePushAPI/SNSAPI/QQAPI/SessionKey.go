@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 type verifyJson struct {
@@ -18,21 +18,21 @@ func CreateSessionKey() (string, *http.Response, error) {
 	//释放旧的SessionKey
 	bytes, _ := ioutil.ReadFile("data/SessionKey")
 	OldSessionKey := string(bytes)
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	requestBody := fmt.Sprintf(`{
 		"verifyKey": "%s",
 		"qq": %d
 	  }`, OldSessionKey, Config.SNS.QQ.BotQQNumber)
 	url := Config.SNS.QQ.APILink + "/release"
-	utils.PostRequestJosn(url, requestBody)
+	Utils.PostRequestJosn(url, requestBody)
 
 	var SessionKey string
-	Config = utils.GetConfig
+	Config = Utils.GetConfig
 	requestBody = fmt.Sprintf(`{
 		"verifyKey": "%s"
 	}`, Config.SNS.QQ.VerifyKey)
 	url = Config.SNS.QQ.APILink + "/verify"
-	body, resp, http_error := utils.PostRequestJosn(url, requestBody)
+	body, resp, http_error := Utils.PostRequestJosn(url, requestBody)
 
 	var config verifyJson
 	json.Unmarshal([]byte(body), &config)
@@ -44,7 +44,7 @@ func CreateSessionKey() (string, *http.Response, error) {
 		"qq": %d
 	}`, SessionKey, Config.SNS.QQ.BotQQNumber)
 	url = Config.SNS.QQ.APILink + "/bind"
-	utils.PostRequestJosn(url, requestBody)
+	Utils.PostRequestJosn(url, requestBody)
 
 	//缓存SessionKey
 	ioutil.WriteFile("data/SessionKey", []byte(SessionKey), 0664)

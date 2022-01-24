@@ -8,7 +8,7 @@ import (
 //释放资源文件
 func ReleaseFile() {
 	//打包资源文件
-	//go-bindata -o=src/utils/ReleaseFile/resources.go -pkg=ReleaseFile resources/...
+	//go-bindata -o=src/Utils/ReleaseFile/resources.go -pkg=ReleaseFile resources/...
 
 	//释放语言文件
 	_, err := os.Stat("./resources/language/")

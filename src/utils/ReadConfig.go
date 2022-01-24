@@ -4,9 +4,9 @@
  * @LastEditTime: 2022-01-24 16:53:59
  * @LastEditors: NyanCatda
  * @Description: 读取配置文件
- * @FilePath: \ShionBot\src\utils\ReadConfig.go
+ * @FilePath: \ShionBot\src\Utils\ReadConfig.go
  */
-package utils
+package Utils
 
 import (
 	"encoding/json"

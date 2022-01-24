@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/utils"
-	"github.com/nyancatda/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/Language"
 )
 
 func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) {
@@ -14,7 +14,7 @@ func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) 
 	var Message string
 
 	if CommandText == "userinfo" {
-		db := utils.SQLLiteLink()
+		db := Utils.SQLLiteLink()
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
@@ -43,12 +43,12 @@ func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) 
 		if user.Language != "" {
 			UserLanguage = user.Language
 		} else {
-			Config := utils.GetConfig
+			Config := Utils.GetConfig
 			UserLanguage = Config.Run.Language
 		}
 
 		MessageOK = true
-		Message = utils.StringVariable(Language.Message(SNSName, UserID).UserInfo, []string{user.Account, user.SNSName, UserLanguage, UserWikiInfo})
+		Message = Utils.StringVariable(Language.Message(SNSName, UserID).UserInfo, []string{user.Account, user.SNSName, UserLanguage, UserWikiInfo})
 	}
 
 	return Message, MessageOK

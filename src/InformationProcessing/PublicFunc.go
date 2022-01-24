@@ -7,13 +7,13 @@ import (
 
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/utils"
-	"github.com/nyancatda/ShionBot/src/utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/Language"
 )
 
 //Wiki链接错误返回
 func Error(SNSName string, UserID string, WikiLink string) string {
-	return utils.StringVariable(Language.Message(SNSName, UserID).WikiLinkError, []string{WikiLink})
+	return Utils.StringVariable(Language.Message(SNSName, UserID).WikiLinkError, []string{WikiLink})
 }
 
 //消息处理日志
@@ -28,7 +28,7 @@ func Log(SNSName string, Type string, target string, text string) {
 	LogText := "[" + tm.Format("2006-01-02 03:04:05") + "] [" + SNSName + "] [" + Type + "] " + target + " -> " + text
 	fmt.Println(LogText)
 
-	utils.LogWrite(LogText)
+	Utils.LogWrite(LogText)
 }
 
 //命令处理，判断命令是否匹配，匹配则输出命令和命令参数

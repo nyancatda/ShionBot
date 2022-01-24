@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 var sns_name string = "KaiHeiLa"
@@ -19,7 +19,7 @@ var APILink string = "https://www.kaiheila.cn/"
 //quote 是否需要回复
 //quoteID 回复ID
 func SendDirectMessage(chat_type string, Type int, target_id string, content string, quote bool, quoteID string) {
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	var Json map[string]interface{}
 	if quote {
 		Json = map[string]interface{}{
@@ -40,7 +40,7 @@ func SendDirectMessage(chat_type string, Type int, target_id string, content str
 
 	url := APILink + "api/v3/direct-message/create"
 	Header := []string{"Authorization:Bot " + Config.SNS.KaiHeiLa.Token}
-	Body, _, _ := utils.PostRequestJosnHeader(url, requestBody, Header)
+	Body, _, _ := Utils.PostRequestJosnHeader(url, requestBody, Header)
 	fmt.Println(string(Body))
 
 	SNSAPI.Log(sns_name, chat_type, target_id, content)
@@ -53,7 +53,7 @@ func SendDirectMessage(chat_type string, Type int, target_id string, content str
 //quote 是否需要回复
 //quoteID 回复ID
 func SendChannelMessage(chat_type string, Type int, target_id string, content string, quote bool, quoteID string) {
-	Config := utils.GetConfig
+	Config := Utils.GetConfig
 	var Json map[string]interface{}
 	if quote {
 		Json = map[string]interface{}{
@@ -74,7 +74,7 @@ func SendChannelMessage(chat_type string, Type int, target_id string, content st
 
 	url := APILink + "api/v3/message/create"
 	Header := []string{"Authorization:Bot " + Config.SNS.KaiHeiLa.Token}
-	Body, _, _ := utils.PostRequestJosnHeader(url, requestBody, Header)
+	Body, _, _ := Utils.PostRequestJosnHeader(url, requestBody, Header)
 	fmt.Println(string(Body))
 
 	SNSAPI.Log(sns_name, chat_type, target_id, content)

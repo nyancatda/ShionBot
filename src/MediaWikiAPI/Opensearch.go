@@ -13,7 +13,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/nyancatda/ShionBot/src/utils"
+	"github.com/nyancatda/ShionBot/src/Utils"
 )
 
 /**
@@ -26,7 +26,7 @@ import (
 func Opensearch(WikiLink string, Limit int, title string) ([]interface{}, error) {
 	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=opensearch&limit=" + strconv.Itoa(Limit) + "&redirects=resolve&search=" + title
-	body, err := utils.HttpRequest(url)
+	body, err := Utils.HttpRequest(url)
 
 	var info []interface{}
 	json.Unmarshal([]byte(body), &info)
