@@ -3,6 +3,7 @@ package QQAPI
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"strconv"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
@@ -17,207 +18,272 @@ type returnJson struct {
 	MessageId string `json:"messageId"`
 }
 
-var sns_name string = "QQ"
+var (
+	SNSName = "QQ"
+)
 
-func sendError(body []byte, err error, url string, requestBody string) {
+/**
+ * @description: 发送错误处理
+ * @param {string} url 请求的URL
+ * @param {map[string]interface{}} MessageBody 请求的信息
+ * @return {[]byte}
+ * @return {*http.Response}
+ * @return {error}
+ */
+func sendError(url string, MessageBody map[string]interface{}) ([]byte, *http.Response, error) {
+	//尝试通过创建一个新的SessionKey来从错误中恢复
+	SessionKey, resp, err := CreateSessionKey()
 	if err != nil {
+		//无法获取SessionKey
+		fmt.Println(Language.DefaultLanguageMessage().CannotConnectMirai)
+		fmt.Println(err)
+	} else if resp.Status != "200 OK" {
+		//无法获取SessionKey
 		fmt.Println(Language.DefaultLanguageMessage().CannotConnectMirai)
 	} else {
-		var config returnJson
-		json.Unmarshal([]byte(body), &config)
-		if config.Code != 0 {
-			SessionKey, resp, err := CreateSessionKey()
-			if err != nil {
-				fmt.Println(Language.DefaultLanguageMessage().CannotConnectMirai)
-				fmt.Println(err)
-			} else if resp.Status != "200 OK" {
-				fmt.Println(Language.DefaultLanguageMessage().CannotConnectMirai)
-			} else {
-				var result map[string]interface{}
-				json.Unmarshal([]byte(requestBody), &result)
-				result["sessionKey"] = SessionKey
-				Body, _ := json.Marshal(result)
-				HttpRequest.PostRequestJson(url, string(Body), []string{})
-			}
-		}
+		//将新的SessionKey写入消息链并重新发送
+		MessageBody["sessionKey"] = SessionKey
+		Body, _ := json.Marshal(MessageBody)
+		Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(Body), []string{})
+		return Body, HttpResponse, err
 	}
+	var HttpResponse *http.Response
+	return []byte{}, HttpResponse, err
 }
 
-//发送群消息
-//target 群号
-//text 消息文本
-//quote 是否需要回复
-//quoteID 回复的消息ID(不需要时为0即可)
-func SendGroupMessage(target int, text string, quote bool, quoteID int) {
+/**
+ * @description: 发送群消息
+ * @param {int} target 群号
+ * @param {string} text 消息文本
+ * @param {bool} quote 是否需要回复
+ * @param {int} quoteID 回复的消息ID(不需要时为0即可)
+ * @return {[]byte}
+ * @return {*http.Response}
+ * @return {error}
+ */
+func SendGroupMessage(target int, text string, quote bool, quoteID int) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
-	var requestBody string
+
+	//组成消息链
+	MessageChain := make([]map[string]string, 1)
+	MessageChain[0] = map[string]string{
+		"type": "Plain",
+		"text": text,
+	}
+	MessageBody := map[string]interface{}{
+		"sessionKey":   sessionKey,
+		"target":       target,
+		"messageChain": MessageChain,
+	}
+
 	//判断是否需要引用回复
 	if quote {
-		requestBody = fmt.Sprintf(`{
-			"sessionKey": "%s",
-			"target": %d,
-			"quote": %d,
-			"messageChain": [
-			  {
-				"type": "Plain",
-				"text": "%s"
-			  }
-			]
-		}`, sessionKey, target, quoteID, text)
-	} else {
-		requestBody = fmt.Sprintf(`{
-			"sessionKey": "%s",
-			"target": %d,
-			"messageChain": [
-			  {
-				"type": "Plain",
-				"text": "%s"
-			  }
-			]
-		}`, sessionKey, target, text)
+		MessageBody["quote"] = quoteID
 	}
 
-	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
-	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
-	sendError(body, err, url, requestBody)
+	MessageBodyJson, _ := json.Marshal(MessageBody)
 
-	SNSAPI.Log(sns_name, "Group", strconv.Itoa(target), text)
+	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+
+	//如果发送失败，则调用错误处理函数
+	var config returnJson
+	json.Unmarshal([]byte(Body), &config)
+	if config.Code != 0 {
+		return sendError(url, MessageBody)
+	}
+
+	SNSAPI.Log(SNSName, "Group", strconv.Itoa(target), text)
+
+	return Body, HttpResponse, err
 }
 
-//发送带@的群消息
-//target 群号
-//text 消息文本
-//AtID 需要@的人的QQ号
-func SendGroupAtMessage(target int, text string, AtID int) {
+/**
+ * @description: 发送带@的群消息
+ * @param {int} target 群号
+ * @param {string} text 消息文本
+ * @param {int} AtID 需要@的人的QQ号
+ * @param {bool} quote 是否需要回复
+ * @param {int} quoteID 回复的消息ID(不需要时为0即可)
+ * @return {[]byte}
+ * @return {*http.Response}
+ * @return {error}
+ */
+func SendGroupAtMessage(target int, text string, AtID int, quote bool, quoteID int) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
+
+	//组成消息链
+	MessageChain := make([]map[string]interface{}, 2)
+	MessageChain[0] = map[string]interface{}{
+		"type":   "At",
+		"target": AtID,
+	}
+	MessageChain[1] = map[string]interface{}{
+		"type": "Plain",
+		"text": text,
+	}
+	MessageBody := map[string]interface{}{
+		"sessionKey":   sessionKey,
+		"target":       target,
+		"messageChain": MessageChain,
+	}
+
 	//判断是否需要引用回复
-	requestBody := fmt.Sprintf(`{
-			"sessionKey": "%s",
-			"target": %d,
-			"messageChain": [
-			{
-				"type": "At",
-				"target": %d
-			},
-			{
-			"type": "Plain",
-			"text": "%s"
-			}
-			]
-		}`, sessionKey, target, AtID, text)
-	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
-	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
-	sendError(body, err, url, requestBody)
+	if quote {
+		MessageBody["quote"] = quoteID
+	}
 
-	SNSAPI.Log(sns_name, "Group", strconv.Itoa(target), text)
+	MessageBodyJson, _ := json.Marshal(MessageBody)
+
+	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+
+	//如果发送失败，则调用错误处理函数
+	var config returnJson
+	json.Unmarshal([]byte(Body), &config)
+	if config.Code != 0 {
+		return sendError(url, MessageBody)
+	}
+
+	SNSAPI.Log(SNSName, "Group", strconv.Itoa(target), text)
+
+	return Body, HttpResponse, err
 }
 
-//发送头像戳一戳
-//target 目标QQ号
-//subject 消息接受主体，为群号或QQ号
-//kind 上下文类型,可选值 Friend,Group,Stranger
-func SendNudge(target int, subject int, kind string) {
+/**
+ * @description: 发送头像戳一戳
+ * @param {int} target 目标QQ号
+ * @param {int} subject 消息接受主体，为群号或QQ号
+ * @param {string} kind 上下文类型,可选值 Friend,Group,Stranger
+ * @return {[]byte}
+ * @return {*http.Response}
+ * @return {error}
+ */
+func SendNudge(target int, subject int, kind string) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
-	requestBody := fmt.Sprintf(`{
-		"sessionKey":"%s",
-		"target":%d,
-		"subject":%d,
-		"kind":"%s"
-	}`, sessionKey, target, subject, kind)
+
+	//组成消息链
+	MessageBody := map[string]interface{}{
+		"sessionKey": sessionKey,
+		"target":     target,
+		"subject":    subject,
+		"kind":       kind,
+	}
+
+	MessageBodyJson, _ := json.Marshal(MessageBody)
 
 	url := Config.SNS.QQ.APILink + "/sendNudge"
-	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
-	sendError(body, err, url, requestBody)
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
 
-	SNSAPI.Log(sns_name, kind, strconv.Itoa(subject), Language.DefaultLanguageMessage().Nudge+strconv.Itoa(target))
+	//如果发送失败，则调用错误处理函数
+	var config returnJson
+	json.Unmarshal([]byte(Body), &config)
+	if config.Code != 0 {
+		return sendError(url, MessageBody)
+	}
+
+	SNSAPI.Log(SNSName, kind, strconv.Itoa(subject), Language.DefaultLanguageMessage().Nudge+strconv.Itoa(target))
+
+	return Body, HttpResponse, err
 }
 
-//发送好友消息
-//target 好友QQ号
-//text 消息文本
-//quote 是否需要回复
-//quoteID 回复的消息ID(不需要时为0即可)
-func SendFriendMessage(target int, text string, quote bool, quoteID int) {
+/**
+ * @description: 发送好友消息
+ * @param {int} target 好友QQ号
+ * @param {string} text 消息文本
+ * @param {bool} quote 是否需要回复
+ * @param {int} quoteID 回复的消息ID(不需要时为0即可)
+ * @return {[]byte}
+ * @return {*http.Response}
+ * @return {error}
+ */
+func SendFriendMessage(target int, text string, quote bool, quoteID int) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
-	var requestBody string
+
+	//组成消息链
+	MessageChain := make([]map[string]string, 1)
+	MessageChain[0] = map[string]string{
+		"type": "Plain",
+		"text": text,
+	}
+	MessageBody := map[string]interface{}{
+		"sessionKey":   sessionKey,
+		"target":       target,
+		"messageChain": MessageChain,
+	}
+
 	//判断是否需要引用回复
 	if quote {
-		requestBody = fmt.Sprintf(`{
-			"sessionKey": "%s",
-			"target": %d,
-			"quote": %d,
-			"messageChain": [
-			  {
-				"type": "Plain",
-				"text": "%s"
-			  }
-			]
-		}`, sessionKey, target, quoteID, text)
-	} else {
-		requestBody = fmt.Sprintf(`{
-			"sessionKey": "%s",
-			"target": %d,
-			"messageChain": [
-			  {
-				"type": "Plain",
-				"text": "%s"
-			  }
-			]
-		}`, sessionKey, target, text)
+		MessageBody["quote"] = quoteID
 	}
+
+	MessageBodyJson, _ := json.Marshal(MessageBody)
 
 	url := Config.SNS.QQ.APILink + "/sendFriendMessage"
-	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
-	sendError(body, err, url, requestBody)
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
 
-	SNSAPI.Log(sns_name, "Friend", strconv.Itoa(target), text)
-}
-
-//发送临时会话
-//target 临时会话对象QQ号
-//group 临时会话群号
-//text 消息文本
-//quote 是否需要回复
-//quoteID 回复的消息ID(不需要时为0即可)
-func SendTempMessage(target int, group int, text string, quote bool, quoteID int) {
-	Config := ReadConfig.GetConfig
-	sessionKey := GetSessionKey()
-	var requestBody string
-	//判断是否需要引用回复
-	if quote {
-		requestBody = fmt.Sprintf(`{
-			"sessionKey": "%s",
-			"qq": %d,
-			"group": %d
-			"quote": %d,
-			"messageChain": [
-			  {
-				"type": "Plain",
-				"text": "%s"
-			  }
-			]
-		}`, sessionKey, target, group, quoteID, text)
-	} else {
-		requestBody = fmt.Sprintf(`{
-			"sessionKey": "%s",
-			"qq": %d,
-			"group": %d
-			"messageChain": [
-			  {
-				"type": "Plain",
-				"text": "%s"
-			  }
-			]
-		}`, sessionKey, target, group, text)
+	//如果发送失败，则调用错误处理函数
+	var config returnJson
+	json.Unmarshal([]byte(Body), &config)
+	if config.Code != 0 {
+		return sendError(url, MessageBody)
 	}
 
-	url := Config.SNS.QQ.APILink + "/sendTempMessage"
-	body, _, err := HttpRequest.PostRequestJson(url, requestBody, []string{})
-	sendError(body, err, url, requestBody)
+	SNSAPI.Log(SNSName, "Friend", strconv.Itoa(target), text)
 
-	SNSAPI.Log(sns_name, "Temp", strconv.Itoa(target), text)
+	return Body, HttpResponse, err
+}
+
+/**
+ * @description: 发送临时会话
+ * @param {int} target 临时会话对象QQ号
+ * @param {int} group 临时会话群号
+ * @param {string} text 消息文本
+ * @param {bool} quote 是否需要回复
+ * @param {int} quoteID 回复的消息ID(不需要时为0即可)
+ * @return {[]byte}
+ * @return {*http.Response}
+ * @return {error}
+ */
+func SendTempMessage(target int, group int, text string, quote bool, quoteID int) ([]byte, *http.Response, error) {
+	Config := ReadConfig.GetConfig
+	sessionKey := GetSessionKey()
+
+	//组成消息链
+	MessageChain := make([]map[string]string, 1)
+	MessageChain[0] = map[string]string{
+		"type": "Plain",
+		"text": text,
+	}
+	MessageBody := map[string]interface{}{
+		"sessionKey":   sessionKey,
+		"qq":           target,
+		"group":        group,
+		"messageChain": MessageChain,
+	}
+
+	//判断是否需要引用回复
+	if quote {
+		MessageBody["quote"] = quoteID
+	}
+
+	MessageBodyJson, _ := json.Marshal(MessageBody)
+
+	url := Config.SNS.QQ.APILink + "/sendTempMessage"
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+
+	//如果发送失败，则调用错误处理函数
+	var config returnJson
+	json.Unmarshal([]byte(Body), &config)
+	if config.Code != 0 {
+		return sendError(url, MessageBody)
+	}
+
+	SNSAPI.Log(SNSName, "Temp", strconv.Itoa(target), text)
+
+	return Body, HttpResponse, err
 }
