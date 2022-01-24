@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-15 17:23:29
- * @LastEditTime: 2022-01-24 20:26:26
+ * @LastEditTime: 2022-01-24 21:10:50
  * @LastEditors: NyanCatda
  * @Description: KaiHeiLa API
  * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\KaiHeiLaAPI\KaiHeiLaAPI.go
@@ -12,19 +12,16 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
 	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 var (
-	SNSName = "KaiHeiLa"
 	APILink = "https://www.kaiheila.cn/"
 )
 
 /**
  * @description: 发送私信消息
- * @param {string} chat_type 聊天类型
  * @param {int} Type 消息类型 1 文本类型，2 图片消息，3 视频消息，4 文件消息，9 代表 kmarkdown 消息, 10 代表卡片消息
  * @param {string} target_id 目标用户id
  * @param {string} content 消息内容
@@ -34,7 +31,7 @@ var (
  * @return {*http.Response}
  * @return {error}
  */
-func SendDirectMessage(chat_type string, Type int, target_id string, content string, quote bool, quoteID string) ([]byte, *http.Response, error) {
+func SendDirectMessage(Type int, target_id string, content string, quote bool, quoteID string) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
 
 	//组成消息
@@ -60,14 +57,11 @@ func SendDirectMessage(chat_type string, Type int, target_id string, content str
 	Header := []string{"Authorization:Bot " + Config.SNS.KaiHeiLa.Token}
 	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(JsonBody), Header)
 
-	SNSAPI.Log(SNSName, chat_type, target_id, content)
-
 	return Body, HttpResponse, err
 }
 
 /**
  * @description: 发送频道聊天消息
- * @param {string} chat_type
  * @param {int} Type 消息类型 1 文本类型，2 图片消息，3 视频消息，4 文件消息，9 代表 kmarkdown 消息, 10 代表卡片消息
  * @param {string} target_id 目标频道id
  * @param {string} content 消息内容
@@ -77,7 +71,7 @@ func SendDirectMessage(chat_type string, Type int, target_id string, content str
  * @return {*http.Response}
  * @return {error}
  */
-func SendChannelMessage(chat_type string, Type int, target_id string, content string, quote bool, quoteID string) ([]byte, *http.Response, error) {
+func SendChannelMessage(Type int, target_id string, content string, quote bool, quoteID string) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
 
 	//组成消息
@@ -102,8 +96,6 @@ func SendChannelMessage(chat_type string, Type int, target_id string, content st
 	//请求头添加令牌
 	Header := []string{"Authorization:Bot " + Config.SNS.KaiHeiLa.Token}
 	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(JsonBody), Header)
-
-	SNSAPI.Log(SNSName, chat_type, target_id, content)
 
 	return Body, HttpResponse, err
 }

@@ -4,9 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
-	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
 	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
@@ -17,10 +15,6 @@ type returnJson struct {
 	Msg       string `json:"msg"`
 	MessageId string `json:"messageId"`
 }
-
-var (
-	SNSName = "QQ"
-)
 
 /**
  * @description: 发送错误处理
@@ -94,8 +88,6 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) ([]byte,
 		return sendError(url, MessageBody)
 	}
 
-	SNSAPI.Log(SNSName, "Group", strconv.Itoa(target), text)
-
 	return Body, HttpResponse, err
 }
 
@@ -147,8 +139,6 @@ func SendGroupAtMessage(target int, text string, AtID int, quote bool, quoteID i
 		return sendError(url, MessageBody)
 	}
 
-	SNSAPI.Log(SNSName, "Group", strconv.Itoa(target), text)
-
 	return Body, HttpResponse, err
 }
 
@@ -184,8 +174,6 @@ func SendNudge(target int, subject int, kind string) ([]byte, *http.Response, er
 	if config.Code != 0 {
 		return sendError(url, MessageBody)
 	}
-
-	SNSAPI.Log(SNSName, kind, strconv.Itoa(subject), Language.DefaultLanguageMessage().Nudge+strconv.Itoa(target))
 
 	return Body, HttpResponse, err
 }
@@ -232,8 +220,6 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) ([]byte
 	if config.Code != 0 {
 		return sendError(url, MessageBody)
 	}
-
-	SNSAPI.Log(SNSName, "Friend", strconv.Itoa(target), text)
 
 	return Body, HttpResponse, err
 }
@@ -282,8 +268,6 @@ func SendTempMessage(target int, group int, text string, quote bool, quoteID int
 	if config.Code != 0 {
 		return sendError(url, MessageBody)
 	}
-
-	SNSAPI.Log(SNSName, "Temp", strconv.Itoa(target), text)
 
 	return Body, HttpResponse, err
 }

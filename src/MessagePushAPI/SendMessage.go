@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 13:51:15
- * @LastEditTime: 2022-01-24 21:08:29
+ * @LastEditTime: 2022-01-24 21:12:06
  * @LastEditors: NyanCatda
  * @Description: 消息发送封装
  * @FilePath: \ShionBot\src\MessagePushAPI\SendMessage.go
@@ -69,34 +69,34 @@ func SendMessage(SNSName string, ChatType string, UserID string, target string, 
 		switch ChatType {
 		case "GroupAt":
 			text = "@" + AtID + " " + text
-			Body, HttpResponse, err = TelegramAPI.SendMessage("Group", targets, text, true, false, 0, false)
+			Body, HttpResponse, err = TelegramAPI.SendMessage(targets, text, true, false, 0, false)
 		case "Group":
 			quoteIDs, _ := strconv.Atoi(quoteID)
-			Body, HttpResponse, err = TelegramAPI.SendMessage("Group", targets, text, true, false, quoteIDs, quote)
+			Body, HttpResponse, err = TelegramAPI.SendMessage(targets, text, true, false, quoteIDs, quote)
 		default:
 			quoteIDs, _ := strconv.Atoi(quoteID)
-			Body, HttpResponse, err = TelegramAPI.SendMessage("Friend", targets, text, true, false, quoteIDs, quote)
+			Body, HttpResponse, err = TelegramAPI.SendMessage(targets, text, true, false, quoteIDs, quote)
 		}
 	case "Line":
 		switch ChatType {
 		case "GroupAt":
 			text = "@" + AtID + " " + text
-			Body, HttpResponse, err = LineAPI.SendPushMessage(ChatType, target, text, false)
+			Body, HttpResponse, err = LineAPI.SendPushMessage(target, text, false)
 		case "Group":
 			if quote {
-				Body, HttpResponse, err = LineAPI.SendReplyMessage(ChatType, quoteID, text, false)
+				Body, HttpResponse, err = LineAPI.SendReplyMessage(quoteID, text, false)
 			} else {
-				Body, HttpResponse, err = LineAPI.SendPushMessage(ChatType, target, text, false)
+				Body, HttpResponse, err = LineAPI.SendPushMessage(target, text, false)
 			}
 		default:
-			Body, HttpResponse, err = LineAPI.SendPushMessage(ChatType, target, text, false)
+			Body, HttpResponse, err = LineAPI.SendPushMessage(target, text, false)
 		}
 	case "KaiHeiLa":
 		switch ChatType {
 		case "Group":
-			Body, HttpResponse, err = KaiHeiLaAPI.SendChannelMessage("Channel", 1, target, text, quote, quoteID)
+			Body, HttpResponse, err = KaiHeiLaAPI.SendChannelMessage(1, target, text, quote, quoteID)
 		case "Friend":
-			Body, HttpResponse, err = KaiHeiLaAPI.SendDirectMessage(ChatType, 1, target, text, quote, quoteID)
+			Body, HttpResponse, err = KaiHeiLaAPI.SendDirectMessage(1, target, text, quote, quoteID)
 		}
 	}
 

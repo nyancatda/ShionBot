@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 23:42:17
- * @LastEditTime: 2022-01-24 20:20:23
+ * @LastEditTime: 2022-01-24 21:10:12
  * @LastEditors: NyanCatda
  * @Description: Line API
  * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\LineAPI\LineAPI.go
@@ -12,18 +12,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
 	"github.com/nyancatda/ShionBot/src/Utils/HttpRequest"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
-var (
-	SNSName = "Line"
-)
-
 /**
  * @description: 发送消息
- * @param {string} chat_type 聊天类型
  * @param {string} to 消息接收的聊天ID
  * @param {string} messages 消息内容
  * @param {bool} notificationDisabled 是否需要静默发送
@@ -31,7 +25,7 @@ var (
  * @return {*http.Response}
  * @return {error}
  */
-func SendPushMessage(chat_type string, to string, messages string, notificationDisabled bool) ([]byte, *http.Response, error) {
+func SendPushMessage(to string, messages string, notificationDisabled bool) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
 
 	//组成消息链
@@ -54,17 +48,11 @@ func SendPushMessage(chat_type string, to string, messages string, notificationD
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
 	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, requestBody, Header)
 
-	//没有遇到错误则写入日志
-	if err != nil {
-		SNSAPI.Log(SNSName, chat_type, to, messages)
-	}
-
 	return Body, HttpResponse, err
 }
 
 /**
  * @description: 发送回复消息
- * @param {string} chat_type 聊天类型
  * @param {string} replyToken 消息回复令牌
  * @param {string} messages 消息内容
  * @param {bool} notificationDisabled 是否需要静默发送
@@ -72,7 +60,7 @@ func SendPushMessage(chat_type string, to string, messages string, notificationD
  * @return {*http.Response}
  * @return {error}
  */
-func SendReplyMessage(chat_type string, replyToken string, messages string, notificationDisabled bool) ([]byte, *http.Response, error) {
+func SendReplyMessage(replyToken string, messages string, notificationDisabled bool) ([]byte, *http.Response, error) {
 	Config := ReadConfig.GetConfig
 
 	//组成消息链
@@ -94,11 +82,6 @@ func SendReplyMessage(chat_type string, replyToken string, messages string, noti
 	//请求头添加令牌
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
 	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, requestBody, Header)
-
-	//没有遇到错误则写入日志
-	if err != nil {
-		SNSAPI.Log(SNSName, chat_type, replyToken, messages)
-	}
 
 	return Body, HttpResponse, err
 }
