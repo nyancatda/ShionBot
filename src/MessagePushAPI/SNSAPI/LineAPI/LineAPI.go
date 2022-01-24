@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-05 23:42:17
+ * @LastEditTime: 2022-01-24 19:39:42
+ * @LastEditors: NyanCatda
+ * @Description: Line API
+ * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\LineAPI\LineAPI.go
+ */
 package LineAPI
 
 import (
@@ -5,6 +13,7 @@ import (
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
 	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 var sns_name string = "Telegram"
@@ -14,7 +23,7 @@ var sns_name string = "Telegram"
 //messages 消息内容
 //notificationDisabled 是否需要静默发送
 func SendPushMessage(chat_type string, to string, messages string, notificationDisabled bool) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	Json := map[string]interface{}{
 		"to":                   to,
 		"notificationDisabled": notificationDisabled,
@@ -40,7 +49,7 @@ func SendPushMessage(chat_type string, to string, messages string, notificationD
 //messages 消息内容
 //notificationDisabled 是否需要静默发送
 func SendReplyMessage(chat_type string, replyToken string, messages string, notificationDisabled bool) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	Json := map[string]interface{}{
 		"replyToken":           replyToken,
 		"notificationDisabled": notificationDisabled,

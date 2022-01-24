@@ -8,6 +8,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 type returnJson struct {
@@ -48,7 +49,7 @@ func sendError(body []byte, err error, url string, requestBody string) {
 //quote 是否需要回复
 //quoteID 回复的消息ID(不需要时为0即可)
 func SendGroupMessage(target int, text string, quote bool, quoteID int) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
 	var requestBody string
 	//判断是否需要引用回复
@@ -89,7 +90,7 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) {
 //text 消息文本
 //AtID 需要@的人的QQ号
 func SendGroupAtMessage(target int, text string, AtID int) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
 	//判断是否需要引用回复
 	requestBody := fmt.Sprintf(`{
@@ -118,7 +119,7 @@ func SendGroupAtMessage(target int, text string, AtID int) {
 //subject 消息接受主体，为群号或QQ号
 //kind 上下文类型,可选值 Friend,Group,Stranger
 func SendNudge(target int, subject int, kind string) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
 	requestBody := fmt.Sprintf(`{
 		"sessionKey":"%s",
@@ -140,7 +141,7 @@ func SendNudge(target int, subject int, kind string) {
 //quote 是否需要回复
 //quoteID 回复的消息ID(不需要时为0即可)
 func SendFriendMessage(target int, text string, quote bool, quoteID int) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
 	var requestBody string
 	//判断是否需要引用回复
@@ -183,7 +184,7 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) {
 //quote 是否需要回复
 //quoteID 回复的消息ID(不需要时为0即可)
 func SendTempMessage(target int, group int, text string, quote bool, quoteID int) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	sessionKey := GetSessionKey()
 	var requestBody string
 	//判断是否需要引用回复

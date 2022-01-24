@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 23:42:17
- * @LastEditTime: 2022-01-24 18:09:14
+ * @LastEditTime: 2022-01-24 19:38:29
  * @LastEditors: NyanCatda
  * @Description: Line消息处理
  * @FilePath: \ShionBot\src\InformationProcessing\LineMessageProcessing.go
@@ -15,7 +15,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 var sns_name_line string = "Line"
@@ -31,7 +31,7 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 		case "user":
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := Utils.GetWikiLink(sns_name_line, json, Command)
+				WikiLink := ReadConfig.GetWikiLink(sns_name_line, json, Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, Error(sns_name_line, UserID, WikiLink), false, "", "", 0)
 				return
 			}
@@ -41,7 +41,7 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 			QuoteID := json.Events[0].ReplyToken
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := Utils.GetWikiLink(sns_name_line, json, Command)
+				WikiLink := ReadConfig.GetWikiLink(sns_name_line, json, Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Group", UserID, GroupId, Error(sns_name_line, UserID, WikiLink), true, QuoteID, "", 0)
 				return
 			}

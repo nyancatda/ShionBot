@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-05 13:51:15
+ * @LastEditTime: 2022-01-24 19:40:52
+ * @LastEditors: NyanCatda
+ * @Description: Session处理API
+ * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\QQAPI\SessionKey.go
+ */
 package QQAPI
 
 import (
@@ -7,6 +15,7 @@ import (
 	"net/http"
 
 	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 type verifyJson struct {
@@ -18,7 +27,7 @@ func CreateSessionKey() (string, *http.Response, error) {
 	//释放旧的SessionKey
 	bytes, _ := ioutil.ReadFile("data/SessionKey")
 	OldSessionKey := string(bytes)
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	requestBody := fmt.Sprintf(`{
 		"verifyKey": "%s",
 		"qq": %d
@@ -27,7 +36,7 @@ func CreateSessionKey() (string, *http.Response, error) {
 	Utils.PostRequestJosn(url, requestBody)
 
 	var SessionKey string
-	Config = Utils.GetConfig
+	Config = ReadConfig.GetConfig
 	requestBody = fmt.Sprintf(`{
 		"verifyKey": "%s"
 	}`, Config.SNS.QQ.VerifyKey)

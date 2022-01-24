@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-15 17:23:29
- * @LastEditTime: 2022-01-24 18:08:20
+ * @LastEditTime: 2022-01-24 19:38:21
  * @LastEditors: NyanCatda
  * @Description: KaiHeiLa 消息处理
  * @FilePath: \ShionBot\src\InformationProcessing\KaiHeiLaMessageProcessing.go
@@ -17,7 +17,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 var sns_name_kaiheila string = "KaiHeiLa"
@@ -42,7 +42,7 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 			ChatID := json.D.Author_id
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := Utils.GetWikiLink(sns_name_kaiheila, json, Command)
+				WikiLink := ReadConfig.GetWikiLink(sns_name_kaiheila, json, Command)
 				MessagePushAPI.SendMessage(sns_name_kaiheila, "Friend", UserID, ChatID, Error(sns_name_kaiheila, UserID, WikiLink), false, "", "", 0)
 				return
 			}
@@ -52,7 +52,7 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 			ChatID := json.D.Target_id
 			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
 			if err != nil {
-				WikiLink := Utils.GetWikiLink(sns_name_kaiheila, json, Command)
+				WikiLink := ReadConfig.GetWikiLink(sns_name_kaiheila, json, Command)
 				MessagePushAPI.SendMessage(sns_name_kaiheila, "Group", UserID, ChatID, Error(sns_name_kaiheila, UserID, WikiLink), false, "", "", 0)
 				return
 			}

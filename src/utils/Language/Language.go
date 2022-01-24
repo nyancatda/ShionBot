@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-02 20:10:28
+ * @LastEditTime: 2022-01-24 19:35:53
+ * @LastEditors: NyanCatda
+ * @Description: 语言文件处理
+ * @FilePath: \ShionBot\src\Utils\Language\Language.go
+ */
 package Language
 
 import (
@@ -6,6 +14,7 @@ import (
 
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 	"gopkg.in/yaml.v2"
 )
 
@@ -54,7 +63,7 @@ func LanguageExist(Language string) bool {
 func Message(SNSName string, Account string) *LanguageInfo {
 	var language string
 	if Account == "" {
-		Config := Utils.GetConfig
+		Config := ReadConfig.GetConfig
 		language = Config.Run.Language
 	} else {
 		db := Utils.SQLLiteLink()
@@ -63,7 +72,7 @@ func Message(SNSName string, Account string) *LanguageInfo {
 		if user.Language != "" {
 			language = user.Language
 		} else {
-			Config := Utils.GetConfig
+			Config := ReadConfig.GetConfig
 			language = Config.Run.Language
 		}
 	}
@@ -76,7 +85,7 @@ func DesignateLanguageMessage(Language string) *LanguageInfo {
 }
 
 func DefaultLanguageMessage() *LanguageInfo {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	language := Config.Run.Language
 	Info := ReadLanguage(language)
 	return Info

@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-15 17:23:29
+ * @LastEditTime: 2022-01-24 19:39:33
+ * @LastEditors: NyanCatda
+ * @Description: KaiHeiLa API
+ * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\KaiHeiLaAPI\KaiHeiLaAPI.go
+ */
 package KaiHeiLaAPI
 
 import (
@@ -6,6 +14,7 @@ import (
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI"
 	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 var sns_name string = "KaiHeiLa"
@@ -19,7 +28,7 @@ var APILink string = "https://www.kaiheila.cn/"
 //quote 是否需要回复
 //quoteID 回复ID
 func SendDirectMessage(chat_type string, Type int, target_id string, content string, quote bool, quoteID string) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	var Json map[string]interface{}
 	if quote {
 		Json = map[string]interface{}{
@@ -53,7 +62,7 @@ func SendDirectMessage(chat_type string, Type int, target_id string, content str
 //quote 是否需要回复
 //quoteID 回复ID
 func SendChannelMessage(chat_type string, Type int, target_id string, content string, quote bool, quoteID string) {
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 	var Json map[string]interface{}
 	if quote {
 		Json = map[string]interface{}{

@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-04 22:09:03
- * @LastEditTime: 2022-01-24 18:10:08
+ * @LastEditTime: 2022-01-24 19:38:32
  * @LastEditors: NyanCatda
  * @Description: Telegram消息处理
  * @FilePath: \ShionBot\src\InformationProcessing\TelegramMessageProcessing.go
@@ -16,7 +16,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 var sns_name_telegram string = "Telegram"
@@ -31,7 +31,7 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 		ChatID := strconv.Itoa(json.Message.Chat.Id)
 		WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_telegram, json, UserID, Command, QueryText, "")
 		if err != nil {
-			WikiLink := Utils.GetWikiLink(sns_name_telegram, json, Command)
+			WikiLink := ReadConfig.GetWikiLink(sns_name_telegram, json, Command)
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, Error(sns_name_telegram, UserID, WikiLink), false, "", "", 0)
 			return
 		}

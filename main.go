@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-10-03 00:51:57
+ * @LastEditTime: 2022-01-24 19:36:24
+ * @LastEditors: NyanCatda
+ * @Description: 主文件
+ * @FilePath: \ShionBot\main.go
+ */
 package main
 
 import (
@@ -13,6 +21,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 	"github.com/nyancatda/ShionBot/src/Utils/ReleaseFile"
 )
 
@@ -38,14 +47,14 @@ func main() {
 	}
 
 	//设置配置文件路径
-	Utils.ConfigPath = *ConfigPath
+	ReadConfig.ConfigPath = *ConfigPath
 	//加载配置文件
-	if err := Utils.LoadConfig(); err != nil {
+	if err := ReadConfig.LoadConfig(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	Config := Utils.GetConfig
+	Config := ReadConfig.GetConfig
 
 	//判断是否需要初始化QQ部分
 	if Config.SNS.QQ.Switch {

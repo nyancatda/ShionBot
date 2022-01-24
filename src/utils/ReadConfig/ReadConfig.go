@@ -1,12 +1,12 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 04:14:10
- * @LastEditTime: 2022-01-24 16:53:59
+ * @LastEditTime: 2022-01-24 19:34:41
  * @LastEditors: NyanCatda
  * @Description: 读取配置文件
- * @FilePath: \ShionBot\src\Utils\ReadConfig.go
+ * @FilePath: \ShionBot\src\Utils\ReadConfig\ReadConfig.go
  */
-package Utils
+package ReadConfig
 
 import (
 	"encoding/json"
@@ -17,39 +17,9 @@ import (
 
 	"github.com/nyancatda/ShionBot/src/Modular"
 	"github.com/nyancatda/ShionBot/src/Struct"
+	"github.com/nyancatda/ShionBot/src/Utils"
 	"gopkg.in/yaml.v2"
 )
-
-type Config struct {
-	Run struct {
-		WebHookPort string `yaml:"WebHookPort"`
-		WebHookKey  string `yaml:"WebHookKey"`
-		Language    string `yaml:"Language"`
-	} `yaml:"Run"`
-	SNS struct {
-		QQ struct {
-			Switch      bool   `yaml:"Switch"`
-			APILink     string `yaml:"APILink"`
-			BotQQNumber int    `yaml:"BotQQNumber"`
-			VerifyKey   string `yaml:"VerifyKey"`
-		} `yaml:"QQ"`
-		Telegram struct {
-			Switch     bool   `yaml:"Switch"`
-			Token      string `yaml:"Token"`
-			BotAPILink string `yaml:"BotAPILink"`
-		} `yaml:"Telegram"`
-		Line struct {
-			Switch             bool   `yaml:"Switch"`
-			ChannelAccessToken string `yaml:"ChannelAccessToken"`
-			BotAPILink         string `yaml:"BotAPILink"`
-		} `yaml:"Line"`
-		KaiHeiLa struct {
-			Switch bool   `yaml:"Switch"`
-			Token  string `yaml:"Token"`
-		} `yaml:"KaiHeiLa"`
-	} `yaml:"SNS"`
-	Wiki interface{} `yaml:"Wiki"`
-}
 
 var (
 	GetConfig  *Config
@@ -109,7 +79,7 @@ func (value *Config) CheckConfig() error {
  */
 func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string) string {
 	//获取用户配置
-	db := SQLLiteLink()
+	db := Utils.SQLLiteLink()
 	var user Struct.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)

@@ -16,8 +16,8 @@ import (
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 var sns_name_qq string = "QQ"
@@ -26,7 +26,7 @@ var sns_name_qq string = "QQ"
 func QQsendGroupWikiInfo(json Struct.WebHookJson, UserID string, WikiName string, GroupID string, QueryText string, quoteID string) {
 	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := Utils.GetWikiLink(sns_name_qq, json, WikiName)
+		WikiLink := ReadConfig.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Group", UserID, GroupID, Error(sns_name_qq, UserID, WikiLink), true, quoteID, "", 0)
 		return
 	}
@@ -37,7 +37,7 @@ func QQsendGroupWikiInfo(json Struct.WebHookJson, UserID string, WikiName string
 func QQsendFriendWikiInfo(json Struct.WebHookJson, WikiName string, UserID string, QueryText string) {
 	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := Utils.GetWikiLink(sns_name_qq, json, WikiName)
+		WikiLink := ReadConfig.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", 0)
 		return
 	}
@@ -48,7 +48,7 @@ func QQsendFriendWikiInfo(json Struct.WebHookJson, WikiName string, UserID strin
 func QQsendTempdWikiInfo(json Struct.WebHookJson, WikiName string, UserID string, GroupID int, QueryText string) {
 	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := Utils.GetWikiLink(sns_name_qq, json, WikiName)
+		WikiLink := ReadConfig.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", GroupID)
 		return
 	}
@@ -61,7 +61,7 @@ func QQNudgeEventMessageProcessing(json Struct.WebHookJson) {
 	HelpText := Language.Message(sns_name_qq, strconv.Itoa(UserID)).HelpText
 	switch json.Subject.Kind {
 	case "Group":
-		if json.FromId != Utils.GetConfig.SNS.QQ.BotQQNumber && json.Target == Utils.GetConfig.SNS.QQ.BotQQNumber {
+		if json.FromId != ReadConfig.GetConfig.SNS.QQ.BotQQNumber && json.Target == ReadConfig.GetConfig.SNS.QQ.BotQQNumber {
 			MessagePushAPI.SendNudge(json.FromId, json.Subject.Id, "Group")
 			MessagePushAPI.SendMessage(sns_name_qq, "GroupAt", strconv.Itoa(UserID), strconv.Itoa(json.Subject.Id), HelpText, false, "", strconv.Itoa(json.FromId), 0)
 		}

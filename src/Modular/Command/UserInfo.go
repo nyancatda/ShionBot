@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-19 12:06:48
+ * @LastEditTime: 2022-01-24 19:36:56
+ * @LastEditors: NyanCatda
+ * @Description: 用户信息命令处理
+ * @FilePath: \ShionBot\src\Modular\Command\UserInfo.go
+ */
 package Command
 
 import (
@@ -7,6 +15,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 )
 
 func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) {
@@ -43,7 +52,7 @@ func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) 
 		if user.Language != "" {
 			UserLanguage = user.Language
 		} else {
-			Config := Utils.GetConfig
+			Config := ReadConfig.GetConfig
 			UserLanguage = Config.Run.Language
 		}
 
