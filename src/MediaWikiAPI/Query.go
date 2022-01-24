@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 20:50:06
- * @LastEditTime: 2022-01-24 17:51:52
+ * @LastEditTime: 2022-01-24 18:52:44
  * @LastEditors: NyanCatda
  * @Description: MediaWiki查询类API封装
  * @FilePath: \ShionBot\src\MediaWikiAPI\Query.go
@@ -56,10 +56,14 @@ func QueryInfoUrl(WikiLink string, title string) (QueryInfoUrlJson, error) {
 type QueryRedirectsJson struct {
 	Batchcomplete string `json:"batchcomplete"`
 	Query         struct {
+		Normalized []struct {
+			From string `json:"from"`
+			To   string `json:"to"`
+		} `json:"normalized"`
 		Pages map[string]struct {
-			PageID int    `json:"pageid"` //页面ID
-			Ns     int    `json:"ns"`
-			Title  string `json:"title"` //页面标题
+			Ns      int    `json:"ns"`
+			Title   string `json:"title"` //页面标题
+			Missing string `json:"missing"`
 		} `json:"pages"`
 	} `json:"query"`
 }
@@ -121,7 +125,7 @@ type QueryRevisionsJson struct {
 				Parentid  int       `json:"parentid"`  //父ID
 				User      string    `json:"user"`      //修订者
 				TimeStamp time.Time `json:"timestamp"` //修订时间
-				Comment    string    `json:"comment"`   //修订说明
+				Comment   string    `json:"comment"`   //修订说明
 			} `json:"revisions"`
 		} `json:"pages"`
 	} `json:"query"`
