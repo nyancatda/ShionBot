@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 20:50:06
- * @LastEditTime: 2022-01-24 17:43:13
+ * @LastEditTime: 2022-01-24 17:51:52
  * @LastEditors: NyanCatda
  * @Description: MediaWiki查询类API封装
  * @FilePath: \ShionBot\src\MediaWikiAPI\Query.go
@@ -116,12 +116,12 @@ type QueryRevisionsJson struct {
 			PageID    int        `json:"pageid"` //页面ID
 			Ns        int        `json:"ns"`
 			Title     string     `json:"title"` //页面标题
-			revisions []struct { //修订者信息
+			Revisions []struct { //修订者信息
 				Revid     int       `json:"revid"`     //修订ID
 				Parentid  int       `json:"parentid"`  //父ID
 				User      string    `json:"user"`      //修订者
 				TimeStamp time.Time `json:"timestamp"` //修订时间
-				comment   string    `json:"comment"`   //修订说明
+				Comment    string    `json:"comment"`   //修订说明
 			} `json:"revisions"`
 		} `json:"pages"`
 	} `json:"query"`
