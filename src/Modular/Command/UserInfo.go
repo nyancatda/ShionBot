@@ -1,6 +1,14 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-19 12:06:48
+ * @LastEditTime: 2022-01-24 19:52:38
+ * @LastEditors: NyanCatda
+ * @Description:
+ * @FilePath: \ShionBot\src\Modular\Command\UserInfo.go
+ */
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-19 12:06:48
  * @LastEditTime: 2022-01-24 19:36:56
  * @LastEditors: NyanCatda
  * @Description: 用户信息命令处理
@@ -16,6 +24,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
+	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
 )
 
 func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) {
@@ -23,7 +32,7 @@ func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) 
 	var Message string
 
 	if CommandText == "userinfo" {
-		db := Utils.SQLLiteLink()
+		db := SQLDB.DB
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {

@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-02 20:10:28
- * @LastEditTime: 2022-01-24 19:35:53
+ * @LastEditTime: 2022-01-24 19:52:03
  * @LastEditors: NyanCatda
  * @Description: 语言文件处理
  * @FilePath: \ShionBot\src\Utils\Language\Language.go
@@ -15,6 +15,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
+	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
 	"gopkg.in/yaml.v2"
 )
 
@@ -66,7 +67,7 @@ func Message(SNSName string, Account string) *LanguageInfo {
 		Config := ReadConfig.GetConfig
 		language = Config.Run.Language
 	} else {
-		db := Utils.SQLLiteLink()
+		db := SQLDB.DB
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", Account, SNSName).Find(&user)
 		if user.Language != "" {

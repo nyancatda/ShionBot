@@ -1,4 +1,4 @@
-package Utils
+package SQLDB
 
 import (
 	"log"
@@ -8,11 +8,22 @@ import (
 	"gorm.io/gorm"
 )
 
-func SQLLiteLink() *gorm.DB {
+var (
+	DB *gorm.DB
+)
+
+/**
+ * @description: 创建全局数据库链接
+ * @param {*}
+ * @return {*gorm.DB}
+ * @return {error}
+ */
+func SQLDBLink() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open("data/database.db"), &gorm.Config{})
 	if err != nil {
 		log.Println(err)
 	}
 	db.AutoMigrate(&Struct.UserInfo{})
-	return db
+	DB = db
+	return db, err
 }

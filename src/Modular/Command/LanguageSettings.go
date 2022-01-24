@@ -6,6 +6,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	Languages "github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
 )
 
 func LanguageSettings(SNSName string, UserID string, CommandText string) (string, bool) {
@@ -15,7 +16,7 @@ func LanguageSettings(SNSName string, UserID string, CommandText string) (string
 	if find := strings.Contains(CommandText, " "); find {
 		countSplit := strings.SplitN(CommandText, " ", 2)
 		Language := countSplit[1]
-		db := Utils.SQLLiteLink()
+		db := SQLDB.DB
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {

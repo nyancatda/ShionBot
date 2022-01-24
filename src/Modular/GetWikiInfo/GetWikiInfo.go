@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 02:14:31
- * @LastEditTime: 2022-01-24 19:22:51
+ * @LastEditTime: 2022-01-24 19:52:58
  * @LastEditors: NyanCatda
  * @Description: 获取Wiki页面信息
  * @FilePath: \ShionBot\src\Modular\GetWikiInfo\GetWikiInfo.go
@@ -20,6 +20,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
+	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
 )
 
 /**
@@ -45,7 +46,7 @@ func Error(SNSName string, UserID string, WikiLink string, title string, Languag
  */
 func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJson) bool {
 	//判断用户设置
-	db := Utils.SQLLiteLink()
+	db := SQLDB.DB
 	var user Struct.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
@@ -80,7 +81,7 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
  */
 func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 	//获取用户设置
-	db := Utils.SQLLiteLink()
+	db := SQLDB.DB
 	var user Struct.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)

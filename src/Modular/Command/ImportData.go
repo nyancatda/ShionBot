@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-22 20:54:44
+ * @LastEditTime: 2022-01-24 19:52:27
+ * @LastEditors: NyanCatda
+ * @Description:
+ * @FilePath: \ShionBot\src\Modular\Command\ImportData.go
+ */
 package Command
 
 import (
@@ -6,6 +14,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
 )
 
 func ImportData(SNSName string, UserID string, CommandText string) (string, bool) {
@@ -22,7 +31,7 @@ func ImportData(SNSName string, UserID string, CommandText string) (string, bool
 		ImportSNS := CommandParameter[1]
 		ImportUserID := CommandParameter[2]
 
-		db := Utils.SQLLiteLink()
+		db := SQLDB.DB
 
 		var ImportSource Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", ImportUserID, ImportSNS).Find(&ImportSource)

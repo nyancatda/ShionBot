@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-17 15:37:34
- * @LastEditTime: 2022-01-24 18:37:27
+ * @LastEditTime: 2022-01-24 19:52:17
  * @LastEditors: NyanCatda
  * @Description: Wiki命令操作
  * @FilePath: \ShionBot\src\Modular\Command\CustomWiki.go
@@ -16,6 +16,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
+	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
 )
 
 func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
@@ -44,7 +45,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 			return Message, MessageOK
 		}
 
-		db := Utils.SQLLiteLink()
+		db := SQLDB.DB
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
@@ -129,7 +130,7 @@ func WikiUpdate(SNSName string, UserID string, CommandText string) (string, bool
 			return Message, MessageOK
 		}
 
-		db := Utils.SQLLiteLink()
+		db := SQLDB.DB
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
@@ -191,7 +192,7 @@ func WikiDelete(SNSName string, UserID string, CommandText string) (string, bool
 		}
 		NewWikiName := CommandParameter[1]
 
-		db := Utils.SQLLiteLink()
+		db := SQLDB.DB
 		var user Struct.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {

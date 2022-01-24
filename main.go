@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 00:51:57
- * @LastEditTime: 2022-01-24 19:36:24
+ * @LastEditTime: 2022-01-24 19:56:23
  * @LastEditors: NyanCatda
  * @Description: 主文件
  * @FilePath: \ShionBot\main.go
@@ -23,6 +23,7 @@ import (
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 	"github.com/nyancatda/ShionBot/src/Utils/ReleaseFile"
+	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
 )
 
 func Error() {
@@ -55,6 +56,13 @@ func main() {
 	}
 
 	Config := ReadConfig.GetConfig
+
+	//建立数据库连接
+	_, err = SQLDB.SQLDBLink()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	//判断是否需要初始化QQ部分
 	if Config.SNS.QQ.Switch {

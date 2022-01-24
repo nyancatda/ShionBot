@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 04:14:10
- * @LastEditTime: 2022-01-24 19:34:41
+ * @LastEditTime: 2022-01-24 19:54:41
  * @LastEditors: NyanCatda
  * @Description: 读取配置文件
  * @FilePath: \ShionBot\src\Utils\ReadConfig\ReadConfig.go
@@ -17,7 +17,7 @@ import (
 
 	"github.com/nyancatda/ShionBot/src/Modular"
 	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/Utils"
+	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
 	"gopkg.in/yaml.v2"
 )
 
@@ -79,7 +79,7 @@ func (value *Config) CheckConfig() error {
  */
 func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string) string {
 	//获取用户配置
-	db := Utils.SQLLiteLink()
+	db := SQLDB.DB
 	var user Struct.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
