@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 20:50:06
- * @LastEditTime: 2022-01-24 18:52:44
+ * @LastEditTime: 2022-01-24 19:27:01
  * @LastEditors: NyanCatda
  * @Description: MediaWiki查询类API封装
  * @FilePath: \ShionBot\src\MediaWikiAPI\Query.go
@@ -10,6 +10,7 @@ package MediaWikiAPI
 
 import (
 	"encoding/json"
+	"net/url"
 	"strconv"
 	"time"
 
@@ -45,6 +46,7 @@ type QueryInfoUrlJson struct {
  * @return {error}
  */
 func QueryInfoUrl(WikiLink string, title string) (QueryInfoUrlJson, error) {
+	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=query&prop=info&inprop=url&format=json&titles=" + title
 	body, err := utils.HttpRequest(url)
 
@@ -76,6 +78,7 @@ type QueryRedirectsJson struct {
  * @return {error}
  */
 func QueryRedirects(WikiLink string, title string) (QueryRedirectsJson, error) {
+	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=query&prop=redirects&format=json&titles=" + title
 	body, err := utils.HttpRequest(url)
 
@@ -105,6 +108,7 @@ type QueryExtractsJson struct {
  * @return {error}
  */
 func QueryExtracts(WikiLink string, exchars int, title string) (QueryExtractsJson, error) {
+	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=query&prop=extracts&exchars=" + strconv.Itoa(exchars) + "&explaintext=true&format=json&titles=" + title
 	body, err := utils.HttpRequest(url)
 
@@ -139,6 +143,7 @@ type QueryRevisionsJson struct {
  * @return {error}
  */
 func QueryRevisions(WikiLink string, title string) (QueryRevisionsJson, error) {
+	title = url.QueryEscape(title)
 	url := WikiLink + "/api.php?action=query&prop=revisions&format=json&titles=" + title
 	body, err := utils.HttpRequest(url)
 
