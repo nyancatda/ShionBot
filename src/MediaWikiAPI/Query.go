@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 20:50:06
- * @LastEditTime: 2022-01-24 16:46:25
+ * @LastEditTime: 2022-01-24 16:48:11
  * @LastEditors: NyanCatda
  * @Description: MediaWikiAPI封装
  * @FilePath: \ShionBot\src\MediaWikiAPI\Query.go
@@ -12,46 +12,9 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/nyancatda/ShionBot/src/Modular"
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/utils"
 )
-
-/**
- * @description: 读取Wiki名字对应的Wiki链接
- * @param {string} SNSName 聊天软件名字
- * @param {Struct.WebHookJson} Messagejson 消息Json
- * @param {string} WikiName Wiki名字
- * @return {*}
- */
-func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string) string {
-	//获取用户配置
-	db := utils.SQLLiteLink()
-	var user Struct.UserInfo
-	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
-	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
-	if user.Account == UserID {
-		WikiInfo := user.WikiInfo
-		WikiInfoData := []interface{}{}
-		json.Unmarshal([]byte(WikiInfo), &WikiInfoData)
-		for _, value := range WikiInfoData {
-			WikiInfoName := value.(map[string]interface{})["WikiName"].(string)
-			if WikiName == WikiInfoName {
-				return "https://" + value.(map[string]interface{})["WikiLink"].(string)
-			}
-		}
-	}
-
-	Config := utils.GetConfig
-	var ConfigWikiName string
-	for one := range Config.Wiki.([]interface{}) {
-		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
-		if ConfigWikiName == WikiName {
-			return Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiLink"].(string)
-		}
-	}
-	return ""
-}
 
 type QueryInfoUrlJson struct {
 	Batchcomplete string `json:"batchcomplete"`
