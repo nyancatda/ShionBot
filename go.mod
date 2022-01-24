@@ -7,7 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.7.7
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/sqlite v1.2.6
-	gorm.io/gorm v1.22.4
+	gorm.io/gorm v1.22.5
 )
 
 require (
@@ -19,7 +19,7 @@ require (
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.3.3 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.3 // indirect
+	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
