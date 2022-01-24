@@ -1,9 +1,16 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-10-03 02:14:31
+ * @LastEditTime: 2022-01-24 19:10:41
+ * @LastEditors: NyanCatda
+ * @Description: 获取Wiki页面信息
+ * @FilePath: \ShionBot\src\Modular\GetWikiInfo\GetWikiInfo.go
+ */
 package GetWikiInfo
 
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/antchfx/htmlquery"
@@ -14,12 +21,27 @@ import (
 	"github.com/nyancatda/ShionBot/src/utils/Language"
 )
 
+/**
+ * @description: 错误处理
+ * @param {string} SNSName
+ * @param {string} UserID
+ * @param {string} WikiLink
+ * @param {string} title
+ * @param {*Language.LanguageInfo} LanguageMessage
+ * @return {*}
+ */
 func Error(SNSName string, UserID string, WikiLink string, title string, LanguageMessage *Language.LanguageInfo) string {
 	text := utils.StringVariable(LanguageMessage.GetWikiInfoError, []string{WikiLink, title})
 	return text
 }
 
-//判断Wiki名字是否存在
+/**
+ * @description: 判断Wiki名字是否存在
+ * @param {string} WikiName
+ * @param {string} SNSName
+ * @param {Struct.WebHookJson} Messagejson
+ * @return {*}
+ */
 func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJson) bool {
 	//判断用户设置
 	db := utils.SQLLiteLink()
@@ -49,7 +71,12 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
 	return false
 }
 
-//获取主Wiki名字
+/**
+ * @description: 获取主Wiki名字
+ * @param {string} SNSName
+ * @param {Struct.WebHookJson} Messagejson
+ * @return {*}
+ */
 func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 	//获取用户设置
 	db := utils.SQLLiteLink()
@@ -71,7 +98,14 @@ func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 	return MainWikiName
 }
 
-//搜索wiki
+/**
+ * @description: 搜索wiki
+ * @param {string} SNSName
+ * @param {Struct.WebHookJson} Messagejson
+ * @param {string} WikiName
+ * @param {string} title
+ * @return {*}
+ */
 func SearchWiki(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) string {
 	SearchInfo, _ := MediaWikiAPI.Opensearch(WikiName, 10, title)
 	if len(SearchInfo) != 0 {
@@ -91,7 +125,16 @@ func SearchWiki(SNSName string, Messagejson Struct.WebHookJson, WikiName string,
 	}
 }
 
-//为空处理
+/**
+ * @description: 为空处理
+ * @param {string} SNSName
+ * @param {Struct.WebHookJson} Messagejson
+ * @param {string} UserID
+ * @param {string} WikiName
+ * @param {string} title
+ * @param {*Language.LanguageInfo} LanguageMessage
+ * @return {*}
+ */
 func NilProcessing(SNSName string, Messagejson Struct.WebHookJson, UserID string, WikiName string, title string, LanguageMessage *Language.LanguageInfo) string {
 	SearchInfo := SearchWiki(SNSName, Messagejson, WikiName, title)
 	if SearchInfo != "" {
@@ -103,7 +146,14 @@ func NilProcessing(SNSName string, Messagejson Struct.WebHookJson, UserID string
 	}
 }
 
-//获取Wiki页面标题，过滤后缀
+/**
+ * @description: 获取Wiki页面标题，过滤后缀
+ * @param {string} SNSName
+ * @param {Struct.WebHookJson} Messagejson
+ * @param {string} WikiName
+ * @param {string} PageName
+ * @return {*}
+ */
 func GetUrlTitle(SNSName string, Messagejson Struct.WebHookJson, WikiName string, PageName string) string {
 	WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
 	doc, err := htmlquery.LoadURL(WikiLink + "/" + PageName)
@@ -119,7 +169,14 @@ func GetUrlTitle(SNSName string, Messagejson Struct.WebHookJson, WikiName string
 	return ""
 }
 
-//查询页面是否存在重定向
+/**
+ * @description: 查询页面是否存在重定向
+ * @param {string} SNSName
+ * @param {Struct.WebHookJson} Messagejson
+ * @param {string} WikiName
+ * @param {string} title
+ * @return {*}
+ */
 func QueryRedirects(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) (whether bool, to string, from string, err error) {
 	WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
 	info, err := MediaWikiAPI.QueryRedirects(WikiLink, title)
@@ -142,7 +199,16 @@ func QueryRedirects(SNSName string, Messagejson Struct.WebHookJson, WikiName str
 	return false, "", "", err
 }
 
-//获取Wiki页面信息
+/**
+ * @description: 获取Wiki页面信息
+ * @param {string} SNSName
+ * @param {Struct.WebHookJson} Messagejson
+ * @param {string} UserID
+ * @param {string} WikiName
+ * @param {string} title
+ * @param {string} language
+ * @return {*}
+ */
 func GetWikiInfo(SNSName string, Messagejson Struct.WebHookJson, UserID string, WikiName string, title string, language string) (string, error) {
 	var LanguageMessage *Language.LanguageInfo
 	if language != "" {
@@ -171,22 +237,20 @@ func GetWikiInfo(SNSName string, Messagejson Struct.WebHookJson, UserID string, 
 
 	if PageId != "-1" {
 		PagesExtract := info.Query.Pages[PageId].Extract
+
+		WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
+		WikiPageInfo, err := MediaWikiAPI.QueryInfoUrl(WikiLink, title)
+		var WikiPageLink string
+		for _, Value := range WikiPageInfo.Query.Pages {
+			WikiPageLink = Value.FullURL
+		}
+
 		var returnText string
 		if RedirectsState {
-			WikiPageInfo, err := QueryWikiInfo(SNSName, Messagejson, WikiName, ToTitle)
-			if err != nil {
-				log.Println(err)
-			}
-			WikiPageLink := WikiPageInfo.(map[string]interface{})["fullurl"].(string)
 			info := utils.StringVariable(LanguageMessage.WikiInfoRedirect, []string{FromTitle, ToTitle})
-			returnText = WikiPageLink + info + PagesExtract.(string)
+			returnText = WikiPageLink + info + PagesExtract
 		} else {
-			WikiPageInfo, err := QueryWikiInfo(SNSName, Messagejson, WikiName, title)
-			if err != nil {
-				log.Println(err)
-			}
-			WikiPageLink := WikiPageInfo.(map[string]interface{})["fullurl"].(string)
-			returnText = WikiPageLink + "\n[" + title + "]\n" + PagesExtract.(string)
+			returnText = WikiPageLink + "\n[" + title + "]\n" + PagesExtract
 		}
 		return returnText, err
 	} else {
