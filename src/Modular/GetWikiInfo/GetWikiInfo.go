@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 02:14:31
- * @LastEditTime: 2022-01-24 19:10:41
+ * @LastEditTime: 2022-01-24 19:22:51
  * @LastEditors: NyanCatda
  * @Description: 获取Wiki页面信息
  * @FilePath: \ShionBot\src\Modular\GetWikiInfo\GetWikiInfo.go
@@ -107,7 +107,8 @@ func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
  * @return {*}
  */
 func SearchWiki(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) string {
-	SearchInfo, _ := MediaWikiAPI.Opensearch(WikiName, 10, title)
+	WikiLink := utils.GetWikiLink(SNSName, Messagejson, WikiName)
+	SearchInfo, _ := MediaWikiAPI.Opensearch(WikiLink, 10, title)
 	if len(SearchInfo) != 0 {
 		SearchList := SearchInfo[1].([]interface{})
 		if len(SearchList) != 0 {
