@@ -47,7 +47,7 @@ func Error(SNSName string, UserID string, WikiLink string, title string, Languag
 func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJson) bool {
 	//判断用户设置
 	db := SQLDB.DB
-	var user Struct.UserInfo
+	var user SQLDB.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 	if user.Account == UserID {
@@ -82,7 +82,7 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
 func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 	//获取用户设置
 	db := SQLDB.DB
-	var user Struct.UserInfo
+	var user SQLDB.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 	if user.Account == UserID {

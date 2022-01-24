@@ -13,7 +13,6 @@ import (
 	"strings"
 
 	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
-	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
@@ -46,7 +45,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 		}
 
 		db := SQLDB.DB
-		var user Struct.UserInfo
+		var user SQLDB.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
 			WikiInfoData := make([]map[string]string, 1)
@@ -55,7 +54,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 				"WikiLink": NewWikiLink,
 			}
 			WikiInfo, _ := json.Marshal(WikiInfoData)
-			UserInfos := Struct.UserInfo{SNSName: SNSName, Account: UserID, WikiInfo: string(WikiInfo)}
+			UserInfos := SQLDB.UserInfo{SNSName: SNSName, Account: UserID, WikiInfo: string(WikiInfo)}
 			db.Create(&UserInfos)
 			MessageOK = true
 			Message = Utils.StringVariable(Language.Message(SNSName, UserID).WikiAddSucceeded, []string{NewWikiName, NewWikiLink})
@@ -67,7 +66,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 					"WikiLink": NewWikiLink,
 				}
 				WikiInfo, _ := json.Marshal(WikiInfoData)
-				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
+				db.Model(&SQLDB.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
 				MessageOK = true
 				Message = Utils.StringVariable(Language.Message(SNSName, UserID).WikiAddSucceeded, []string{NewWikiName, NewWikiLink})
 			} else {
@@ -89,7 +88,7 @@ func WikiAdd(SNSName string, UserID string, CommandText string) (string, bool) {
 				}
 				WikiInfoData = append(WikiInfoData, NewWikiInfoData)
 				WikiInfo, _ := json.Marshal(WikiInfoData)
-				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
+				db.Model(&SQLDB.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
 				MessageOK = true
 				Message = Utils.StringVariable(Language.Message(SNSName, UserID).WikiAddSucceeded, []string{NewWikiName, NewWikiLink})
 			}
@@ -131,7 +130,7 @@ func WikiUpdate(SNSName string, UserID string, CommandText string) (string, bool
 		}
 
 		db := SQLDB.DB
-		var user Struct.UserInfo
+		var user SQLDB.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
 			MessageOK = true
@@ -164,7 +163,7 @@ func WikiUpdate(SNSName string, UserID string, CommandText string) (string, bool
 					return Message, MessageOK
 				}
 				WikiInfo, _ := json.Marshal(WikiInfoData)
-				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
+				db.Model(&SQLDB.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
 				MessageOK = true
 				Message = Utils.StringVariable(Language.Message(SNSName, UserID).WikiUpdateSucceeded, []string{NewWikiName, NewWikiLink})
 			}
@@ -193,7 +192,7 @@ func WikiDelete(SNSName string, UserID string, CommandText string) (string, bool
 		NewWikiName := CommandParameter[1]
 
 		db := SQLDB.DB
-		var user Struct.UserInfo
+		var user SQLDB.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
 			MessageOK = true
@@ -223,7 +222,7 @@ func WikiDelete(SNSName string, UserID string, CommandText string) (string, bool
 					return Message, MessageOK
 				}
 				WikiInfo, _ := json.Marshal(WikiInfoData)
-				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
+				db.Model(&SQLDB.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("wiki_info", string(WikiInfo))
 				MessageOK = true
 				Message = Utils.StringVariable(Language.Message(SNSName, UserID).WikiDeleteSucceeded, []string{NewWikiName})
 			}

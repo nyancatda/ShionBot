@@ -20,7 +20,6 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
@@ -33,10 +32,10 @@ func UserInfo(SNSName string, UserID string, CommandText string) (string, bool) 
 
 	if CommandText == "userinfo" {
 		db := SQLDB.DB
-		var user Struct.UserInfo
+		var user SQLDB.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
-			UserInfos := Struct.UserInfo{SNSName: SNSName, Account: UserID}
+			UserInfos := SQLDB.UserInfo{SNSName: SNSName, Account: UserID}
 			db.Create(&UserInfos)
 			db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		}

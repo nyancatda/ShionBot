@@ -12,7 +12,6 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
 	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
@@ -68,7 +67,7 @@ func Message(SNSName string, Account string) *LanguageInfo {
 		language = Config.Run.Language
 	} else {
 		db := SQLDB.DB
-		var user Struct.UserInfo
+		var user SQLDB.UserInfo
 		db.Where("account = ? and sns_name = ?", Account, SNSName).Find(&user)
 		if user.Language != "" {
 			language = user.Language

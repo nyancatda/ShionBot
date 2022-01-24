@@ -11,7 +11,6 @@ package Command
 import (
 	"strings"
 
-	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	"github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
@@ -33,25 +32,25 @@ func ImportData(SNSName string, UserID string, CommandText string) (string, bool
 
 		db := SQLDB.DB
 
-		var ImportSource Struct.UserInfo
+		var ImportSource SQLDB.UserInfo
 		db.Where("account = ? and sns_name = ?", ImportUserID, ImportSNS).Find(&ImportSource)
-		var ImportUserInfos Struct.UserInfo
+		var ImportUserInfos SQLDB.UserInfo
 		if ImportSource.Account != ImportUserID {
 			Message = Utils.StringVariable(Language.Message(SNSName, UserID).ImportDataNull, []string{ImportUserID, ImportSNS})
 			MessageOK = true
 			return Message, MessageOK
 		} else {
-			ImportUserInfos = Struct.UserInfo{SNSName: SNSName, Account: UserID, Language: ImportSource.Language, WikiInfo: ImportSource.WikiInfo}
+			ImportUserInfos = SQLDB.UserInfo{SNSName: SNSName, Account: UserID, Language: ImportSource.Language, WikiInfo: ImportSource.WikiInfo}
 		}
 
-		var user Struct.UserInfo
+		var user SQLDB.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
 			db.Create(&ImportUserInfos)
 			Message = Utils.StringVariable(Language.Message(SNSName, UserID).ImportDataSucceeded, []string{ImportUserID})
 			MessageOK = true
 		} else {
-			db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Updates(ImportUserInfos)
+			db.Model(&SQLDB.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Updates(ImportUserInfos)
 			Message = Utils.StringVariable(Language.Message(SNSName, UserID).ImportDataSucceeded, []string{ImportUserID})
 			MessageOK = true
 		}

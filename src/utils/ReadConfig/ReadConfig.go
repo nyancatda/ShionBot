@@ -80,7 +80,7 @@ func (value *Config) CheckConfig() error {
 func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string) string {
 	//获取用户配置
 	db := SQLDB.DB
-	var user Struct.UserInfo
+	var user SQLDB.UserInfo
 	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
 	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 	if user.Account == UserID {

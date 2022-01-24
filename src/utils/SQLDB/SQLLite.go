@@ -3,7 +3,6 @@ package SQLDB
 import (
 	"log"
 
-	"github.com/nyancatda/ShionBot/src/Struct"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -23,7 +22,7 @@ func SQLDBLink() (*gorm.DB, error) {
 	if err != nil {
 		log.Println(err)
 	}
-	db.AutoMigrate(&Struct.UserInfo{})
+	db.AutoMigrate(&UserInfo{})
 	DB = db
 	return db, err
 }

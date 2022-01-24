@@ -3,7 +3,6 @@ package Command
 import (
 	"strings"
 
-	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
 	Languages "github.com/nyancatda/ShionBot/src/Utils/Language"
 	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
@@ -17,12 +16,12 @@ func LanguageSettings(SNSName string, UserID string, CommandText string) (string
 		countSplit := strings.SplitN(CommandText, " ", 2)
 		Language := countSplit[1]
 		db := SQLDB.DB
-		var user Struct.UserInfo
+		var user SQLDB.UserInfo
 		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
 		if user.Account != UserID {
 			LanguageExist := Languages.LanguageExist(Language)
 			if LanguageExist {
-				UserInfos := Struct.UserInfo{SNSName: SNSName, Account: UserID, Language: Language}
+				UserInfos := SQLDB.UserInfo{SNSName: SNSName, Account: UserID, Language: Language}
 				db.Create(&UserInfos)
 				MessageOK = true
 				Message = Utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, []string{Language})
@@ -33,7 +32,7 @@ func LanguageSettings(SNSName string, UserID string, CommandText string) (string
 		} else {
 			LanguageExist := Languages.LanguageExist(Language)
 			if LanguageExist {
-				db.Model(&Struct.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("language", Language)
+				db.Model(&SQLDB.UserInfo{}).Where("account = ? and sns_name = ?", UserID, SNSName).Update("language", Language)
 				MessageOK = true
 				Message = Utils.StringVariable(Languages.Message(SNSName, UserID).LanguageModifiedSuccessfully, []string{Language})
 			} else {
