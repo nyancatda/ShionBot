@@ -1,10 +1,17 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-10-03 05:25:31
+ * @LastEditTime: 2022-01-24 18:09:56
+ * @LastEditors: NyanCatda
+ * @Description: QQ消息处理
+ * @FilePath: \ShionBot\src\InformationProcessing\QQMessageProcessing.go
+ */
 package InformationProcessing
 
 import (
 	"strconv"
 	"strings"
 
-	"github.com/nyancatda/ShionBot/src/MediaWikiAPI"
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI"
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
@@ -19,7 +26,7 @@ var sns_name_qq string = "QQ"
 func QQsendGroupWikiInfo(json Struct.WebHookJson, UserID string, WikiName string, GroupID string, QueryText string, quoteID string) {
 	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := MediaWikiAPI.GetWikiLink(sns_name_qq, json, WikiName)
+		WikiLink := utils.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Group", UserID, GroupID, Error(sns_name_qq, UserID, WikiLink), true, quoteID, "", 0)
 		return
 	}
@@ -30,7 +37,7 @@ func QQsendGroupWikiInfo(json Struct.WebHookJson, UserID string, WikiName string
 func QQsendFriendWikiInfo(json Struct.WebHookJson, WikiName string, UserID string, QueryText string) {
 	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := MediaWikiAPI.GetWikiLink(sns_name_qq, json, WikiName)
+		WikiLink := utils.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Friend", UserID, UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", 0)
 		return
 	}
@@ -41,7 +48,7 @@ func QQsendFriendWikiInfo(json Struct.WebHookJson, WikiName string, UserID strin
 func QQsendTempdWikiInfo(json Struct.WebHookJson, WikiName string, UserID string, GroupID int, QueryText string) {
 	WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_qq, json, UserID, WikiName, QueryText, "")
 	if err != nil {
-		WikiLink := MediaWikiAPI.GetWikiLink(sns_name_qq, json, WikiName)
+		WikiLink := utils.GetWikiLink(sns_name_qq, json, WikiName)
 		MessagePushAPI.SendMessage(sns_name_qq, "Temp", UserID, UserID, Error(sns_name_qq, UserID, WikiLink), false, "", "", GroupID)
 		return
 	}
