@@ -26,7 +26,7 @@ type returnJson struct {
  */
 func sendError(url string, MessageBody map[string]interface{}) ([]byte, *http.Response, error) {
 	//尝试通过创建一个新的SessionKey来从错误中恢复
-	SessionKey, resp, err := CreateSessionKey()
+	SessionKey, _, resp, err := CreateSessionKey()
 	if err != nil {
 		//无法获取SessionKey
 		fmt.Println(Language.DefaultLanguageMessage().CannotConnectMirai)

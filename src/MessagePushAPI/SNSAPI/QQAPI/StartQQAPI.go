@@ -1,3 +1,11 @@
+/*
+ * @Author: NyanCatda
+ * @Date: 2021-11-05 18:12:19
+ * @LastEditTime: 2022-01-24 21:20:31
+ * @LastEditors: NyanCatda
+ * @Description: QQ API定时器
+ * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\QQAPI\StartQQAPI.go
+ */
 package QQAPI
 
 import (
@@ -13,7 +21,7 @@ func CycleGetKey() {
 		timer := time.NewTimer(1 * time.Second)
 		<-timer.C
 		time.Sleep(299 * time.Second)
-		_, resp, err := CreateSessionKey()
+		_, _, resp, err := CreateSessionKey()
 		if err != nil {
 			fmt.Println(Language.DefaultLanguageMessage().UnableApplySession)
 			fmt.Println(err)
@@ -25,7 +33,7 @@ func CycleGetKey() {
 
 func StartQQAPI() error {
 	//缓存mirai-api-http Session并启动定时获取进程
-	_, resp, err := CreateSessionKey()
+	_, _, resp, err := CreateSessionKey()
 	if err != nil {
 		fmt.Println(Language.DefaultLanguageMessage().CannotConnectMirai)
 		return err

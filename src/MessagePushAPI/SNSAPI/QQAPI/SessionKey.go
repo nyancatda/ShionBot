@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 13:51:15
- * @LastEditTime: 2022-01-24 19:50:01
+ * @LastEditTime: 2022-01-24 21:19:31
  * @LastEditors: NyanCatda
  * @Description: Session处理API
  * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\QQAPI\SessionKey.go
@@ -10,7 +10,6 @@ package QQAPI
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -23,45 +22,82 @@ type verifyJson struct {
 	Session string `json:"session"`
 }
 
-func CreateSessionKey() (string, *http.Response, error) {
+/**
+ * @description: 创建一个SessionKey
+ * @param {*}
+ * @return {string} 新的SessionKey
+ * @return {[]byte}
+ * @return {*http.Response}
+ * @return {error}
+ */
+func CreateSessionKey() (string, []byte, *http.Response, error) {
 	//释放旧的SessionKey
 	bytes, _ := ioutil.ReadFile("data/SessionKey")
 	OldSessionKey := string(bytes)
 	Config := ReadConfig.GetConfig
-	requestBody := fmt.Sprintf(`{
-		"verifyKey": "%s",
-		"qq": %d
-	  }`, OldSessionKey, Config.SNS.QQ.BotQQNumber)
-	url := Config.SNS.QQ.APILink + "/release"
-	HttpRequest.PostRequestJson(url, requestBody, []string{})
 
+	//组成请求消息
+	MessageBody := map[string]interface{}{
+		"verifyKey": OldSessionKey,
+		"qq":        Config.SNS.QQ.BotQQNumber,
+	}
+
+	MessageBodyJson, _ := json.Marshal(MessageBody)
+	url := Config.SNS.QQ.APILink + "/release"
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	if err != nil {
+		return "", Body, HttpResponse, err
+	}
+
+	//生成一个新的SessionKey
 	var SessionKey string
 	Config = ReadConfig.GetConfig
-	requestBody = fmt.Sprintf(`{
-		"verifyKey": "%s"
-	}`, Config.SNS.QQ.VerifyKey)
+
+	//组成请求消息
+	MessageBody = map[string]interface{}{
+		"verifyKey": Config.SNS.QQ.VerifyKey,
+	}
+
+	MessageBodyJson, _ = json.Marshal(MessageBody)
 	url = Config.SNS.QQ.APILink + "/verify"
-	body, resp, http_error := HttpRequest.PostRequestJson(url, requestBody, []string{})
+	Body, HttpResponse, err = HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	if err != nil {
+		return "", Body, HttpResponse, err
+	}
 
 	var config verifyJson
-	json.Unmarshal([]byte(body), &config)
+	json.Unmarshal([]byte(Body), &config)
 	SessionKey = config.Session
 
 	//绑定Key与QQ
-	requestBody = fmt.Sprintf(`{
-		"sessionKey": "%s",
-		"qq": %d
-	}`, SessionKey, Config.SNS.QQ.BotQQNumber)
+	//组成请求消息
+	MessageBody = map[string]interface{}{
+		"sessionKey": SessionKey,
+		"qq":         Config.SNS.QQ.BotQQNumber,
+	}
+	MessageBodyJson, _ = json.Marshal(MessageBody)
 	url = Config.SNS.QQ.APILink + "/bind"
-	HttpRequest.PostRequestJson(url, requestBody, []string{})
+	Body, HttpResponse, err = HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
 
 	//缓存SessionKey
 	ioutil.WriteFile("data/SessionKey", []byte(SessionKey), 0664)
-	return SessionKey, resp, http_error
+	return SessionKey, Body, HttpResponse, err
 }
 
+/**
+ * @description: 获取缓存本地的SessionKey
+ * @param {*}
+ * @return {string}
+ */
 func GetSessionKey() string {
-	bytes, _ := ioutil.ReadFile("data/SessionKey")
+	bytes, err := ioutil.ReadFile("data/SessionKey")
+
+	//如果读取不到则重新生成
+	if err != nil {
+		SessionKey, _, _, _ := CreateSessionKey()
+		return SessionKey
+	}
+
 	SessionKey := string(bytes)
 
 	return SessionKey
