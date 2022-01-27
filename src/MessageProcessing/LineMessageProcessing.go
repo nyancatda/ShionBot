@@ -1,16 +1,14 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 23:42:17
- * @LastEditTime: 2022-01-24 19:38:29
+ * @LastEditTime: 2022-01-27 18:17:39
  * @LastEditors: NyanCatda
  * @Description: Line消息处理
- * @FilePath: \ShionBot\src\InformationProcessing\LineMessageProcessing.go
+ * @FilePath: \ShionBot\src\MessageProcessing\LineMessageProcessing.go
  */
-package InformationProcessing
+package MessageProcessing
 
 import (
-	"strings"
-
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI"
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
 	"github.com/nyancatda/ShionBot/src/Modular/GetWikiInfo"
@@ -22,14 +20,19 @@ var sns_name_line string = "Line"
 
 func LineMessageProcessing(json Struct.WebHookJson) {
 	text := json.Events[0].Message.Text
-	find, QueryText, Command := CommandExtraction(sns_name_line, json, text)
+	//判断命令是否匹配
+	find, Command, CommandData := CommandExtraction(sns_name_line, json, text)
 	if find {
+		if Command == "/" {
+			LineSettingsMessageProcessing(CommandData, json)
+			return
+		}
+
 		UserID := json.Events[0].Source.UserId
 		ChatType := json.Events[0].Source.Type
-		Log(sns_name_line, ChatType, UserID, text)
 		switch ChatType {
 		case "user":
-			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
+			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, CommandData, "")
 			if err != nil {
 				WikiLink := ReadConfig.GetWikiLink(sns_name_line, json, Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, Error(sns_name_line, UserID, WikiLink), false, "", "", 0)
@@ -39,7 +42,7 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 		case "group":
 			GroupId := json.Events[0].Source.GroupId
 			QuoteID := json.Events[0].ReplyToken
-			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, QueryText, "")
+			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_line, json, UserID, Command, CommandData, "")
 			if err != nil {
 				WikiLink := ReadConfig.GetWikiLink(sns_name_line, json, Command)
 				MessagePushAPI.SendMessage(sns_name_line, "Group", UserID, GroupId, Error(sns_name_line, UserID, WikiLink), true, QuoteID, "", 0)
@@ -51,15 +54,11 @@ func LineMessageProcessing(json Struct.WebHookJson) {
 }
 
 //设置消息返回
-func LineSettingsMessageProcessing(json Struct.WebHookJson) {
-	text := json.Events[0].Message.Text
-	countSplit := strings.SplitN(text, "/", 2)
-	Text := countSplit[1]
+func LineSettingsMessageProcessing(Text string, json Struct.WebHookJson) {
 	Message, Bool := Command.Command(sns_name_line, json, Text)
 	if Bool {
 		ChatType := json.Events[0].Source.Type
 		UserID := json.Events[0].Source.UserId
-		Log(sns_name_line, ChatType, UserID, text)
 		switch ChatType {
 		case "user":
 			MessagePushAPI.SendMessage(sns_name_line, "Default", UserID, UserID, Message, false, "", "", 0)

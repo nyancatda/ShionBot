@@ -1,16 +1,15 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-04 22:09:03
- * @LastEditTime: 2022-01-24 19:38:32
+ * @LastEditTime: 2022-01-27 18:05:47
  * @LastEditors: NyanCatda
  * @Description: Telegram消息处理
- * @FilePath: \ShionBot\src\InformationProcessing\TelegramMessageProcessing.go
+ * @FilePath: \ShionBot\src\MessageProcessing\TelegramMessageProcessing.go
  */
-package InformationProcessing
+package MessageProcessing
 
 import (
 	"strconv"
-	"strings"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI"
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
@@ -23,13 +22,18 @@ var sns_name_telegram string = "Telegram"
 
 func TelegramMessageProcessing(json Struct.WebHookJson) {
 	text := json.Message.Text
-	find, QueryText, Command := CommandExtraction(sns_name_telegram, json, text)
+	//判断命令是否匹配
+	find, Command, CommandData := CommandExtraction(sns_name_telegram, json, text)
 	if find {
+		if Command == "/" {
+			TelegramSettingsMessageProcessing(CommandData, json)
+			return
+		}
+
 		ChatType := json.Message.Chat.Type
 		UserID := strconv.Itoa(json.Message.From.Id)
-		Log(sns_name_telegram, ChatType, UserID, text)
 		ChatID := strconv.Itoa(json.Message.Chat.Id)
-		WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_telegram, json, UserID, Command, QueryText, "")
+		WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_telegram, json, UserID, Command, CommandData, "")
 		if err != nil {
 			WikiLink := ReadConfig.GetWikiLink(sns_name_telegram, json, Command)
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, Error(sns_name_telegram, UserID, WikiLink), false, "", "", 0)
@@ -48,17 +52,12 @@ func TelegramMessageProcessing(json Struct.WebHookJson) {
 	}
 }
 
-//设置消息返回
-func TelegramSettingsMessageProcessing(json Struct.WebHookJson) {
-	text := json.Message.Text
-	countSplit := strings.SplitN(text, "/", 2)
-	Text := countSplit[1]
+//设置消息处理
+func TelegramSettingsMessageProcessing(Text string, json Struct.WebHookJson) {
 	Message, Bool := Command.Command(sns_name_telegram, json, Text)
 	if Bool {
 		ChatID := strconv.Itoa(json.Message.Chat.Id)
-		ChatType := json.Message.Chat.Type
 		UserID := strconv.Itoa(json.Message.From.Id)
-		Log(sns_name_telegram, ChatType, UserID, text)
 		switch json.Message.Chat.Type {
 		case "private":
 			MessagePushAPI.SendMessage(sns_name_telegram, "Default", UserID, ChatID, Message, false, "", "", 0)

@@ -1,16 +1,14 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-15 17:23:29
- * @LastEditTime: 2022-01-24 19:38:21
+ * @LastEditTime: 2022-01-27 18:17:55
  * @LastEditors: NyanCatda
  * @Description: KaiHeiLa 消息处理
- * @FilePath: \ShionBot\src\InformationProcessing\KaiHeiLaMessageProcessing.go
+ * @FilePath: \ShionBot\src\MessageProcessing\KaiHeiLaMessageProcessing.go
  */
-package InformationProcessing
+package MessageProcessing
 
 import (
-	"strings"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI"
@@ -32,15 +30,20 @@ func KaiHeiLaWebHookVerifyProcessing(c *gin.Context, json Struct.WebHookJson) {
 
 func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 	text := json.D.Content
-	find, QueryText, Command := CommandExtraction(sns_name_kaiheila, json, text)
+	//判断命令是否匹配
+	find, Command, CommandData := CommandExtraction(sns_name_kaiheila, json, text)
 	if find {
+		if Command == "/" {
+			KaiHeiLaSettingsMessageProcessing(CommandData, json)
+			return
+		}
+
 		UserID := json.D.Author_id
 		ChatType := json.D.Channel_type
-		Log(sns_name_kaiheila, ChatType, UserID, text)
 		switch ChatType {
 		case "PERSON":
 			ChatID := json.D.Author_id
-			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
+			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, CommandData, "")
 			if err != nil {
 				WikiLink := ReadConfig.GetWikiLink(sns_name_kaiheila, json, Command)
 				MessagePushAPI.SendMessage(sns_name_kaiheila, "Friend", UserID, ChatID, Error(sns_name_kaiheila, UserID, WikiLink), false, "", "", 0)
@@ -50,7 +53,7 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 		case "GROUP":
 			MassageID := json.D.Msg_id
 			ChatID := json.D.Target_id
-			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, QueryText, "")
+			WikiInfo, err := GetWikiInfo.GetWikiInfo(sns_name_kaiheila, json, UserID, Command, CommandData, "")
 			if err != nil {
 				WikiLink := ReadConfig.GetWikiLink(sns_name_kaiheila, json, Command)
 				MessagePushAPI.SendMessage(sns_name_kaiheila, "Group", UserID, ChatID, Error(sns_name_kaiheila, UserID, WikiLink), false, "", "", 0)
@@ -62,15 +65,11 @@ func KaiHeiLaMessageProcessing(json Struct.WebHookJson) {
 }
 
 //设置消息返回
-func KaiHeiLaSettingsMessageProcessing(json Struct.WebHookJson) {
-	text := json.D.Content
-	countSplit := strings.SplitN(text, "/", 2)
-	Text := countSplit[1]
+func KaiHeiLaSettingsMessageProcessing(Text string, json Struct.WebHookJson) {
 	Message, Bool := Command.Command(sns_name_kaiheila, json, Text)
 	if Bool {
 		UserID := json.D.Author_id
 		ChatType := json.D.Channel_type
-		Log(sns_name_kaiheila, ChatType, UserID, text)
 		switch ChatType {
 		case "PERSON":
 			ChatID := json.D.Author_id

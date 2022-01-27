@@ -1,16 +1,15 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 05:25:31
- * @LastEditTime: 2022-01-24 18:09:56
+ * @LastEditTime: 2022-01-27 18:17:20
  * @LastEditors: NyanCatda
  * @Description: QQ消息处理
- * @FilePath: \ShionBot\src\InformationProcessing\QQMessageProcessing.go
+ * @FilePath: \ShionBot\src\MessageProcessing\QQMessageProcessing.go
  */
-package InformationProcessing
+package MessageProcessing
 
 import (
 	"strconv"
-	"strings"
 
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI"
 	"github.com/nyancatda/ShionBot/src/Modular/Command"
@@ -82,13 +81,16 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 		if json.MessageChain[1].Type == "Plain" {
 			text := json.MessageChain[1].Text
 			UserID := strconv.Itoa(json.Sender.Id)
-			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
+			find, Command, CommandData := CommandExtraction(sns_name_qq, json, text)
 			if find {
+				if Command == "/" {
+					QQSettingsMessageProcessing(CommandData, json)
+					return
+				}
 				GroupID := strconv.Itoa(json.Sender.Group.Id)
 				quoteID := strconv.Itoa(json.MessageChain[0].Id)
-				Log(sns_name_qq, ChatType, UserID, text)
 				MessagePushAPI.SendNudge(json.Sender.Id, json.Sender.Group.Id, "Group")
-				QQsendGroupWikiInfo(json, UserID, Command, GroupID, QueryText, quoteID)
+				QQsendGroupWikiInfo(json, UserID, Command, GroupID, CommandData, quoteID)
 			}
 		}
 	case "FriendMessage":
@@ -98,10 +100,13 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 		if json.MessageChain[1].Type == "Plain" {
 			text := json.MessageChain[1].Text
 			UserID := strconv.Itoa(json.Sender.Id)
-			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
+			find, Command, CommandData := CommandExtraction(sns_name_qq, json, text)
 			if find {
-				Log(sns_name_qq, ChatType, UserID, text)
-				QQsendFriendWikiInfo(json, Command, UserID, QueryText)
+				if Command == "/" {
+					QQSettingsMessageProcessing(CommandData, json)
+					return
+				}
+				QQsendFriendWikiInfo(json, Command, UserID, CommandData)
 			}
 		}
 	case "TempMessage":
@@ -111,31 +116,27 @@ func QQMessageProcessing(json Struct.WebHookJson) {
 		if json.MessageChain[1].Type == "Plain" {
 			text := json.MessageChain[1].Text
 			UserID := strconv.Itoa(json.Sender.Id)
-			find, QueryText, Command := CommandExtraction(sns_name_qq, json, text)
+			find, Command, CommandData := CommandExtraction(sns_name_qq, json, text)
 			if find {
+				if Command == "/" {
+					QQSettingsMessageProcessing(CommandData, json)
+					return
+				}
 				GroupID := json.Sender.Group.Id
-				Log(sns_name_qq, ChatType, UserID, text)
-				QQsendTempdWikiInfo(json, Command, UserID, GroupID, QueryText)
+				QQsendTempdWikiInfo(json, Command, UserID, GroupID, CommandData)
 			}
 		}
 	case "NudgeEvent":
-		text := Language.DefaultLanguageMessage().Nudge
-		UserID := strconv.Itoa(json.FromId)
-		Log(sns_name_qq, ChatType, UserID, text)
 		QQNudgeEventMessageProcessing(json)
 	}
 }
 
 //设置消息返回
-func QQSettingsMessageProcessing(json Struct.WebHookJson) {
-	text := json.MessageChain[1].Text
-	countSplit := strings.SplitN(text, "/", 2)
-	Text := countSplit[1]
+func QQSettingsMessageProcessing(Text string, json Struct.WebHookJson) {
 	Message, Bool := Command.Command(sns_name_qq, json, Text)
 	if Bool {
 		UserID := strconv.Itoa(json.Sender.Id)
 		ChatType := json.Type
-		Log(sns_name_qq, ChatType, UserID, text)
 		switch ChatType {
 		case "GroupMessage":
 			GroupID := strconv.Itoa(json.Sender.Group.Id)

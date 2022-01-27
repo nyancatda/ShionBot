@@ -16,7 +16,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/nyancatda/ShionBot/src/HttpAPI"
-	"github.com/nyancatda/ShionBot/src/InformationProcessing"
+	"github.com/nyancatda/ShionBot/src/MessageProcessing"
 	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
 	"github.com/nyancatda/ShionBot/src/Struct"
 	"github.com/nyancatda/ShionBot/src/Utils"
@@ -82,7 +82,7 @@ func main() {
 			fmt.Println(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		InformationProcessing.InformationProcessing(c, json)
+		MessageProcessing.MessageProcessing(c, json)
 	})
 
 	//启动API
