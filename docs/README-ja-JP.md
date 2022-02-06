@@ -12,7 +12,7 @@ Ginと[mirai-api-http](https://github.com/project-mirai/mirai-api-http)に基づ
 *書かれたコードが…あまり上手とは言えない。関数もほとんど思い付いたらパッケージングしておく。変数も思い付いたら書いておく。怒ったらごめんww*
 
 ## 使い方
-使用说明请前往[官网](https://shionbot.xyz/)查看
+使い方は[公式](https://shionbot.xyz/)サイトにある
 
 ## 🌐 多语言アダプテーション
 現在使える言語は:  
