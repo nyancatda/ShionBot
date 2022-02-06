@@ -2,8 +2,8 @@
 LanguageCode: "ja-JP"
 LanguageName: "日本語"
 
-#言語はzh-CNに変更した
-LanguageModifiedSuccessfully: "言語は{%0}に変更した"
+#zh-CNに変更した
+LanguageModifiedSuccessfully: "{%0}に変更した"
 #zh-CNという言語が見つけられなかった
 LanguageModificationFailed: "{%0}言語が見つけられなかった"
 
