@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 02:14:31
- * @LastEditTime: 2022-03-07 19:10:48
+ * @LastEditTime: 2022-03-07 19:35:36
  * @LastEditors: NyanCatda
  * @Description: 获取Wiki页面信息
  * @FilePath: \ShionBot\Modular\GetWikiInfo\GetWikiInfo.go
@@ -189,6 +189,10 @@ func QueryRedirects(SNSName string, Messagejson Struct.WebHookJson, WikiName str
 
 	for _, value := range info.Query.Pages {
 		if value.Title != "" {
+			if value.Title == title {
+				return false, "", "", err
+			}
+
 			if len(info.Query.Normalized) != 0 {
 				return true, info.Query.Normalized[0].To, info.Query.Normalized[0].From, err
 			} else {
