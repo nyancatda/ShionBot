@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 02:14:31
- * @LastEditTime: 2022-03-07 19:43:03
+ * @LastEditTime: 2022-03-07 19:50:40
  * @LastEditors: NyanCatda
  * @Description: 获取Wiki页面信息
  * @FilePath: \ShionBot\Modular\GetWikiInfo\GetWikiInfo.go
@@ -64,8 +64,8 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
 
 	Config := ReadConfig.GetConfig
 	var ConfigWikiName string
-	for one := range Config.Wiki.([]interface{}) {
-		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
+	for _, one := range Config.Wiki {
+		ConfigWikiName = one.WikiName
 		if find := strings.Contains(WikiName, ConfigWikiName); find {
 			return true
 		}
@@ -98,7 +98,7 @@ func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
 	*/
 
 	Config := ReadConfig.GetConfig
-	MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
+	MainWikiName := Config.Wiki[0].WikiName
 	return MainWikiName
 }
 

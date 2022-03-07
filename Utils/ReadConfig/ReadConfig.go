@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 04:14:10
- * @LastEditTime: 2022-01-24 19:54:41
+ * @LastEditTime: 2022-03-07 19:50:26
  * @LastEditors: NyanCatda
  * @Description: 读取配置文件
- * @FilePath: \ShionBot\src\Utils\ReadConfig\ReadConfig.go
+ * @FilePath: \ShionBot\Utils\ReadConfig\ReadConfig.go
  */
 package ReadConfig
 
@@ -97,10 +97,10 @@ func GetWikiLink(SNSName string, Messagejson Struct.WebHookJson, WikiName string
 
 	Config := GetConfig
 	var ConfigWikiName string
-	for one := range Config.Wiki.([]interface{}) {
-		ConfigWikiName = Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiName"].(string)
+	for _, one := range Config.Wiki {
+		ConfigWikiName = one.WikiName
 		if ConfigWikiName == WikiName {
-			return Config.Wiki.([]interface{})[one].(map[interface{}]interface{})["WikiLink"].(string)
+			return one.WikiLink
 		}
 	}
 	return ""

@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-06 21:49:39
- * @LastEditTime: 2022-01-24 19:38:10
+ * @LastEditTime: 2022-03-07 19:51:39
  * @LastEditors: NyanCatda
  * @Description: 查询Wiki信息
- * @FilePath: \ShionBot\src\HttpAPI\API\Query.go
+ * @FilePath: \ShionBot\HttpAPI\API\Query.go
  */
 package API
 
@@ -21,7 +21,7 @@ import (
 func QueryInfo(c *gin.Context) map[string]interface{} {
 	title := c.DefaultQuery("title", "")
 	Config := ReadConfig.GetConfig
-	MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
+	MainWikiName := Config.Wiki[0].WikiName
 	WikiName := c.DefaultQuery("wiki_name", MainWikiName)
 	var Messagejson Struct.WebHookJson
 	WikiLink := ReadConfig.GetWikiLink("HttpAPI", Messagejson, WikiName)

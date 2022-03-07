@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2022-01-24 19:35:15
- * @LastEditTime: 2022-01-24 19:35:16
+ * @LastEditTime: 2022-03-07 19:48:36
  * @LastEditors: NyanCatda
  * @Description: 配置文件结构体
- * @FilePath: \ShionBot\src\Utils\ReadConfig\ConfigStruct.go
+ * @FilePath: \ShionBot\Utils\ReadConfig\ConfigStruct.go
  */
 package ReadConfig
 
@@ -36,5 +36,8 @@ type Config struct {
 			Token  string `yaml:"Token"`
 		} `yaml:"KaiHeiLa"`
 	} `yaml:"SNS"`
-	Wiki interface{} `yaml:"Wiki"`
+	Wiki []struct {
+		WikiName string `yaml:"WikiName"`
+		WikiLink string `yaml:"WikiLink"`
+	} `yaml:"Wiki"`
 }
