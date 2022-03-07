@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 02:14:31
- * @LastEditTime: 2022-01-24 19:52:58
+ * @LastEditTime: 2022-03-07 19:10:48
  * @LastEditors: NyanCatda
  * @Description: 获取Wiki页面信息
- * @FilePath: \ShionBot\src\Modular\GetWikiInfo\GetWikiInfo.go
+ * @FilePath: \ShionBot\Modular\GetWikiInfo\GetWikiInfo.go
  */
 package GetWikiInfo
 
@@ -183,6 +183,9 @@ func GetUrlTitle(SNSName string, Messagejson Struct.WebHookJson, WikiName string
 func QueryRedirects(SNSName string, Messagejson Struct.WebHookJson, WikiName string, title string) (whether bool, to string, from string, err error) {
 	WikiLink := ReadConfig.GetWikiLink(SNSName, Messagejson, WikiName)
 	info, err := MediaWikiAPI.QueryRedirects(WikiLink, title)
+	if err != nil {
+		return false, "", "", err
+	}
 
 	for _, value := range info.Query.Pages {
 		if value.Title != "" {
@@ -219,8 +222,11 @@ func GetWikiInfo(SNSName string, Messagejson Struct.WebHookJson, UserID string, 
 	} else {
 		LanguageMessage = Language.Message(SNSName, UserID)
 	}
-	var err error
-	RedirectsState, ToTitle, FromTitle, _ := QueryRedirects(SNSName, Messagejson, WikiName, title)
+	RedirectsState, ToTitle, FromTitle, err := QueryRedirects(SNSName, Messagejson, WikiName, title)
+	if err != nil {
+		return "", err
+	}
+
 	var info MediaWikiAPI.QueryExtractsJson
 	WikiLink := ReadConfig.GetWikiLink(SNSName, Messagejson, WikiName)
 	if RedirectsState {
