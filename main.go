@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 00:51:57
- * @LastEditTime: 2022-01-24 19:56:23
+ * @LastEditTime: 2022-03-07 18:43:34
  * @LastEditors: NyanCatda
  * @Description: 主文件
  * @FilePath: \ShionBot\main.go
@@ -15,15 +15,15 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nyancatda/ShionBot/src/HttpAPI"
-	"github.com/nyancatda/ShionBot/src/MessageProcessing"
-	"github.com/nyancatda/ShionBot/src/MessagePushAPI/SNSAPI/QQAPI"
-	"github.com/nyancatda/ShionBot/src/Struct"
-	"github.com/nyancatda/ShionBot/src/Utils"
-	"github.com/nyancatda/ShionBot/src/Utils/Language"
-	"github.com/nyancatda/ShionBot/src/Utils/ReadConfig"
-	"github.com/nyancatda/ShionBot/src/Utils/ReleaseFile"
-	"github.com/nyancatda/ShionBot/src/Utils/SQLDB"
+	"github.com/nyancatda/ShionBot/Controller/MessageProcessing/Struct"
+	"github.com/nyancatda/ShionBot/Controller/MessagePushAPI/SNSAPI/QQAPI"
+	"github.com/nyancatda/ShionBot/HttpAPI"
+	"github.com/nyancatda/ShionBot/Controller/MessageProcessing"
+	"github.com/nyancatda/ShionBot/Utils"
+	"github.com/nyancatda/ShionBot/Utils/Language"
+	"github.com/nyancatda/ShionBot/Utils/ReadConfig"
+	"github.com/nyancatda/ShionBot/Utils/ReleaseFile"
+	"github.com/nyancatda/ShionBot/Utils/SQLDB"
 )
 
 func Error() {
