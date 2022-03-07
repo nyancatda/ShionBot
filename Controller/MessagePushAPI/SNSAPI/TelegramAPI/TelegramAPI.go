@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 13:51:15
- * @LastEditTime: 2022-01-24 21:08:51
+ * @LastEditTime: 2022-03-07 19:04:56
  * @LastEditors: NyanCatda
  * @Description:
- * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\TelegramAPI\TelegramAPI.go
+ * @FilePath: \ShionBot\Controller\MessagePushAPI\SNSAPI\TelegramAPI\TelegramAPI.go
  */
 package TelegramAPI
 
@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/Utils/HttpRequest"
+	"github.com/nyancatda/HttpRequest"
 	"github.com/nyancatda/ShionBot/Utils/ReadConfig"
 )
 
@@ -43,7 +43,7 @@ func SendMessage(chat_id int, text string, disable_web_page_preview bool, disabl
 	requestBody, _ := json.Marshal(MessageBody)
 
 	url := Config.SNS.Telegram.BotAPILink + "bot" + Config.SNS.Telegram.Token + "/sendMessage"
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(requestBody), []string{})
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, []string{}, string(requestBody))
 
 	return Body, HttpResponse, err
 }

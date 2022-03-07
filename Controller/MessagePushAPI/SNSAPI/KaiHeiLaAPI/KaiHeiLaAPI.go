@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-15 17:23:29
- * @LastEditTime: 2022-01-24 21:10:50
+ * @LastEditTime: 2022-03-07 19:02:23
  * @LastEditors: NyanCatda
  * @Description: KaiHeiLa API
- * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\KaiHeiLaAPI\KaiHeiLaAPI.go
+ * @FilePath: \ShionBot\Controller\MessagePushAPI\SNSAPI\KaiHeiLaAPI\KaiHeiLaAPI.go
  */
 package KaiHeiLaAPI
 
@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/Utils/HttpRequest"
+	"github.com/nyancatda/HttpRequest"
 	"github.com/nyancatda/ShionBot/Utils/ReadConfig"
 )
 
@@ -55,7 +55,7 @@ func SendDirectMessage(Type int, target_id string, content string, quote bool, q
 	url := APILink + "api/v3/direct-message/create"
 	//请求头添加令牌
 	Header := []string{"Authorization:Bot " + Config.SNS.KaiHeiLa.Token}
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(JsonBody), Header)
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, Header, string(JsonBody))
 
 	return Body, HttpResponse, err
 }
@@ -95,7 +95,7 @@ func SendChannelMessage(Type int, target_id string, content string, quote bool, 
 	url := APILink + "api/v3/message/create"
 	//请求头添加令牌
 	Header := []string{"Authorization:Bot " + Config.SNS.KaiHeiLa.Token}
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(JsonBody), Header)
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, Header, string(JsonBody))
 
 	return Body, HttpResponse, err
 }

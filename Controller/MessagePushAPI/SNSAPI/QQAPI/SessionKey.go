@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 13:51:15
- * @LastEditTime: 2022-01-24 21:19:31
+ * @LastEditTime: 2022-03-07 19:04:32
  * @LastEditors: NyanCatda
  * @Description: Session处理API
- * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\QQAPI\SessionKey.go
+ * @FilePath: \ShionBot\Controller\MessagePushAPI\SNSAPI\QQAPI\SessionKey.go
  */
 package QQAPI
 
@@ -13,7 +13,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/Utils/HttpRequest"
+	"github.com/nyancatda/HttpRequest"
 	"github.com/nyancatda/ShionBot/Utils/ReadConfig"
 )
 
@@ -44,7 +44,7 @@ func CreateSessionKey() (string, []byte, *http.Response, error) {
 
 	MessageBodyJson, _ := json.Marshal(MessageBody)
 	url := Config.SNS.QQ.APILink + "/release"
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, []string{}, string(MessageBodyJson))
 	if err != nil {
 		return "", Body, HttpResponse, err
 	}
@@ -60,7 +60,7 @@ func CreateSessionKey() (string, []byte, *http.Response, error) {
 
 	MessageBodyJson, _ = json.Marshal(MessageBody)
 	url = Config.SNS.QQ.APILink + "/verify"
-	Body, HttpResponse, err = HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	Body, HttpResponse, err = HttpRequest.PostRequestJson(url, []string{}, string(MessageBodyJson))
 	if err != nil {
 		return "", Body, HttpResponse, err
 	}
@@ -77,7 +77,7 @@ func CreateSessionKey() (string, []byte, *http.Response, error) {
 	}
 	MessageBodyJson, _ = json.Marshal(MessageBody)
 	url = Config.SNS.QQ.APILink + "/bind"
-	Body, HttpResponse, err = HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	Body, HttpResponse, err = HttpRequest.PostRequestJson(url, []string{}, string(MessageBodyJson))
 
 	//缓存SessionKey
 	ioutil.WriteFile("data/SessionKey", []byte(SessionKey), 0664)

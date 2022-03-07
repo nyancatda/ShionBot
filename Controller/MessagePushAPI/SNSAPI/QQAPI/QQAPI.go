@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/Utils/HttpRequest"
+	"github.com/nyancatda/HttpRequest"
 	"github.com/nyancatda/ShionBot/Utils/Language"
 	"github.com/nyancatda/ShionBot/Utils/ReadConfig"
 )
@@ -38,7 +38,7 @@ func sendError(url string, MessageBody map[string]interface{}) ([]byte, *http.Re
 		//将新的SessionKey写入消息链并重新发送
 		MessageBody["sessionKey"] = SessionKey
 		Body, _ := json.Marshal(MessageBody)
-		Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(Body), []string{})
+		Body, HttpResponse, err := HttpRequest.PostRequestJson(url, []string{}, string(Body))
 		return Body, HttpResponse, err
 	}
 	var HttpResponse *http.Response
@@ -79,7 +79,7 @@ func SendGroupMessage(target int, text string, quote bool, quoteID int) ([]byte,
 	MessageBodyJson, _ := json.Marshal(MessageBody)
 
 	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, []string{}, string(MessageBodyJson))
 
 	//如果发送失败，则调用错误处理函数
 	var config returnJson
@@ -130,7 +130,7 @@ func SendGroupAtMessage(target int, text string, AtID int, quote bool, quoteID i
 	MessageBodyJson, _ := json.Marshal(MessageBody)
 
 	url := Config.SNS.QQ.APILink + "/sendGroupMessage"
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, []string{}, string(MessageBodyJson))
 
 	//如果发送失败，则调用错误处理函数
 	var config returnJson
@@ -166,7 +166,7 @@ func SendNudge(target int, subject int, kind string) ([]byte, *http.Response, er
 	MessageBodyJson, _ := json.Marshal(MessageBody)
 
 	url := Config.SNS.QQ.APILink + "/sendNudge"
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, []string{}, string(MessageBodyJson))
 
 	//如果发送失败，则调用错误处理函数
 	var config returnJson
@@ -212,7 +212,7 @@ func SendFriendMessage(target int, text string, quote bool, quoteID int) ([]byte
 	MessageBodyJson, _ := json.Marshal(MessageBody)
 
 	url := Config.SNS.QQ.APILink + "/sendFriendMessage"
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, []string{}, string(MessageBodyJson))
 
 	//如果发送失败，则调用错误处理函数
 	var config returnJson
@@ -260,7 +260,7 @@ func SendTempMessage(target int, group int, text string, quote bool, quoteID int
 	MessageBodyJson, _ := json.Marshal(MessageBody)
 
 	url := Config.SNS.QQ.APILink + "/sendTempMessage"
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, string(MessageBodyJson), []string{})
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, []string{}, string(MessageBodyJson))
 
 	//如果发送失败，则调用错误处理函数
 	var config returnJson

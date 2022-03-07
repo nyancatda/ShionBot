@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 23:42:17
- * @LastEditTime: 2022-01-24 21:10:12
+ * @LastEditTime: 2022-03-07 19:03:28
  * @LastEditors: NyanCatda
  * @Description: Line API
- * @FilePath: \ShionBot\src\MessagePushAPI\SNSAPI\LineAPI\LineAPI.go
+ * @FilePath: \ShionBot\Controller\MessagePushAPI\SNSAPI\LineAPI\LineAPI.go
  */
 package LineAPI
 
@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/nyancatda/ShionBot/Utils/HttpRequest"
+	"github.com/nyancatda/HttpRequest"
 	"github.com/nyancatda/ShionBot/Utils/ReadConfig"
 )
 
@@ -46,7 +46,7 @@ func SendPushMessage(to string, messages string, notificationDisabled bool) ([]b
 	url := Config.SNS.Line.BotAPILink + "v2/bot/message/push"
 	//请求头添加令牌
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, requestBody, Header)
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, Header, requestBody)
 
 	return Body, HttpResponse, err
 }
@@ -81,7 +81,7 @@ func SendReplyMessage(replyToken string, messages string, notificationDisabled b
 	url := Config.SNS.Line.BotAPILink + "v2/bot/message/reply"
 	//请求头添加令牌
 	Header := []string{"Authorization:Bearer " + Config.SNS.Line.ChannelAccessToken}
-	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, requestBody, Header)
+	Body, HttpResponse, err := HttpRequest.PostRequestJson(url, Header, requestBody)
 
 	return Body, HttpResponse, err
 }

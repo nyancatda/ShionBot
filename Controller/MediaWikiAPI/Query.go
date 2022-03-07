@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 20:50:06
- * @LastEditTime: 2022-01-24 19:27:01
+ * @LastEditTime: 2022-03-07 19:01:59
  * @LastEditors: NyanCatda
  * @Description: MediaWiki查询类API封装
- * @FilePath: \ShionBot\src\MediaWikiAPI\Query.go
+ * @FilePath: \ShionBot\Controller\MediaWikiAPI\Query.go
  */
 package MediaWikiAPI
 
@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/nyancatda/ShionBot/Utils/HttpRequest"
+	"github.com/nyancatda/HttpRequest"
 )
 
 type QueryInfoUrlJson struct {

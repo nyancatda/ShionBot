@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-12 16:10:33
- * @LastEditTime: 2022-01-24 19:46:25
+ * @LastEditTime: 2022-03-07 19:01:47
  * @LastEditors: NyanCatda
  * @Description: MediaWiki OpensearchAPI封装
- * @FilePath: \ShionBot\src\MediaWikiAPI\Opensearch.go
+ * @FilePath: \ShionBot\Controller\MediaWikiAPI\Opensearch.go
  */
 package MediaWikiAPI
 
@@ -13,7 +13,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/nyancatda/ShionBot/Utils/HttpRequest"
+	"github.com/nyancatda/HttpRequest"
 )
 
 /**
