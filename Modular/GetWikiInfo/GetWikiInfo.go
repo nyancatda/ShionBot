@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 02:14:31
- * @LastEditTime: 2022-03-07 19:35:36
+ * @LastEditTime: 2022-03-07 19:43:03
  * @LastEditors: NyanCatda
  * @Description: 获取Wiki页面信息
  * @FilePath: \ShionBot\Modular\GetWikiInfo\GetWikiInfo.go
@@ -80,20 +80,22 @@ func WikiNameExist(WikiName string, SNSName string, Messagejson Struct.WebHookJs
  * @return {*}
  */
 func GeiMainWikiName(SNSName string, Messagejson Struct.WebHookJson) string {
-	//获取用户设置
-	db := SQLDB.DB
-	var user SQLDB.UserInfo
-	UserID := Modular.GetSNSUserID(SNSName, Messagejson)
-	db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
-	if user.Account == UserID {
-		WikiInfo := user.WikiInfo
-		WikiInfoData := []interface{}{}
-		json.Unmarshal([]byte(WikiInfo), &WikiInfoData)
-		for _, value := range WikiInfoData {
-			WikiInfoName := value.(map[string]interface{})["WikiName"].(string)
-			return WikiInfoName
+	/*
+		//获取用户设置
+		db := SQLDB.DB
+		var user SQLDB.UserInfo
+		UserID := Modular.GetSNSUserID(SNSName, Messagejson)
+		db.Where("account = ? and sns_name = ?", UserID, SNSName).Find(&user)
+		if user.Account == UserID {
+			WikiInfo := user.WikiInfo
+			WikiInfoData := []interface{}{}
+			json.Unmarshal([]byte(WikiInfo), &WikiInfoData)
+			for _, value := range WikiInfoData {
+				WikiInfoName := value.(map[string]interface{})["WikiName"].(string)
+				return WikiInfoName
+			}
 		}
-	}
+	*/
 
 	Config := ReadConfig.GetConfig
 	MainWikiName := Config.Wiki.([]interface{})[0].(map[interface{}]interface{})["WikiName"].(string)
