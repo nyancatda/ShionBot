@@ -1,0 +1,29 @@
+# 配置文件示例，https://shionbot.xyz/How-to-ues/configyml-template.html
+Run:
+  WebHookPort: 8000
+  WebHookKey: 32eeAme5lwEG0KL
+  Language: zh-CN
+SNS:
+  QQ:
+    Switch: true
+    APILink: http://127.0.0.1:8888
+    BotQQNumber: 1000000000
+    VerifyKey: 5eadce46qw58
+  Telegram:
+    Switch: true
+    Token: 688975899:DDFqpsdMwunUvwAsxzDTzl8z_UkYzStrewM
+    BotAPILink: https://api.telegram.org/
+  Line:
+    Switch: true
+    ChannelAccessToken: Qik9O7sP49vCeY/b6zWaDa0......
+    BotAPILink: https://api.line.me/
+  KaiHeiLa:
+    Switch: true
+    Token: 5/SYT1Jxy=/mSkjHYtjsqq/2JY==
+Wiki:
+  - 
+    WikiName: mw
+    WikiLink: https://minewiki.net
+  - 
+    WikiName: mg
+    WikiLink: https://zh.moegirl.org.cn
