@@ -1,7 +1,7 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-10-03 00:51:57
- * @LastEditTime: 2022-03-07 18:43:34
+ * @LastEditTime: 2022-03-07 18:55:19
  * @LastEditors: NyanCatda
  * @Description: 主文件
  * @FilePath: \ShionBot\main.go
@@ -15,14 +15,13 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nyancatda/ShionBot/Controller/MessageProcessing"
 	"github.com/nyancatda/ShionBot/Controller/MessageProcessing/Struct"
 	"github.com/nyancatda/ShionBot/Controller/MessagePushAPI/SNSAPI/QQAPI"
 	"github.com/nyancatda/ShionBot/HttpAPI"
-	"github.com/nyancatda/ShionBot/Controller/MessageProcessing"
 	"github.com/nyancatda/ShionBot/Utils"
 	"github.com/nyancatda/ShionBot/Utils/Language"
 	"github.com/nyancatda/ShionBot/Utils/ReadConfig"
-	"github.com/nyancatda/ShionBot/Utils/ReleaseFile"
 	"github.com/nyancatda/ShionBot/Utils/SQLDB"
 )
 
@@ -37,9 +36,6 @@ func main() {
 	//参数解析
 	ConfigPath := flag.String("config", "./config.yml", "指定配置文件路径")
 	flag.Parse()
-
-	//释放资源文件
-	ReleaseFile.ReleaseFile()
 
 	//建立数据储存文件夹
 	_, err := os.Stat("./data")
