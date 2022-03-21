@@ -1,10 +1,10 @@
 /*
  * @Author: NyanCatda
  * @Date: 2021-11-05 23:42:17
- * @LastEditTime: 2022-01-27 18:17:39
+ * @LastEditTime: 2022-03-21 17:34:51
  * @LastEditors: NyanCatda
  * @Description: Line消息处理
- * @FilePath: \ShionBot\src\MessageProcessing\LineMessageProcessing.go
+ * @FilePath: \ShionBot\Controller\MessageProcessing\LineMessageProcessing.go
  */
 package MessageProcessing
 
@@ -19,6 +19,9 @@ import (
 var sns_name_line string = "Line"
 
 func LineMessageProcessing(json Struct.WebHookJson) {
+	if len(json.Events) <= 0 {
+		return
+	}
 	text := json.Events[0].Message.Text
 	//判断命令是否匹配
 	find, Command, CommandData := CommandExtraction(sns_name_line, json, text)

@@ -35,6 +35,9 @@ func MessageProcessing(c *gin.Context, json Struct.WebHookJson) {
 
 	if json.Destination != "" {
 		go LineMessageProcessing(json)
+		if len(json.Events) <= 0 {
+			return
+		}
 		Log("Line", json.Events[0].Source.Type, json.Events[0].Source.UserId, json.Events[0].Message.Text)
 	}
 
