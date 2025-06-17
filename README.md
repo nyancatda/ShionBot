@@ -1,6 +1,6 @@
 中文 | [English](docs/README-en-US.md) | [日本語](docs/README-ja-JP.md)
 <div align="center">
-   <img width="160" src="https://shionbot.xyz/img/logo.png" alt="logo">
+   <img width="160" src="https://shionbotdocs.pages.dev/img/logo.png" alt="logo">
    <h1>ShionBot</h1>
 </div>
 通过聊天软件对MediaWiki进行信息查询的机器人  
@@ -12,17 +12,13 @@
 *因为本人水平有限，代码质量不高，如果让你感到不适，我很抱歉*
 
 ## 如何使用
-使用说明请前往[官网](https://shionbot.xyz/)查看
-
-如果你有对项目有什么疑问，欢迎加入[QQ群](https://jq.qq.com/?_wv=1027&k=Jjkjg2mR)询问
+使用说明请前往[官网]([https://shionbot.xyz/](https://shionbotdocs.pages.dev/))查看
 
 ## 🌐 多语言适配
 多语言适配进度:  
 - [x] zh-CN(中文/简体)
-- [ ] zh-HK(中文/香港)
 - [x] en-US(English)
 - [x] ja-JP(日本語)
-- [ ] ru_RU(русский язык)
 
 如果您希望为本项目增加更多语言，请fork仓库后在`resources/language`目录下建立目标语言文件，完成翻译后可以请求提交至主仓库
 
